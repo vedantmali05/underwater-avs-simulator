@@ -1,0 +1,417 @@
+/* /////////////////////////
+BUTTONS
+///////////////////////// */
+
+button,
+button a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--fs-400);
+  gap: 0.4rem;
+}
+
+button {
+  padding: 0.8rem 1.6rem;
+  text-wrap: nowrap;
+  text-transform: capitalize;
+  letter-spacing: 1.1px;
+  background-color: transparent;
+  width: calc(100% - 0.8rem);
+  margin: 0.4rem;
+  border-radius: 0.4rem;
+  position: relative;
+  overflow: hidden;
+  outline: none;
+  border: none;
+  user-select: none;
+  cursor: pointer;
+}
+
+button:active {
+  scale: 0.99;
+}
+
+button:focus-visible {
+  box-shadow: 0 0 0 2px var(--clr-white), 0 0 0 4px var(--clr-primary);
+}
+
+button i {
+  font-size: var(--fs-500) !important;
+}
+
+button.icon > i::before {
+  width: 3.2rem;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button:disabled,
+fieldset input:disabled,
+fieldset label:has(input:disabled),
+fieldset .check-radio-box:has(input:disabled) *,
+*[aria-disabled="true"] {
+  opacity: 0.5;
+  pointer-events: none;
+  user-select: none;
+  filter: grayscale(1);
+}
+
+:is(button.primary, button.fab) {
+  font-weight: 500;
+  background: var(--gradient-primary);
+  color: var(--clr-white);
+}
+
+:is(button.primary, button.fab)::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--clr-primary);
+  z-index: -1;
+}
+
+:is(button.primary, button.fab):hover::before {
+  background-color: transparent;
+}
+
+:is(button.primary, button.fab):active::before {
+  background-color: var(--clr-primary-dark);
+}
+
+:is(button.primary, button.fab):focus-visible:before {
+  background-color: transparent;
+}
+
+button.fab {
+  position: fixed;
+  z-index: 15;
+  bottom: 1.6rem;
+  right: 1.6rem;
+  border-radius: 50%;
+  width: 5.6rem;
+  height: 5.6rem;
+  aspect-ratio: 1;
+  box-shadow: 0 0 16px 16px #ffffffa4;
+}
+
+@media (min-width: 769px) {
+  button.fab {
+    border-radius: 1.6rem;
+    width: fit-content !important;
+    aspect-ratio: 0;
+  }
+}
+
+button.ghost {
+  border: 1px solid var(--clr-primary);
+}
+
+button.text {
+  padding: 0.4rem;
+  width: fit-content;
+  background-color: var(--clr-grey-bg);
+}
+
+button.ghost:hover,
+button.text:hover {
+  background-color: var(--clr-primary-hover);
+}
+
+button.ghost:active,
+button.text:active {
+  background-color: var(--clr-primary-focus);
+}
+
+button.icon {
+  border-radius: 100% !important;
+  width: 3.2rem;
+  min-width: 3.2rem;
+  height: 3.2rem;
+  min-height: 3.2rem;
+  aspect-ratio: 1;
+  padding: 0;
+}
+
+button.icon:hover {
+  background-color: var(--clr-accent-hover);
+}
+
+button.icon:active {
+  scale: 0.9;
+  background-color: var(--clr-accent-focus);
+}
+
+/* /////////////////////////
+  INPUTS
+///////////////////////// */
+
+fieldset {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: stretch;
+  position: relative;
+  margin: 2.4rem 1.6rem;
+  gap: 0.4rem;
+  border: none;
+  outline: none;
+  position: relative;
+}
+
+/* ORDER TO EACH OF THE ELEMENT OF A INPUT */
+
+fieldset label {
+  order: 1;
+}
+
+fieldset :is(.text-input, .check-radio-box) {
+  order: 2;
+}
+
+fieldset .trail {
+  order: 3;
+}
+
+fieldset .msg.error {
+  order: 4;
+}
+
+fieldset .msg.warn {
+  order: 5;
+}
+
+fieldset .msg.success {
+  order: 6;
+}
+
+fieldset .msg.info {
+  order: 7;
+}
+
+fieldset button {
+  order: 8;
+}
+
+fieldset .msg {
+  order: 9;
+}
+
+fieldset .check-radio-box label input {
+  order: -1;
+}
+
+fieldset label {
+  font-size: var(--fs-300);
+  justify-content: space-between;
+  cursor: text;
+}
+
+fieldset:has(.text-input:hover) label {
+  color: var(--clr-accent);
+}
+
+fieldset .text-input {
+  outline: none;
+  border: none;
+  padding: 0.8rem 1.6rem;
+  border-radius: 0.8rem 0.8rem 0 0;
+  background-color: var(--clr-grey-bg);
+  border-bottom: 2px solid var(--clr-primary-light);
+  z-index: 10;
+  font-size: var(--fs-400);
+}
+
+fieldset .text-input:hover {
+  background-color: var(--clr-primary-hover);
+}
+
+fieldset .text-input:focus {
+  background-color: var(--clr-primary-focus);
+  border-bottom-color: var(--clr-primary-dark);
+}
+
+fieldset textarea {
+  resize: vertical;
+  height: 6.5rem;
+  min-height: 6.5rem;
+  max-height: 36rem;
+}
+
+fieldset select {
+  appearance: none;
+}
+
+fieldset .trail {
+  position: absolute;
+  right: 0.4rem;
+  bottom: 0.5rem;
+  height: 2.9rem;
+  min-width: 2.8rem;
+  z-index: 11;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.2rem;
+  color: var(--clr-grey-text);
+  background-color: var(--clr-grey-bg);
+  padding: 0 0.4rem;
+}
+
+fieldset button.icon.trail {
+  margin: 0;
+  width: 2.8rem;
+  height: 2.8rem;
+  min-width: 2.8rem;
+  min-height: 2.8rem;
+}
+
+fieldset:has(.trail) .text-input {
+  padding-right: 8rem;
+}
+
+fieldset .password-visibility-btn .bi,
+fieldset button.trail .bi {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+}
+
+fieldset .password-visibility-btn .bi-eye-slash,
+fieldset .password-visibility-btn.show .bi-eye {
+  opacity: 0;
+}
+fieldset .password-visibility-btn .bi-eye,
+fieldset .password-visibility-btn.show .bi-eye-slash {
+  opacity: 1;
+}
+
+fieldset .check-radio-box {
+  padding: 0 0.4rem;
+}
+
+fieldset .check-radio-box label {
+  gap: 0.8rem;
+  font-size: var(--fs-400);
+  color: var(--clr-text-black);
+  justify-content: start;
+  align-items: center;
+  padding: 0.4rem;
+  border-radius: 0.2rem;
+  text-transform: capitalize;
+  cursor: pointer;
+  text-align: left;
+}
+
+fieldset .check-radio-box label input {
+  appearance: none;
+  width: 2.4rem;
+  aspect-ratio: 1;
+  padding: 0;
+  border: none;
+  box-shadow: inset 0 0 0 2px var(--clr-primary);
+  border-radius: 50%;
+  background-color: var(--clr-grey-bg);
+  position: relative;
+  overflow: hidden;
+}
+
+fieldset .check-radio-box:has(input:hover) label {
+  color: var(--clr-black) !important;
+  background-color: var(--clr-primary-hover);
+}
+
+fieldset .check-radio-box input::before {
+  content: "\F633";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--clr-white);
+  background: var(--gradient-primary);
+}
+
+fieldset .check-radio-box input:checked:before {
+  opacity: 1;
+}
+
+fieldset .check-radio-box input[type="checkbox"] {
+  border-radius: 0.4rem;
+}
+
+/* INPUT TAG FEEDBACKS and Certain Notes on the page */
+
+:is(fieldset, .snackbar) .msg,
+.note,
+.snackbar .msg {
+  gap: 0.8rem;
+  justify-content: start;
+  text-align: start !important;
+  position: relative;
+  font-size: var(--fs-300);
+  color: var(--clr-grey-text);
+  margin: 0.2rem 0;
+}
+
+fieldset .msg.error,
+.note.danger {
+  color: var(--clr-status-negative-light-text);
+}
+
+fieldset .msg.success,
+.note.success {
+  color: var(--clr-status-success-light-text);
+}
+
+fieldset .msg.info,
+.note.info {
+  color: var(--clr-status-info-light-text);
+}
+
+fieldset .msg.warn,
+.note.warn {
+  color: var(--clr-status-warn-light-text);
+}
+
+:is(fieldset, .snackbar) .msg::before,
+.note::before {
+  align-self: start;
+}
+
+fieldset .msg.error::before,
+.snackbar.error .msg::before,
+.note.danger::before {
+  content: "\F332";
+}
+
+fieldset .msg.success::before,
+.snackbar.success .msg::before,
+.note.success::before {
+  content: "\F26A";
+}
+
+fieldset .msg.info::before,
+.snackbar.info .msg::before,
+.note.info::before {
+  content: "\F468";
+}
+
+fieldset .msg.warn::before,
+.snackbar.warn .msg::before,
+.note.warn::before {
+  content: "\F33A";
+}
+
+.note:not(.danger, .success, .warn, .info):before {
+  content: "\F431";
+}

@@ -1,0 +1,25 @@
+{
+  "name": "underwater-avs-simulator",
+  "productName": "Underwater AVS Simulator",
+  "version": "1.0.0",
+  "description": "Reads AVS and Signal data and generates calcutions, spectrogram, wave forms and positional graphs",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Vedant Mali",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^31.0.1"
+  },
+  "keywords": [
+    "electron",
+    "desktop-app",
+    "data-visualization",
+    "data-analysis",
+    "scientific-computing",
+    "spectrogram",
+    "scattered-graph",
+    "solenoidal-waves"
+  ]
+}
