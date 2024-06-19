@@ -17,8 +17,6 @@ document.addEventListener("DOMContentLoaded", function () {
     snackbarSec.classList.add("snackbar-sec");
     this.body.prepend(snackbarSec);
 
-    createSnackbar({ msg: "Cancelled" })
-
     /* ///////////////
         POPULATE LOGO
     /////////////// */
@@ -59,5 +57,14 @@ document.addEventListener("DOMContentLoaded", function () {
     POPULATE INPUT CLASSES and HANDLE UI EFFECTS
     /////////////// */
     refreshInputs();
+
+    /* ///////////////
+        Typography and Accessibility
+    /////////////// */
+    let textElementsArr = this.querySelectorAll("p, h1, h2, h3, h4, h5, h6");
+
+    textElementsArr.forEach(elem => {
+        elem.setAttribute("title", elem.innerText);
+    })
 
 });

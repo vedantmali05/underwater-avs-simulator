@@ -9,6 +9,7 @@ button a {
   justify-content: center;
   font-size: var(--fs-400);
   gap: 0.4rem;
+  min-width: fit-content;
 }
 
 button {
