@@ -163,13 +163,14 @@ SNACKBAR COMPONENT
 
 .snackbar {
   --clr-snackbar-theme: var(--clr-status-info-dark-text);
-  border: 2px solid var(--clr-status-info-dark-text);
+  border: 2px solid var(--clr-snackbar-theme);
   background-color: var(--clr-status-info-dark-bg);
   min-height: 6.4rem;
   border-radius: 0.8rem;
   gap: 0.8rem;
   margin: 0.4rem 0;
   justify-content: space-between;
+  align-items: center;
   padding: 0.4rem 1.2rem;
   animation: fadeScaleUpIn 0.5s linear;
   overflow: hidden;
@@ -187,18 +188,26 @@ SNACKBAR COMPONENT
   --clr-snackbar-theme: var(--clr-status-success-dark-text);
 }
 
-.snackbar.tip {
+.snackbar.info {
   --clr-snackbar-theme: var(--clr-status-info-dark-text);
 }
 
+.snackbar.warn {
+  --clr-snackbar-theme: var(--clr-status-warn-dark-text);
+}
+
 .snackbar button {
+  background-color: transparent !important;
   color: var(--clr-white) !important;
 }
 
+.snackbar button.text {
+  min-width: fit-content;
+}
+
 .snackbar button:hover,
-.snackbar button:hover i {
-  background-color: transparent;
-  color: var(--clr-primary) !important;
+.snackbar button.text:hover {
+  background-color: var(--clr-primary-light) !important;
 }
 
 .snackbar .msg {
@@ -249,9 +258,11 @@ DIALOG COMPONENT
   margin: 0;
   width: 100%;
   max-height: fit-content;
+  min-height: 100vh;
   border-radius: 0;
   padding: 2.4rem;
   overflow: visible;
+  display: block;
 }
 
 .dialog .dialog-body {
@@ -292,14 +303,6 @@ DIALOG COMPONENT
   background-color: var(--clr-white);
   border-radius: 1.6rem;
   padding: 0.4rem 0.8rem;
-}
-
-/* /////////////////////////
-  USER INFO
-///////////////////////// */
-
-.user-info-full-name {
-  text-wrap: nowrap;
 }
 
 /* /////////////////////////
