@@ -16,17 +16,19 @@ IMPORTS and SETUPS
   --clr-primary-light: #454c8a;
   --clr-primary-hover: #d0d2e2;
   --clr-primary-focus: #d9dcff;
-  --gradient-primary: linear-gradient(90deg,
+  --gradient-primary: linear-gradient(
+    90deg,
     var(--clr-primary-light),
     var(--clr-primary-dark)
   );
   /* Accent */
   --clr-accent-dark: #998100;
-  --clr-accent: #ffd700;
+  --clr-accent: #e6c200;
   --clr-accent-light: #ffdf33;
   --clr-accent-hover: #fff7cc;
   --clr-accent-focus: #ffef99;
   --gradient-accent: linear-gradient(
+    -90deg,
     var(--clr-accent-light),
     var(--clr-accent-dark)
   );
@@ -149,6 +151,10 @@ body {
 
 /* TYPOGRAPHY */
 
+p {
+  text-wrap: balance;
+}
+
 h1,
 h2,
 h3,
@@ -159,6 +165,7 @@ h6 {
   margin-bottom: 0.8rem;
   font-family: var(--ff-head);
   color: var(--clr-black-light);
+  text-wrap: balance;
 }
 
 .ff-head {
@@ -226,10 +233,6 @@ h2,
 h1,
 .fs-900 {
   font-size: var(--fs-900);
-}
-
-form p {
-  max-width: 32rem;
 }
 
 code,

@@ -64,6 +64,7 @@ fieldset .check-radio-box:has(input:disabled) *,
   font-weight: 500;
   background: var(--gradient-primary);
   color: var(--clr-white);
+  max-width: 35.2rem;
 }
 
 :is(button.primary, button.fab)::before {
@@ -148,6 +149,30 @@ button.icon:active {
   background-color: var(--clr-accent-focus);
 }
 
+form .btn-box {
+  display: flex;
+  gap: 1.8rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.6rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 769px) {
+  button.primary,
+  button.fab {
+    max-width: 100%;
+  }
+
+  form .btn-box {
+    padding: 1.6rem 0;
+  }
+
+  form .btn-box .primary {
+    order: -1;
+  }
+}
+
 /* /////////////////////////
   INPUTS
 ///////////////////////// */
@@ -158,11 +183,14 @@ fieldset {
   align-items: stretch;
   justify-content: stretch;
   position: relative;
-  margin: 2.4rem 1.6rem;
+  margin: 2.4rem 0;
   gap: 0.4rem;
   border: none;
   outline: none;
   position: relative;
+  width: 100%;
+  max-width: 100%;
+  min-width: auto;
 }
 
 /* ORDER TO EACH OF THE ELEMENT OF A INPUT */
@@ -322,9 +350,13 @@ fieldset .check-radio-box label input {
   overflow: hidden;
 }
 
-fieldset .check-radio-box:has(input:hover) label {
+fieldset .check-radio-box label:has(input:hover) {
   color: var(--clr-black) !important;
   background-color: var(--clr-primary-hover);
+}
+
+fieldset .check-radio-box label:has(input:checked) {
+  background-color: var(--clr-primary-focus);
 }
 
 fieldset .check-radio-box input::before {
