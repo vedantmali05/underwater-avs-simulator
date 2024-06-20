@@ -144,6 +144,25 @@ button.icon:hover {
   background-color: var(--clr-accent-hover);
 }
 
+/* Negative Buttons */
+:is(button.primary, button.fab).negative {
+  background: var(--clr-status-negative-light-text) !important;
+}
+
+:is(button.primary, button.fab).negative::before {
+  background-color: transparent;
+}
+
+button.ghost.negative {
+  border-color: var(--clr-status-info-light-text);
+}
+
+button.text.negative,
+button.icon.negative,
+button.ghost.negative {
+  color: var(--clr-status-negative-light-text);
+}
+
 button.icon:active {
   scale: 0.9;
   background-color: var(--clr-accent-focus);
@@ -279,7 +298,7 @@ fieldset select {
 fieldset .trail {
   position: absolute;
   right: 0.4rem;
-  bottom: 0.5rem;
+  top: 2.5rem;
   height: 2.9rem;
   min-width: 2.8rem;
   z-index: 11;

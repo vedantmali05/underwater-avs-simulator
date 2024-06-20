@@ -58,6 +58,23 @@ export function refreshInputs() {
     });
 }
 
+
+// FUNCTION to Allow NUMBER in the INPUTS
+export function allowNumberInputOnly(inputTag) {
+    inputTag.addEventListener("keydown", function (event) {
+        // Allowed characters (including backspace and delete for editing)
+        const allowedKeys = ["-", "+", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", ".", "Backspace", "Delete", "ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Control", "Tab", "Home", "End"];
+
+        // Allow Ctrl+a
+        if (event.ctrlKey) return;
+
+        // Prevent default behavior for disallowed keys
+        if (!allowedKeys.includes(event.key)) {
+            event.preventDefault();
+        }
+    });
+}
+
 // FUNCTION to SET specified INPUT MESSAGE
 export function setInputMsg(inputTag, msg, status = UI_STATUS_FEEDBACK.error) {
     removeInputMsg(inputTag, status);
@@ -82,7 +99,6 @@ export function removeInputMsg(inputTag, status = UI_STATUS_FEEDBACK.error) {
 
 // FUNCTION for INPUT VALIDATION
 export function validateInput(inputTag, errorMsg) {
-    removeInputMsg(inputTag);
     inputTag.value = inputTag.value.trim();
     if (inputTag.required && !inputTag.value) {
         setInputMsg(inputTag, "This field is required");
@@ -91,6 +107,7 @@ export function validateInput(inputTag, errorMsg) {
 
     const pattern = inputTag.pattern?.trim();
     if (!pattern || new RegExp(pattern).test(inputTag.value.trim())) {
+        removeInputMsg(inputTag);
         return true
     };
 
@@ -100,14 +117,14 @@ export function validateInput(inputTag, errorMsg) {
 
 // FUNCTION to validate TOGGLE INPUTS like radio and checkboxes
 export function validateToggleInputs(toggleInputs, msg = "This field is required") {
-    let validationArray = [];
+    removeInputMsg(toggleInputs[0]);
+    let isRequired = false, isChecked = false;
     toggleInputs.forEach(input => {
-        if (input.required && !input.checked) {
-            validationArray.push(false);
-        }
+        if (input.required) isRequired = true;
+        if (input.checked) isChecked = true;
     })
 
-    if (validationArray.includes(false)) {
+    if (isRequired && !isChecked) {
         setInputMsg(toggleInputs[0], msg);
         return false;
     }
@@ -176,6 +193,8 @@ export function createDialog(options = {}) {
         secondaryBtnLabel = "Cancel",
         primaryAction = function () { return true },
         secondaryAction = function () { return true },
+        danger = false,
+        invert = false
     } = options;
 
     if (!headline) throw new Error("Provide a headline for Dialog");
@@ -200,7 +219,7 @@ export function createDialog(options = {}) {
         </section>
         <div class="btn-box">
             ${secondaryBtnLabel !== false ? `<button class="ghost secondary-btn">${secondaryBtnLabel}</button>` : ""}
-            <button class="primary primary-btn">${primaryBtnLabel}</button>
+            <button class="primary primary-btn ${danger ? 'negative' : ''}">${primaryBtnLabel}</button>
         </div>
     </section>
             `;
@@ -215,7 +234,7 @@ export function createDialog(options = {}) {
     // Function Remove the Dialog box
     function removeDialogBox() {
         component?.setAttribute("aria-hidden", "true");
-        document.body.prepend(component);
+        if (component) document.body.prepend(component);
         dialogSec.style.animation = `fadeOut 0.5s linear`;
         dialogSec.querySelector(".dialog").style.animation = `fadeScaleOut 0.5s linear`;
         setTimeout(() => {
@@ -236,7 +255,8 @@ export function createDialog(options = {}) {
     // CLOSE DIALOG BY PRIMARY BUTTON PRESS
     let primaryBtn = dialogSec.querySelector(".primary-btn");
     primaryBtn.addEventListener("click", function () {
-        if (primaryAction()) {
+        let doClose = primaryAction();
+        if (doClose) {
             removeDialogBox();
             return true;
         }

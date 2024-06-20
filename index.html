@@ -25,7 +25,7 @@
             <span>
                 <button class="icon mobile-only" title="Open recent inputs history"><i
                         class="bi bi-clock-history"></i></button>
-                <button class="text desk-only"><i class="bi bi-clock-history"></i>Input History</button>
+                <button class="text desk-only" style="background-color: var(--clr-accent-light);"><i class="bi bi-clock-history"></i>Input History</button>
             </span>
         </header>
         <!-- HEADER ENDS -->
@@ -46,24 +46,24 @@
                     <!-- Target Strength -->
                     <fieldset>
                         <label for="target_strength">Target Strength</label>
-                        <input type="number" id="target_strength" name="target_strength" placeholder="0" required
-                            class="text-input" pattern="^\d+$">
+                        <input type="text" id="target_strength" name="target_strength" placeholder="0" required
+                            class="text-input" pattern="^[\-\+]?\d+(\.\d+)?$">
                         <span class="trail">dB re 1 V/µPa</span>
                     </fieldset>
 
                     <!-- Frequency of Noise Source -->
                     <fieldset>
                         <label for="noise_source_frequency">Frequency of Noise Source</label>
-                        <input type="number" id="noise_source_frequency" name="noise_source_frequency" placeholder="0"
-                            required class="text-input" pattern="^\d+$">
+                        <input type="text" id="noise_source_frequency" name="noise_source_frequency" placeholder="0"
+                            required class="text-input" pattern="^[\+]?\d+$">
                         <span class="trail">Hz</span>
                     </fieldset>
 
                     <!-- Duration of Signal -->
                     <fieldset>
                         <label for="signal_duration">Duration of Signal</label>
-                        <input type="number" id="signal_duration" name="signal_duration" placeholder="0" required
-                            class="text-input" pattern="^\d+$">
+                        <input type="text" id="signal_duration" name="signal_duration" placeholder="0" required
+                            class="text-input" pattern="^[\+]?\d+(\.\d+)?$">
                         <span class="trail">Seconds</span>
                     </fieldset>
 
@@ -72,16 +72,16 @@
                         <label>Seastate</label>
                         <div class="check-radio-box seastate-check-radio-box">
                             <label for="seastate_0">
-                                <input type="radio" id="seastate_0" name="seastate" required> 0 Seastate
+                                <input type="radio" id="seastate_0" name="seastate" required value="0"> 0 Seastate
                             </label>
                             <label for="seastate_1">
-                                <input type="radio" id="seastate_1" name="seastate" required> 1 Seastate
+                                <input type="radio" id="seastate_1" name="seastate" required value="1"> 1 Seastate
                             </label>
                             <label for="seastate_3">
-                                <input type="radio" id="seastate_3" name="seastate" required> 3 Seastate
+                                <input type="radio" id="seastate_3" name="seastate" required value="3"> 3 Seastate
                             </label>
                             <label for="seastate_6">
-                                <input type="radio" id="seastate_6" name="seastate" required> 6 Seastate
+                                <input type="radio" id="seastate_6" name="seastate" required value="6"> 6 Seastate
                             </label>
                         </div>
                     </fieldset>
@@ -111,14 +111,14 @@
                                     <td class="label-cell">AVS-1</td>
                                     <td>
                                         <fieldset>
-                                            <input type="number" name="avs_1_x" id="avs_1_x" class="text-input"
-                                                placeholder="0" pattern="^\d+$">
+                                            <input type="text" name="avs_1_x" id="avs_1_x" class="text-input" required
+                                                placeholder="0" pattern="^[\-\+]?\d+(\.\d+)?$">
                                         </fieldset>
                                     </td>
                                     <td>
                                         <fieldset>
-                                            <input type="number" name="avs_1_y" id="avs_1_y" class="text-input"
-                                                placeholder="0" pattern="^\d+$">
+                                            <input type="text" name="avs_1_y" id="avs_1_y" class="text-input" required
+                                                placeholder="0" pattern="^[\-\+]?\d+(\.\d+)?$">
                                         </fieldset>
                                     </td>
                                 </tr>
@@ -126,14 +126,14 @@
                                     <td class="label-cell">AVS-2</td>
                                     <td>
                                         <fieldset>
-                                            <input type="number" name="avs_2_x" id="avs_2_x" class="text-input"
-                                                placeholder="0" pattern="^\d+$">
+                                            <input type="text" name="avs_2_x" id="avs_2_x" class="text-input" required
+                                                placeholder="0" pattern="^[\-\+]?\d+(\.\d+)?$">
                                         </fieldset>
                                     </td>
                                     <td>
                                         <fieldset>
-                                            <input type="number" name="avs_2_y" id="avs_2_y" class="text-input"
-                                                placeholder="0" pattern="^\d+$">
+                                            <input type="text" name="avs_2_y" id="avs_2_y" class="text-input" required
+                                                placeholder="0" pattern="^[\-\+]?\d+(\.\d+)?$">
                                         </fieldset>
                                     </td>
                                 </tr>
@@ -141,14 +141,14 @@
                                     <td class="label-cell">Target</td>
                                     <td>
                                         <fieldset>
-                                            <input type="number" name="target_x" id="target_x" class="text-input"
-                                                placeholder="0" pattern="^\d+$">
+                                            <input type="text" name="target_x" id="target_x" class="text-input" required
+                                                placeholder="0" pattern="^[\-\+]?\d+(\.\d+)?$">
                                         </fieldset>
                                     </td>
                                     <td>
                                         <fieldset>
-                                            <input type="number" name="target_y" id="target_y" class="text-input"
-                                                placeholder="0" pattern="^\d+$">
+                                            <input type="text" name="target_y" id="target_y" class="text-input" required
+                                                placeholder="0" pattern="^[\-\+]?\d+(\.\d+)?$">
                                         </fieldset>
                                     </td>
                                 </tr>
@@ -165,8 +165,12 @@
 
                 <!-- Button Box -->
                 <section class="btn-box">
-                    <button class="text" type="reset"><i class="bi bi-trash3"></i> clear data</button>
-                    <button class="primary" type="button"> <i class="bi bi-clipboard-data"></i> Calculate</button>
+                    <button class="text negative" type="button" id="clear_form_btn"><i class="bi bi-trash3"></i> clear
+                        inputs</button>
+                    <button class="primary" type="button" id="calculate_btn"> <i class="bi bi-clipboard-data"></i>
+                        Calculate</button>
+                    <!-- Hidden Clear data button -->
+                    <button class="text sr-only" type="reset" id="hidden_clear_form_btn" hidden></button>
                 </section>
             </form>
 
@@ -178,7 +182,7 @@
     <!-- MAIN ENDS -->
 
     <!-- RECENT INPUTS STARTS -->
-    <aside class="recent-input">
+    <!-- <aside class="recent-input">
 
         <section class="aside-body recent-input">
             <header>
@@ -190,10 +194,11 @@
             <section class="aside-content">
             </section>
         </section>
-    </aside>
+    </aside> -->
     <!-- RECENT INPUTS ENDS -->
 
     <script type="module" src="./js/index.js"></script>
+    <script type="module" src="./js/inputs.js"></script>
 </body>
 
 </html>

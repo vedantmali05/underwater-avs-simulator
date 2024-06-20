@@ -212,7 +212,7 @@ DIALOG COMPONENT
   position: fixed;
   width: 100%;
   height: 100%;
-  z-index: 20;
+  z-index: 1000;
   background-color: var(--clr-grey-overlay);
   display: flex;
   align-items: center;
@@ -284,6 +284,10 @@ DIALOG COMPONENT
 
 .dialog .btn-box > * {
   width: 100%;
+}
+
+.dialog .btn-box button.negative {
+  order: -1;
 }
 
 .dialog-sec .dialog-component {
