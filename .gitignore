@@ -131,3 +131,7 @@ dist
 
 # Custom
 design/
+
+# Following files are ignored temporarily, will be added later.
+./main.js
+./preload.js

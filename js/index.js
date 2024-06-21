@@ -44,11 +44,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 break;
         }
-        if (logo.getAttribute("data-name") == "true") {
-            let logoName = this.createElement("p");
-            logoName.innerHTML = `Habisphere`;
-            logo.appendChild(logoName)
-        }
         logo.appendChild(img);
     });
 
