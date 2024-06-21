@@ -394,12 +394,12 @@ nav header {
   border-bottom: 1px solid var(--clr-grey-divider);
   background-color: var(--clr-white);
   padding: 0 0.8rem;
+  min-height: 4.04rem;
 }
 
 main header {
   border-bottom-color: var(--clr-accent);
   box-shadow: 0px 4px 10px 0px #00000025;
-  min-height: 4.04rem;
 }
 
 main header h1,
@@ -472,6 +472,7 @@ aside .aside-body {
 nav .nav-body {
   top: 0;
   left: -100%;
+  width: 100%;
   max-width: 28rem;
 }
 
@@ -537,18 +538,26 @@ button.icon.nav-open-btn:active {
 /* Handling Opening and Closing of Navbar and Input Aside */
 aside.aside-visible,
 .input-aside-close-btn.aside-visible,
-aside.aside-visible .aside-body {
+aside.aside-visible .aside-body,
+nav.nav-visible,
+.nav-close-btn.nav-visible,
+nav.nav-visible .nav-body {
   opacity: 1;
   visibility: visible;
 }
 
-.input-aside-open-btn.aside-visible {
+.input-aside-open-btn.aside-visible,
+.nav-open-btn.nav-visible {
   opacity: 0;
   visibility: hidden;
 }
 
 aside.aside-visible .aside-body {
   bottom: 0;
+}
+
+nav.nav-visible .nav-body {
+  left: 0;
 }
 
 @media (max-width: 1024px) {
@@ -558,12 +567,13 @@ aside.aside-visible .aside-body {
 }
 
 @media (min-width: 1024px) {
-  aside,
-  nav {
+  aside {
     max-width: 0px;
   }
 
-  aside.aside-visible {
+  aside.aside-visible,
+  nav,
+  nav.nav-visible {
     max-width: 28rem;
   }
 }

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AVS Calculations</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="./assets/logo/favicon.svg" type="image/x-icon">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="./style/main.css">
+    <link rel="stylesheet" href="./style/avs-calculations.css">
+
+</head>
+
+<body>
+
+    <!-- NAVIGATION SIDEBAR STARTS -->
+    <nav>
+
+        <section class="nav-body">
+            <header>
+                <h2>Menu</h2>
+                <button class="icon nav-close-btn mobile-only" title="Close navigation menu"><i
+                        class="bi bi-arrow-left"></i></button>
+            </header>
+
+            <section class="nav-content">
+            </section>
+        </section>
+    </nav>
+    <!-- NAVIGATION SIDEBAR ENDS -->
+
+    <!-- MAIN STARTS -->
+    <main>
+        <!-- HEADER STARTS -->
+        <header>
+            <button class="icon nav-open-btn mobile-only" title="Open navigation menu"><i
+                    class="bi bi-list"></i></button>
+            <picture class="logo" data-size="extra-small"></picture>
+            <h1>Underwater AVS <span class="gradient-accent">Calculations</span></h1>
+            <span class="input-aside-open-btn">
+                <button class="icon mobile-only" title="Open recent inputs history"><i
+                        class="bi bi-clock-history"></i></button>
+                <button class="text desk-only" style="background-color: var(--clr-accent-light);"><i
+                        class="bi bi-clock-history"></i>Input History</button>
+            </span>
+        </header>
+        <!-- HEADER ENDS -->
+
+        <!-- MAIN CONTENT STARTS -->
+        <section class="main-content">
+
+        </section>
+        <!-- MAIN CONTENT STARTS -->
+    </main>
+    <!-- MAIN ENDS -->
+
+    <!-- INPUT HISTORY STARTS -->
+    <aside class="input-aside">
+
+        <!-- Input History Body Starts -->
+        <section class="aside-body">
+            <!-- Header -->
+            <header>
+                <h2>Your Input History</h2>
+                <button class="icon input-aside-close-btn"><i class="bi bi-x mobile-only"></i><i
+                        class="bi bi-arrow-right desk-only"></i></button>
+            </header>
+
+            <!-- Aside Content -->
+            <section class="aside-content">
+                <!-- Caption -->
+                <p class="subtitle" style="margin-bottom: -1.6rem;">Your recently used inputs, allowing you to
+                    effortlessly select and reuse them.
+                    Search, review and reenter all the data in one click.</p>
+
+                <!-- Inputs History table -->
+                <section class="inputs-history-sec" id="input_history_box">
+                </section>
+            </section>
+        </section>
+        <!-- Input History Body Ends -->
+    </aside>
+    <!-- INPUT HISTORY ENDS -->
+
+    <script type="module" src="./js/index.js"></script>
+    <script type="module" src="./js/avs-calculations.js"></script>
+</body>
+
+</html>
