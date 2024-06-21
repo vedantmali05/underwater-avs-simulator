@@ -11,7 +11,7 @@
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="./style/main.css">
-    <link rel="stylesheet" href="./style/index.css">
+    <link rel="stylesheet" href="./style/inputs.css">
 
 </head>
 
@@ -21,12 +21,13 @@
     <main>
         <!-- HEADER STARTS -->
         <header>
-            <picture class="logo desk-only" data-size="extra-small"></picture>
+            <picture class="logo" data-size="extra-small"></picture>
             <h1>Underwater Acoustic Vector Sensor <span class="gradient-accent">(AVS)</span> Simulator</h1>
-            <span>
+            <span class="input-aside-open-btn">
                 <button class="icon mobile-only" title="Open recent inputs history"><i
                         class="bi bi-clock-history"></i></button>
-                <button class="text desk-only" style="background-color: var(--clr-accent-light);"><i class="bi bi-clock-history"></i>Input History</button>
+                <button class="text desk-only" style="background-color: var(--clr-accent-light);"><i
+                        class="bi bi-clock-history"></i>Input History</button>
             </span>
         </header>
         <!-- HEADER ENDS -->
@@ -182,21 +183,33 @@
     </main>
     <!-- MAIN ENDS -->
 
-    <!-- RECENT INPUTS STARTS -->
-    <!-- <aside class="recent-input">
+    <!-- INPUT HISTORY STARTS -->
+    <aside class="input-aside">
 
-        <section class="aside-body recent-input">
+        <!-- Input History Body Starts -->
+        <section class="aside-body">
+            <!-- Header -->
             <header>
-                <h2>Recent Inputs</h2>
-                <button class="icon close-aside-btn"><i class="bi bi-x mobile-only"></i><i
+                <h2>Your Input History</h2>
+                <button class="icon input-aside-close-btn"><i class="bi bi-x mobile-only"></i><i
                         class="bi bi-arrow-bar-right desk-only"></i></button>
             </header>
 
+            <!-- Aside Content -->
             <section class="aside-content">
+                <!-- Caption -->
+                <p class="subtitle" style="margin-bottom: -1.6rem;">Your recently used inputs, allowing you to
+                    effortlessly select and reuse them.
+                    Search, review and reenter all the data in one click.</p>
+
+                <!-- Inputs History table -->
+                <section class="inputs-history-sec" id="input_history_box">
+                </section>
             </section>
         </section>
-    </aside> -->
-    <!-- RECENT INPUTS ENDS -->
+        <!-- Input History Body Ends -->
+    </aside>
+    <!-- INPUT HISTORY ENDS -->
 
     <script type="module" src="./js/index.js"></script>
     <script type="module" src="./js/inputs.js"></script>

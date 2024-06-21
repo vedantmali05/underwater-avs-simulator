@@ -10,10 +10,15 @@ import {
 // FUNCTION to TRAVERSE and RETURN the PARENT with given class
 export function getParentElement(element, targetParent) {
     let parent = element.parentNode;
-    return parent.tagName.toUpperCase() == targetParent.toUpperCase()
-        ? parent
-        : getParentElement(parent, targetParent);
-}
+
+    while (parent && parent.tagName !== 'BODY') {
+      if (parent.tagName.toUpperCase() === targetParent.toUpperCase()) {
+        return parent;
+      }
+      parent = parent.parentNode;
+    }
+    return null; // No parent found with the target class
+  }
 
 /* ///////////////
     UI COMPONENTS FUNCTIONS
@@ -136,7 +141,6 @@ export function validateToggleInputs(toggleInputs, msg = "This field is required
 export function setInputValue(inputTag, value = "") {
     inputTag.value = value;
 }
-
 
 /* ///////////////
     FUNCTIONS FOR CREATING COMPONENTS

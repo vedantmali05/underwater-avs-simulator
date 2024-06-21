@@ -1,29 +1,30 @@
 "use strict"
 
 import {
+    UI_CLASSES,
     UI_SIZE,
     UI_STATUS_FEEDBACK,
 } from "./components/data.js";
 
-import { createDialog, createSnackbar, refreshInputs } from "./components/utils.js";
+import { createDialog, createSnackbar, getParentElement, refreshInputs } from "./components/utils.js";
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
 
     /* ///////////////
         SNACKBAR
     /////////////// */
 
-    let snackbarSec = this.createElement("section");
+    let snackbarSec = document.createElement("section");
     snackbarSec.classList.add("snackbar-sec");
-    this.body.prepend(snackbarSec);
+    document.body.prepend(snackbarSec);
 
     /* ///////////////
         POPULATE LOGO
     /////////////// */
-    let pictureLogoArr = this.querySelectorAll(".logo");
+    let pictureLogoArr = document.querySelectorAll(".logo");
 
     pictureLogoArr.forEach(logo => {
-        let img = this.createElement("img");
+        let img = document.createElement("img");
         img.src = "./assets/logo/logo.svg";
         switch (logo.getAttribute("data-size")) {
             case UI_SIZE.xs:
@@ -53,13 +54,45 @@ document.addEventListener("DOMContentLoaded", function () {
     /////////////// */
     refreshInputs();
 
+    // Clearing Search box on click
+    let clearSearchBtnsArr = document.querySelectorAll(".clear-search");
+
+    clearSearchBtnsArr.forEach(elem => {
+        elem.addEventListener('click', () => {
+            let parent = getParentElement(elem, UI_CLASSES.fieldset);
+            parent.querySelector("[type='text']").value = ``;
+        });
+    });
+
     /* ///////////////
         Typography and Accessibility
     /////////////// */
-    let textElementsArr = this.querySelectorAll("p, h1, h2, h3, h4, h5, h6");
+    let textElementsArr = document.querySelectorAll("p, h1, h2, h3, h4, h5, h6");
 
     textElementsArr.forEach(elem => {
         elem.setAttribute("title", elem.innerText);
     })
 
+    /* ///////////////
+        SIDEBARs OPENING AND CLOSING
+    /////////////// */
+
+    let asideElementsArray = [document.querySelector(".input-aside-open-btn"), document.querySelector(".input-aside-close-btn"), document.querySelector(".input-aside")];
+
+    // Input Aside Open Button Click
+    asideElementsArray[0].addEventListener("click", () => {
+        asideElementsArray.forEach(elem => elem.classList.add("aside-visible"));
+    })
+
+    // Input Aside Close Button Click
+    asideElementsArray[1].addEventListener("click", () => {
+        asideElementsArray.forEach(elem => elem.classList.remove("aside-visible"));
+    })
+
+    // Input Aside Scrim Click - Close Aside
+    asideElementsArray[2].addEventListener('click', (e) => {
+        if (!e.target.closest(".aside-body")) {
+            asideElementsArray.forEach(elem => elem.classList.remove("aside-visible"));
+        }
+    })
 });
