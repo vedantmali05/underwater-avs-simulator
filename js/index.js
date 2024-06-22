@@ -81,17 +81,17 @@ document.addEventListener("DOMContentLoaded", () => {
     let asideElementsArray = [document.querySelector(".input-aside-open-btn"), document.querySelector(".input-aside-close-btn"), document.querySelector(".input-aside")];
 
     // Input Aside Open Button Click
-    asideElementsArray[0].addEventListener("click", () => {
+    asideElementsArray[0]?.addEventListener("click", () => {
         asideElementsArray.forEach(elem => elem.classList.add("aside-visible"));
     });
 
     // Input Aside Close Button Click
-    asideElementsArray[1].addEventListener("click", () => {
+    asideElementsArray[1]?.addEventListener("click", () => {
         asideElementsArray.forEach(elem => elem.classList.remove("aside-visible"));
     });
 
     // Input Aside Scrim Click - Close Aside
-    asideElementsArray[2].addEventListener('click', (e) => {
+    asideElementsArray[2]?.addEventListener('click', (e) => {
         if (!e.target.closest(".aside-body")) {
             asideElementsArray.forEach(elem => elem.classList.remove("aside-visible"));
         }
@@ -101,17 +101,17 @@ document.addEventListener("DOMContentLoaded", () => {
     let navElementArray = [document.querySelector(".nav-open-btn"), document.querySelector(".nav-close-btn"), document.querySelector("nav")];
 
     // Navigation bar Open Button Click
-    navElementArray[0].addEventListener("click", () => {
+    navElementArray[0]?.addEventListener("click", () => {
         navElementArray.forEach(elem => elem.classList.add("nav-visible"));
     });
 
     // Navigation bar Close Button Click
-    navElementArray[1].addEventListener("click", () => {
+    navElementArray[1]?.addEventListener("click", () => {
         navElementArray.forEach(elem => elem.classList.remove("nav-visible"));
     });
 
     // Navigation bar Scrim Click - Close nav
-    navElementArray[2].addEventListener('click', (e) => {
+    navElementArray[2]?.addEventListener('click', (e) => {
         if (!e.target.closest(".nav-body")) {
             navElementArray.forEach(elem => elem.classList.remove("nav-visible"));
         }
