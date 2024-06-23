@@ -1,0 +1,36 @@
+.main-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  place-items: start;
+  gap: 1.6rem;
+}
+
+.avs-calculation-table {
+  max-width: 56rem;
+}
+
+.avs-calculation-table :is(th, td) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-wrap: nowrap;
+}
+
+.avs-calculation-table tr > *:nth-of-type(1) {
+  text-align: right;
+}
+.avs-calculation-table tr > *:nth-of-type(2),
+.avs-calculation-table tr > *:nth-of-type(3) {
+  text-align: center;
+}
+.avs-calculation-table tr > *:nth-of-type(4) {
+  text-align: left;
+}
+
+.guide-box {
+  margin: 0.8rem 0;
+}
+
+.guide-box b {
+  text-wrap: nowrap;
+  font-weight: 600;
+}

@@ -73,8 +73,14 @@ UTILITY CLASSES
   }
 }
 
+.nowrap {
+  text-wrap: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .divider {
-  border-top: 1px solid var(--clr-divider);
+  border-top: 1px solid var(--clr-grey-divider);
 }
 
 /* /////////////////////////
@@ -426,6 +432,14 @@ nav .nav-body h2 {
 main .main-content {
   height: calc(100% - 4.04rem);
   overflow-y: auto;
+  background-color: var(--clr-grey-bg);
+  padding: 0.8rem;
+}
+
+main .main-content > * {
+  background-color: var(--clr-white);
+  padding: 1.6rem;
+  border-radius: 1.6rem;
 }
 
 /* Side Sections */
@@ -478,7 +492,7 @@ nav .nav-body {
 
 aside .aside-body h2,
 nav .nav-body h2 {
-  font-size: var(--fs-309);
+  font-size: var(--fs-400);
 }
 
 aside .aside-body .aside-content,
@@ -486,6 +500,15 @@ nav .nav-body .nav-content {
   padding: 1.6rem;
   overflow-y: auto;
   height: 100%;
+}
+
+nav .nav-body .nav-content {
+  padding: 0;
+}
+
+.input-aside-close-btn {
+  position: absolute;
+  right: 1.6rem;
 }
 
 /* SIDE SECTIONS ON DESKTOP */
@@ -501,14 +524,12 @@ nav .nav-body .nav-content {
   nav .nav-body {
     position: static;
     translate: none;
-    max-width: 28rem;
     width: 100%;
     border-radius: 0;
     max-height: 100vh;
     visibility: visible;
     opacity: 1;
   }
-  /* height: 100%; */
   aside {
     border-left: 1px solid var(--clr-accent);
   }
@@ -516,6 +537,7 @@ nav .nav-body .nav-content {
     border-right: 1px solid var(--clr-accent);
   }
   .input-aside-close-btn {
+    position: static;
     order: -1;
   }
 }
@@ -571,11 +593,66 @@ nav.nav-visible .nav-body {
     max-width: 0px;
   }
 
-  aside.aside-visible,
+  aside.aside-visible {
+    max-width: 36rem;
+  }
+
   nav,
   nav.nav-visible {
     max-width: 28rem;
   }
+}
+
+/* NAVIGATION BAR CSS */
+/* Individual Menu Item in Menu */
+
+.nav-content menu {
+  padding: 1.6rem 0.8rem;
+}
+
+.nav-content .menu-item {
+  margin: 0.2rem 0;
+  padding: 0;
+  width: 100%;
+  justify-content: left;
+  overflow: hidden;
+  min-width: 100%;
+}
+
+.nav-content .menu-item a {
+  padding: 0.8rem 0.4rem;
+  gap: 1.2rem !important;
+  text-wrap: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  justify-content: left;
+  width: 100%;
+}
+
+/* Menu Item Hover Effects */
+.menu-item:hover {
+  background-color: var(--clr-grey-hover);
+}
+
+/* Active Menu Item - Color and Icon change */
+.menu-item.active {
+  background-color: var(--clr-primary-focus);
+}
+
+.menu-item .icon.filled,
+.menu-item.active .icon:not(.filled) {
+  visibility: hidden;
+  display: none;
+}
+
+.menu-item.active .icon.filled {
+  visibility: visible;
+  display: initial;
+}
+
+.menu-item.active {
+  background-color: var(--clr-primary-focus);
+  color: var(--clr-primary);
 }
 
 /* /////////////////////////
@@ -591,6 +668,7 @@ table {
   width: 100%;
   border-collapse: collapse;
   background-color: var(--clr-white);
+  border-bottom: 1px solid var(--clr-grey-divider);
 }
 
 table caption {
@@ -609,6 +687,11 @@ table th {
   border: 1px solid var(--clr-grey-divider);
   border-bottom: none;
   border-top: none;
+}
+
+table .label-cell {
+  color: var(--clr-black);
+  background-color: var(--clr-primary-focus);
 }
 
 table th {
@@ -632,4 +715,46 @@ table td:has(button) {
 
 table caption {
   text-align: right;
+}
+
+/* /////////////////////////
+  SOURCE INPUTS SECTION
+///////////////////////// */
+
+.source-input-sec {
+  padding: 0.8rem;
+}
+
+.source-input-sec .source-input {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-column-gap: 0.4rem;
+  padding: 0.8rem 0;
+  margin: 0.8rem 0;
+  border-bottom: 1px solid var(--clr-grey-divider);
+}
+
+.source-input-sec h3 {
+  font-size: var(--fs-500);
+}
+
+.source-input .input-value,
+.positional-sec .source-input .subtitle {
+  grid-row: span 2;
+  text-align: right;
+  align-content: center;
+}
+
+.source-input .input-value {
+  font-size: var(--fs-600);
+  font-weight: 600;
+}
+
+.positional-sec {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.positional-sec > .nowrap {
+  grid-column: span 2;
 }

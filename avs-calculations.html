@@ -28,6 +28,44 @@
             </header>
 
             <section class="nav-content">
+                <menu>
+                    <p class="overline">Output pages</p>
+                    <button class="menu-item active">
+                        <a href="./index.html">
+                            <span class="icon"><i class="bi bi-calculator"></i></span>
+                            <span class="icon filled"><i class="bi bi-calculator-fill"></i></span> Calculations
+                        </a>
+                    </button>
+                    <button class="menu-item">
+                        <a href="#">
+                            <span class="icon"><i class="bi bi-geo-alt"></i></span>
+                            <span class="icon filled"><i class="bi bi-geo-alt-fill"></i></span> Estimated Target
+                            Positions
+                        </a>
+                    </button>
+                    <button class="menu-item">
+                        <a href="#">
+                            <span class="icon"><i class="bi bi-activity"></i></span>
+                            <span class="icon filled"><i class="bi bi-activity"></i></span> Time Domain Waveform
+                        </a>
+                    </button>
+                    <button class="menu-item">
+                        <a href="#">
+                            <span class="icon"><i class="bi bi-soundwave"></i></span>
+                            <span class="icon filled"><i class="bi bi-soundwave"></i></span> Spectrogram
+                        </a>
+                    </button>
+                </menu>
+                <div class="divider"></div>
+                <menu>
+                    <p class="overline">Input page</p>
+                    <button class="menu-item edit-data-btn">
+                        <a href="#">
+                            <span class="icon"><i class="bi bi-input-cursor-text"></i></span>
+                            <span class="icon filled"><i class="bi bi-input-cursor-text"></i></span> Edit Data
+                        </a>
+                    </button>
+                </menu>
             </section>
         </section>
     </nav>
@@ -41,17 +79,134 @@
                     class="bi bi-list"></i></button>
             <picture class="logo" data-size="extra-small"></picture>
             <h1>Underwater AVS <span class="gradient-accent">Calculations</span></h1>
-            <span class="input-aside-open-btn">
-                <button class="icon mobile-only" title="Open recent inputs history"><i
-                        class="bi bi-clock-history"></i></button>
-                <button class="text desk-only" style="background-color: var(--clr-accent-light);"><i
-                        class="bi bi-clock-history"></i>Input History</button>
-            </span>
+            <button class="text input-aside-open-btn" style="background-color: var(--clr-accent-light);"><i
+                    class="bi bi-list-task"></i>Inputs</button>
         </header>
         <!-- HEADER ENDS -->
 
         <!-- MAIN CONTENT STARTS -->
         <section class="main-content">
+            <!-- Column Left -->
+            <section class="col-left">
+                <!-- Heading -->
+                <h2 class="fs-600">Inputs Based AVS Calculations</h2>
+                <!-- Details -->
+                <p class="subtitle">This table displays the key parameters and results derived from the Acoustic
+                    Vector Sensor (AVS) data.</p>
+
+                <!-- Table Displaying Calculations -->
+                <section class="table-container avs-calculation-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Parameters</th>
+                                <th>AVS-1</th>
+                                <th>AVS-2</th>
+                                <th>Unit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Range</td>
+                                <td id="calculation_avs1_range">-</td>
+                                <td id="calculation_avs2_range">-</td>
+                                <td class="subtitle">Meters (m)</td>
+                            </tr>
+                            <tr>
+                                <td>RNL</td>
+                                <td id="calculation_avs1_rnl">-</td>
+                                <td id="calculation_avs2_rnl">-</td>
+                                <td class="subtitle">Decibles (dB)</td>
+                            </tr>
+                            <tr>
+                                <td>SNR</td>
+                                <td id="calculation_avs1_snr">-</td>
+                                <td id="calculation_avs2_snr">-</td>
+                                <td class="subtitle">Decibles (dB)</td>
+                            </tr>
+                            <tr>
+                                <td>Actual DoA</td>
+                                <td id="calculation_avs1_actual_doa">-</td>
+                                <td id="calculation_avs2_actual_doa">-</td>
+                                <td class="subtitle">Degrees (deg)</td>
+                            </tr>
+                            <tr>
+                                <td>Estimated DoA</td>
+                                <td id="calculation_avs1_estimated_doa">-</td>
+                                <td id="calculation_avs2_estimated_doa">-</td>
+                                <td class="subtitle">Degrees (deg)</td>
+                            </tr>
+                            <tr>
+                                <td>DoA Error</td>
+                                <td id="calculation_avs1_doa_error">-</td>
+                                <td id="calculation_avs2_doa_error">-</td>
+                                <td class="subtitle">Degrees (deg)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </section>
+
+            <!-- Column Right -->
+            <section class="col-right">
+                <!-- Heading -->
+                <h2 class="fs-600">Guide</h2>
+                <!-- Details -->
+                <p class="subtitle">Here is the short information about the <span
+                        class="gradient-accent">parameters</span>, <span class="gradient-accent">abbreviations</span>
+                    and <span class="gradient-accent">units</span> on this page</p>
+
+                <!-- Full Forms -->
+                <div class="guide-box">
+                    <h3 class="fs-500">Full Forms</h3>
+                    <ul>
+                        <li><b>AVS</b>: Acoustic Vector Sensor</li>
+                        <li><b>DoA</b>: Direction of Arrival</li>
+                        <li><b>RNL</b>: Received Noise Level</li>
+                        <li><b>SNR</b>: Signal-to-Noise Ratio</li>
+                    </ul>
+                </div>
+                <div class="divider"></div>
+                <!-- Units -->
+                <div class="guide-box">
+                    <h3 class="fs-500">Units</h3>
+                    <ul>
+                        <li><b>Meters (m)</b>: <br> Unit of distance for Range.</li>
+                        <li><b>Decibels (dB)</b>: <br> Unit of sound pressure level for RNL and SNR.</li>
+                        <li><b>Degrees (deg)</b>: <br> Unit of angular measurement for DoA, Estimated DoA, and DoA Error.</li>
+                    </ul>
+                </div>
+                <div class="divider"></div>
+                <!-- Parameters -->
+                <div class="guide-box">
+                    <h3 class="fs-500">Parameters</h3>
+                    <ul>
+                        <li><b>Range</b>: <br> The distance between the AVS sensor and the detected object.</li>
+                        <li><b>Received Noise Level (RNL)</b>: <br> The strength of the background noise received by the
+                            AVS
+                            sensor.
+                            Measured in decibels (dB).</li>
+                        <li><b>Signal-to-Noise Ratio (SNR)</b>: <br> The ratio of the strength of the desired signal
+                            (from
+                            the
+                            target object) to the background noise level. Measured in decibels (dB). Higher SNR
+                            indicates a clearer signal.</li>
+                        <li><b>Actual DoA</b>: <br> The true direction of arrival of the sound wave from the target
+                            object,
+                            relative
+                            to the AVS sensor. Measured in degrees (deg).</li>
+                        <li><b>Estimated DoA</b>: <br> The direction of arrival of the sound wave as estimated by the
+                            AVS
+                            system,
+                            based on its processing of the received signal. Measured in degrees (deg).</li>
+                        <li><b>DoA Error</b>: <br> The difference between the actual DoA and the estimated DoA. Measured
+                            in
+                            degrees
+                            (deg). A lower DoA error indicates a more accurate estimation.</li>
+                    </ul>
+                </div>
+            </section>
+
 
         </section>
         <!-- MAIN CONTENT STARTS -->
@@ -65,7 +220,7 @@
         <section class="aside-body">
             <!-- Header -->
             <header>
-                <h2>Your Input History</h2>
+                <h2>Source Inputs</h2>
                 <button class="icon input-aside-close-btn"><i class="bi bi-x mobile-only"></i><i
                         class="bi bi-arrow-right desk-only"></i></button>
             </header>
@@ -73,12 +228,66 @@
             <!-- Aside Content -->
             <section class="aside-content">
                 <!-- Caption -->
-                <p class="subtitle" style="margin-bottom: -1.6rem;">Your recently used inputs, allowing you to
-                    effortlessly select and reuse them.
-                    Search, review and reenter all the data in one click.</p>
+                <p class="subtitle center-mobile">The following data sources are used to generate the current
+                    calculations and plots. You can modify these inputs to explore different scenarios.</p>
 
-                <!-- Inputs History table -->
-                <section class="inputs-history-sec" id="input_history_box">
+                <!-- Edit Data Button -->
+                <button class="text edit-data-btn" style="margin-left: auto; color: var(--clr-accent);"> <i
+                        class="bi bi-input-cursor-text"></i> Edit Data</button>
+
+                <!-- Source Inputs -->
+                <section class="source-input-sec" id="source_input_box">
+                    <h3 class="nowrap">Environmental Parameters</h3>
+                    <div class="source-input">
+                        <p class="nowrap">Target Strength</p>
+                        <p class="input-value gradient-primary" id="source_data_targetStrength">-</p>
+                        <p class="subtitle nowrap">dB re 1 V/µPa</p>
+                    </div>
+                    <div class="source-input">
+                        <p class="nowrap">Noise Source Frequency</p>
+                        <p class="input-value gradient-primary" id="source_data_noiseSourceFrequency">-</p>
+                        <p class="subtitle nowrap">Hz (Hertz)</p>
+                    </div>
+                    <div class="source-input">
+                        <p class="nowrap">Signal Duration</p>
+                        <p class="input-value gradient-primary" id="source_data_signalDuration">-</p>
+                        <p class="subtitle nowrap">Seconds</p>
+                    </div>
+                    <div class="source-input">
+                        <p class="nowrap">Seastate</p>
+                        <p class="input-value gradient-primary" id="source_data_seastate">-</p>
+                        <p class="subtitle nowrap">Seastate</p>
+                    </div>
+                    <h3 class="nowrap">Sensor and Target Position</h3>
+                    <section class="positional-sec">
+                        <p class="nowrap">AVS-1</p>
+                        <div class="source-input">
+                            <p class="input-value gradient-primary" id="source_data_avs1X">-</p>
+                            <p class="subtitle nowrap">X(m)</p>
+                        </div>
+                        <div class="source-input">
+                            <p class="input-value gradient-primary" id="source_data_avs1Y">-</p>
+                            <p class="subtitle nowrap">Y(m)</p>
+                        </div>
+                        <p class="nowrap">AVS-2</p>
+                        <div class="source-input">
+                            <p class="input-value gradient-primary" id="source_data_avs2X">-</p>
+                            <p class="subtitle nowrap">X(m)</p>
+                        </div>
+                        <div class="source-input">
+                            <p class="input-value gradient-primary" id="source_data_avs2Y">-</p>
+                            <p class="subtitle nowrap">Y(m)</p>
+                        </div>
+                        <p class="nowrap">Target</p>
+                        <div class="source-input">
+                            <p class="input-value gradient-primary" id="source_data_targetX">-</p>
+                            <p class="subtitle nowrap">X(m)</p>
+                        </div>
+                        <div class="source-input">
+                            <p class="input-value gradient-primary" id="source_data_targetY">-</p>
+                            <p class="subtitle nowrap">Y(m)</p>
+                        </div>
+                    </section>
                 </section>
             </section>
         </section>

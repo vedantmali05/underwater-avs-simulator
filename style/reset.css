@@ -181,7 +181,7 @@ h6 {
   font-size: var(--fs-100);
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  margin: .4rem 0;
+  margin: 0.4rem 0;
 }
 
 .fs-200 {
@@ -264,5 +264,16 @@ a.text-link {
 
 a.text-link:hover {
   text-decoration: none;
+  color: var(--clr-accent);
+}
+
+ul {
+  padding-left: 1.6rem;
+}
+:is(ul, ol) li {
+  margin: 0.2rem 0;
+}
+
+:is(ul, ol) li::marker {
   color: var(--clr-accent);
 }
