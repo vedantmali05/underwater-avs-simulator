@@ -12,13 +12,13 @@ export function getParentElement(element, targetParent) {
     let parent = element.parentNode;
 
     while (parent && parent.tagName !== 'BODY') {
-      if (parent.tagName.toUpperCase() === targetParent.toUpperCase()) {
-        return parent;
-      }
-      parent = parent.parentNode;
+        if (parent.tagName.toUpperCase() === targetParent.toUpperCase()) {
+            return parent;
+        }
+        parent = parent.parentNode;
     }
     return null; // No parent found with the target class
-  }
+}
 
 /* ///////////////
     UI COMPONENTS FUNCTIONS
@@ -36,6 +36,10 @@ export function refreshInputs() {
 
     inputArr.forEach(input => {
         input.classList.add("text-input");
+        let inputTitle = input.getAttribute("data-msg");
+        if (inputTitle && inputTitle.length != 0) {
+            input.setAttribute("title", inputTitle);
+        }
 
         // POPULATE 👁️ Password Visibility Button if current input is Password
         if (input.type == "password") {

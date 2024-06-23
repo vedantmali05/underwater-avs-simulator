@@ -28,7 +28,7 @@ IMPORTS and SETUPS
   --clr-accent-hover: #fff7cc;
   --clr-accent-focus: #ffef99;
   --gradient-accent: linear-gradient(
-    -90deg,
+    -180deg,
     var(--clr-accent-light),
     var(--clr-accent-dark)
   );
@@ -181,6 +181,7 @@ h6 {
   font-size: var(--fs-100);
   text-transform: uppercase;
   letter-spacing: 1.5px;
+  margin: .4rem 0;
 }
 
 .fs-200 {

@@ -53,10 +53,6 @@ table fieldset input {
   border: none;
 }
 
-.avs-positioning-table .label-cell {
-  background-color: var(--clr-primary-hover);
-}
-
 .avs-positioning-table td:has(fieldset) {
   align-content: start;
 }

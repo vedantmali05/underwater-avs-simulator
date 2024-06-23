@@ -119,18 +119,18 @@ function populateInputHistory(inputHistorySec, INPUT_HISTORY, formInputsSet, sea
         </tr>
         <tr>
             <td>AVS-1</td>
-            <td>${elem.avs1X} <span class="fs-300">X</span></td>
-            <td>${elem.avs1Y} <span class="fs-300">Y</span></td>
+            <td>${elem.avs1X} <span class="fs-300">X(m)</span></td>
+            <td>${elem.avs1Y} <span class="fs-300">Y(m)</span></td>
         </tr>
         <tr>
             <td>AVS-2</td>
-            <td>${elem.avs2X} <span class="fs-300">X</span></td>
-            <td>${elem.avs2Y} <span class="fs-300">Y</span></td>
+            <td>${elem.avs2X} <span class="fs-300">X(m)</span></td>
+            <td>${elem.avs2Y} <span class="fs-300">Y(m)</span></td>
         </tr>
         <tr>
             <td>Target</td>
-            <td>${elem.targetX} <span class="fs-300">X</span></td>
-            <td>${elem.targetY} <span class="fs-300">Y</span></td>
+            <td>${elem.targetX} <span class="fs-300">X(m)</span></td>
+            <td>${elem.targetY} <span class="fs-300">Y(m)</span></td>
         </tr>
         <tr>
             <td colspan="3"><button class="primary input-history-select-btn">Select</button></td>
