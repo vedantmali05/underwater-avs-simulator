@@ -83,6 +83,13 @@ export const UI_SIZE = {
     xl: "extra-large",
 }
 
+// GRAPH
+export const GRAPH_TYPE = {
+    positional: "positional",
+    spectrogram: "spectrogram",
+    waveform: "waveform"
+}
+
 /* ///////////////
     OTHER DATA
 /////////////// */

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estimated Target Positions</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="./assets/logo/favicon.svg" type="image/x-icon">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="./style/main.css">
+
+    <style>
+        .main-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .table-sec {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.6rem;
+        }
+
+        .table-sec .table-container {
+            margin: 0;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- NAVIGATION SIDEBAR STARTS -->
+    <nav>
+
+        <section class="nav-body">
+            <header>
+                <h2>Menu</h2>
+                <button class="icon nav-close-btn mobile-only" title="Close navigation menu"><i
+                        class="bi bi-arrow-left"></i></button>
+            </header>
+
+            <section class="nav-content">
+                <menu>
+                    <p class="overline">Output pages</p>
+                    <button class="menu-item">
+                        <a href="./avs-calculations.html">
+                            <span class="icon"><i class="bi bi-calculator"></i></span>
+                            <span class="icon filled"><i class="bi bi-calculator-fill"></i></span> AVS Calculations
+                        </a>
+                    </button>
+                    <button class="menu-item active">
+                        <a href="./estimated-target-positions.html">
+                            <span class="icon"><i class="bi bi-geo-alt"></i></span>
+                            <span class="icon filled"><i class="bi bi-geo-alt-fill"></i></span> Estimated Target
+                            Positions
+                        </a>
+                    </button>
+                    <button class="menu-item">
+                        <a href="#">
+                            <span class="icon"><i class="bi bi-activity"></i></span>
+                            <span class="icon filled"><i class="bi bi-activity"></i></span> Time Domain Waveform
+                        </a>
+                    </button>
+                    <button class="menu-item">
+                        <a href="#">
+                            <span class="icon"><i class="bi bi-soundwave"></i></span>
+                            <span class="icon filled"><i class="bi bi-soundwave"></i></span> Spectrogram Plot
+                        </a>
+                    </button>
+                </menu>
+                <div class="divider"></div>
+                <menu>
+                    <p class="overline">Input page</p>
+                    <button class="menu-item edit-data-btn">
+                        <a href="#">
+                            <span class="icon"><i class="bi bi-input-cursor-text"></i></span>
+                            <span class="icon filled"><i class="bi bi-input-cursor-text"></i></span> Edit Data
+                        </a>
+                    </button>
+                </menu>
+            </section>
+        </section>
+    </nav>
+    <!-- NAVIGATION SIDEBAR ENDS -->
+
+    <!-- MAIN STARTS -->
+    <main>
+        <!-- HEADER STARTS -->
+        <header>
+            <button class="icon nav-open-btn mobile-only" title="Open navigation menu"><i
+                    class="bi bi-list"></i></button>
+            <picture class="logo" data-size="extra-small"></picture>
+            <h1>Estimated Target <span class="gradient-accent">Positions</span></h1>
+            <button class="text input-aside-open-btn" style="background-color: var(--clr-accent-light);"><i
+                    class="bi bi-list-task"></i>Inputs</button>
+        </header>
+        <!-- HEADER ENDS -->
+
+        <!-- MAIN CONTENT STARTS -->
+        <section class="main-content">
+            <!-- Table Starts -->
+            <section class="table-sec">
+                <div>
+                    <!-- Heading -->
+                    <h2 class="fs-600">Estimated Displacement of AVS Sensors</h2>
+                    <!-- Details -->
+                    <p class="subtitle">Following data shows the actual and estimated target positions, with the range
+                        error. And it has been illustrated in the graph below the data.</p>
+                </div>
+                <!-- Table Displaying Positions -->
+                <section class="table-container estimated-positions-table">
+                    <table style="table-layout: fixed; max-width: 70rem;">
+                        <thead>
+                            <tr>
+                                <th>Parameters</th>
+                                <th>X(m)</th>
+                                <th>Y(m)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Target's Actual Coordinates</td>
+                                <td id="estimated_target_actualCoordinatesX">-</td>
+                                <td id="estimated_target_actualCoordinatesY">-</td>
+                            </tr>
+                            <tr>
+                                <td>Target's Estimated Coordinates</td>
+                                <td id="estimated_target_estimatedCoordinatesX">-</td>
+                                <td id="estimated_target_estimatedCoordinatesY">-</td>
+                            </tr>
+                            <tr>
+                                <td>Range Error (m)</td>
+                                <td id="estimated_target_rangeError" colspan="2">-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </section>
+            <!-- Table Ends -->
+
+            <!-- Graph Starts -->
+            <section>
+                <!-- Heading -->
+                <h2 class="fs-600">AVS and Target Positions Graph</h2>
+                <!-- Details -->
+                <p class="subtitle">Following data shows the actual and estimated target positions, with the range
+                    error. And it has been illustrated in the graph below the data.</p>
+
+
+                <!-- GRAPHS STARTS -->
+                <section class="graph-sec">
+                    <div class="graph-title">
+                        <h3>Graph Title</h3>
+                    </div>
+                    <div class="graph" id="graph_example">
+                    </div>
+                    <div>
+                        <p>Index</p>
+                        <ul class="index">
+                            <li class="index-item">
+                                <span class="index-symbol"><i class="bi bi-crosshair"></i></span> Lorem
+                            </li>
+                            <li class="index-item">
+                                <span class="index-symbol"><i class="bi bi-crosshair"></i></span> Ipsum
+                            </li>
+                            <li class="index-item">
+                                <span class="index-symbol"><i class="bi bi-crosshair"></i></span> Dolor
+                            </li>
+                            <li class="index-item">
+                                <span class="index-symbol"><i class="bi bi-crosshair"></i></span> Sic Mundus
+                            </li>
+                            <li class="index-item">
+                                <span class="index-symbol"><i class="bi bi-crosshair"></i></span> Creatus
+                            </li>
+                            <li class="index-item">
+                                <span class="index-symbol"><i class="bi bi-crosshair"></i></span> Est
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+                <!-- GRAPHS ENDS -->
+            </section>
+            <!-- Graph Ends -->
+
+        </section>
+        <!-- MAIN CONTENT STARTS -->
+    </main>
+    <!-- MAIN ENDS -->
+
+    <!-- INPUT HISTORY STARTS -->
+    <aside class="input-aside">
+
+        <!-- Input History Body Starts -->
+        <section class="aside-body">
+            <!-- Header -->
+            <header>
+                <h2>Source Inputs</h2>
+                <button class="icon input-aside-close-btn"><i class="bi bi-x mobile-only"></i><i
+                        class="bi bi-arrow-right desk-only"></i></button>
+            </header>
+
+            <!-- Aside Content -->
+            <section class="aside-content">
+                <!-- Caption -->
+                <p class="subtitle center-mobile">The following data sources are used to generate the current
+                    calculations and plots. You can modify these inputs to explore different scenarios.</p>
+
+                <!-- Edit Data Button -->
+                <button class="text edit-data-btn" style="margin-left: auto; color: var(--clr-accent);"> <i
+                        class="bi bi-input-cursor-text"></i> Edit Data</button>
+
+                <!-- Source Inputs -->
+                <section class="source-input-sec" id="source_input_box">
+                    <h3 class="nowrap">Environmental Parameters</h3>
+                    <div class="source-input">
+                        <p class="nowrap">Target Strength</p>
+                        <p class="input-value gradient-primary" id="source_data_targetStrength">-</p>
+                        <p class="subtitle nowrap">dB re 1 V/µPa</p>
+                    </div>
+                    <div class="source-input">
+                        <p class="nowrap">Noise Source Frequency</p>
+                        <p class="input-value gradient-primary" id="source_data_noiseSourceFrequency">-</p>
+                        <p class="subtitle nowrap">Hz (Hertz)</p>
+                    </div>
+                    <div class="source-input">
+                        <p class="nowrap">Signal Duration</p>
+                        <p class="input-value gradient-primary" id="source_data_signalDuration">-</p>
+                        <p class="subtitle nowrap">Seconds</p>
+                    </div>
+                    <div class="source-input">
+                        <p class="nowrap">Seastate</p>
+                        <p class="input-value gradient-primary" id="source_data_seastate">-</p>
+                        <p class="subtitle nowrap">Seastate</p>
+                    </div>
+                    <h3 class="nowrap">Sensor and Target Position</h3>
+                    <section class="positional-sec">
+                        <p class="nowrap">AVS-1</p>
+                        <div class="source-input">
+                            <p class="input-value gradient-primary" id="source_data_avs1X">-</p>
+                            <p class="subtitle nowrap">X(m)</p>
+                        </div>
+                        <div class="source-input">
+                            <p class="input-value gradient-primary" id="source_data_avs1Y">-</p>
+                            <p class="subtitle nowrap">Y(m)</p>
+                        </div>
+                        <p class="nowrap">AVS-2</p>
+                        <div class="source-input">
+                            <p class="input-value gradient-primary" id="source_data_avs2X">-</p>
+                            <p class="subtitle nowrap">X(m)</p>
+                        </div>
+                        <div class="source-input">
+                            <p class="input-value gradient-primary" id="source_data_avs2Y">-</p>
+                            <p class="subtitle nowrap">Y(m)</p>
+                        </div>
+                        <p class="nowrap">Target</p>
+                        <div class="source-input">
+                            <p class="input-value gradient-primary" id="source_data_targetX">-</p>
+                            <p class="subtitle nowrap">X(m)</p>
+                        </div>
+                        <div class="source-input">
+                            <p class="input-value gradient-primary" id="source_data_targetY">-</p>
+                            <p class="subtitle nowrap">Y(m)</p>
+                        </div>
+                    </section>
+                </section>
+            </section>
+        </section>
+        <!-- Input History Body Ends -->
+    </aside>
+    <!-- INPUT HISTORY ENDS -->
+
+    <script type="module" src="./js/index.js"></script>
+</body>
+
+</html>
