@@ -193,6 +193,7 @@ table caption,
 .fs-300 {
   color: var(--clr-grey-text);
   font-size: var(--fs-300);
+  max-width: 56rem;
 }
 
 h6,

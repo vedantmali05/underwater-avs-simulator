@@ -53,10 +53,14 @@ table fieldset input {
   border: none;
 }
 
+table tr > td:nth-of-type(2),
+table tr > td:nth-of-type(3) {
+  text-align: left;
+}
+
 .avs-positioning-table td:has(fieldset) {
   align-content: start;
 }
-
 
 .inputs-history-sec table {
   margin-top: 1.6rem;

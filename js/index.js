@@ -6,7 +6,9 @@ import {
     UI_STATUS_FEEDBACK,
 } from "./components/data.js";
 
-import { createDialog, createSnackbar, getParentElement, refreshInputs } from "./components/utils.js";
+import { createDialog, createSnackbar } from "./components/utils.js";
+import { getParentElement, refreshInputs } from "./components/utils.js";
+import { createGraph } from "./components/graphs.js";
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -116,4 +118,29 @@ document.addEventListener("DOMContentLoaded", () => {
             navElementArray.forEach(elem => elem.classList.remove("nav-visible"));
         }
     });
+
+    /* ///////////////
+        DISPLAY DATA
+    /////////////// */
+
+    let SOURCE_DATA =
+    {
+        targetStrength: 1,
+        noiseSourceFrequency: 2000,
+        signalDuration: 1.2,
+        avs1X: 10,
+        avs1Y: 25,
+        avs2X: 32,
+        avs2Y: 17,
+        targetX: 15,
+        targetY: 22,
+        seastate: 1,
+        recordTime: 1818960001371,
+    };
+
+    for (const [key, value] of Object.entries(SOURCE_DATA)) {
+        let elem = document.getElementById(`source_data_${key}`);
+        if (elem) elem.innerHTML = value;
+    }
+
 });
