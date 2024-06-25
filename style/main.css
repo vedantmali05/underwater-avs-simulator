@@ -775,20 +775,27 @@ table caption {
   border: 1px solid var(--clr-grey-divider);
 }
 
-.graph-sec .graph {
+.graph-sec > div {
+  padding: 0.8rem;
+}
+
+.graph-sec .graph-box {
   border: 1px solid var(--clr-grey-divider);
   border-left: none;
   border-right: none;
 }
 
-.graph-sec > div {
-  padding: 0.8rem;
-}
-
 .graph-sec h3 {
   font-size: var(--fs-500);
-  margin: 0;
-  width: 100%;
+}
+
+.graph-sec .controls-box {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  margin-left: auto;
+  background-color: var(--clr-grey-bg);
+  border-radius: 1.6rem;
 }
 
 .graph-sec .index {
@@ -805,7 +812,7 @@ table caption {
 }
 
 .graph-sec .index-item .index-symbol {
-  background-color: var(--clr-primary-hover);
+  background-color: var(--clr-index);
   display: grid;
   place-items: center;
   min-width: 2.4rem;

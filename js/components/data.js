@@ -65,6 +65,65 @@ export const UI_THEME = {
     dark: 2
 }
 
+// UI Colors
+export const UI_COLORS = {
+    primary: {
+        dark: "var(--clr-primary-dark)",
+        base: "var(--clr-primary)",
+        light: "var(--clr-primary-light)",
+        hover: "var(--clr-primary-hover)",
+        focus: "var(--clr-primary-focus)",
+        gradient: "linear-gradient(90deg, var(--clr-primary-light), var(--clr-primary-dark))",
+    },
+    accent: {
+        dark: "var(--clr-accent-dark)",
+        base: "var(--clr-accent)",
+        light: "var(--clr-accent-light)",
+        hover: "var(--clr-accent-hover)",
+        focus: "var(--clr-accent-focus)",
+        gradient: "linear-gradient(-180deg, var(--clr-accent-light), var(--clr-accent-dark))",
+    },
+    black: {
+        base: "var(--clr-black)",
+        light: "var(--clr-black-light)",
+    },
+    white: "var(--clr-white)",
+    grey: {
+        text: "var(--clr-grey-text)",
+        overlay: "var(--clr-grey-overlay)",
+        divider: "var(--clr-grey-divider)",
+        background: "var(--clr-grey-bg)",
+        hover: "var(--clr-grey-hover)",
+    },
+    status: {
+        info: {
+            lightBackground: "var(--clr-status-info-light-bg)",
+            darkBackground: "var(--clr-status-info-dark-bg)",
+            lightText: "var(--clr-status-info-light-text)",
+            darkText: "var(--clr-status-info-dark-text)",
+        },
+        success: {
+            lightBackground: "var(--clr-status-success-light-bg)",
+            darkBackground: "var(--clr-status-success-dark-bg)",
+            lightText: "var(--clr-status-success-light-text)",
+            darkText: "var(--clr-status-success-dark-text)",
+        },
+        warn: {
+            lightBackground: "var(--clr-status-warn-light-bg)",
+            darkBackground: "var(--clr-status-warn-dark-bg)",
+            lightText: "var(--clr-status-warn-light-text)",
+            darkText: "var(--clr-status-warn-dark-text)",
+        },
+        negative: {
+            lightBackground: "var(--clr-status-negative-light-bg)",
+            darkBackground: "var(--clr-status-negative-dark-bg)",
+            lightText: "var(--clr-status-negative-light-text)",
+            darkText: "var(--clr-status-negative-dark-text)",
+        },
+    },
+};
+
+
 // HTML UIs Classes
 export const UI_CLASSES = {
     fieldset: "fieldset",
@@ -88,6 +147,13 @@ export const GRAPH_TYPE = {
     positional: "positional",
     spectrogram: "spectrogram",
     waveform: "waveform"
+}
+
+export const GRAPH_INDEX_ITEM_TYPE = {
+    dot: "dot",
+    icon: "icon",
+    line: "line",
+    dottedLine: "dottedLine"
 }
 
 /* ///////////////

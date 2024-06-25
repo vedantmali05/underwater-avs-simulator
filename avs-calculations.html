@@ -24,7 +24,7 @@
             <header>
                 <h2>Menu</h2>
                 <button class="icon nav-close-btn mobile-only" title="Close navigation menu"><i
-                        class="bi bi-arrow-left"></i></button>
+                        class="bi bi-chevron-left"></i></button>
             </header>
 
             <section class="nav-content">
@@ -152,13 +152,13 @@
                 <!-- Heading -->
                 <h2 class="fs-600">Guide</h2>
                 <!-- Details -->
-                <p class="subtitle">Here is the short information about the <span
-                        class="gradient-accent">parameters</span>, <span class="gradient-accent">abbreviations</span>
-                    and <span class="gradient-accent">units</span> on this page</p>
+                <p class="subtitle">Here is the short information about the <a href="#guide_abbreviations"
+                        class="text-link">Abbreviations</a>, <a href="#guide_units" class="text-link">Units</a>
+                    and <a href="#guide_parameters" class="text-link">Parameters</a> on this page</p>
 
                 <!-- Full Forms -->
                 <div class="guide-box">
-                    <h3 class="fs-500">Full Forms</h3>
+                    <h3 class="fs-500" id="guide_abbreviations">Abbreviations</h3>
                     <ul>
                         <li><b>AVS</b>: Acoustic Vector Sensor</li>
                         <li><b>DoA</b>: Direction of Arrival</li>
@@ -169,7 +169,7 @@
                 <div class="divider"></div>
                 <!-- Units -->
                 <div class="guide-box">
-                    <h3 class="fs-500">Units</h3>
+                    <h3 class="fs-500" id="guide_units">Units</h3>
                     <ul>
                         <li><b>Meters (m)</b>: <br> Unit of distance for Range.</li>
                         <li><b>Decibels (dB)</b>: <br> Unit of sound pressure level for RNL and SNR.</li>
@@ -180,7 +180,7 @@
                 <div class="divider"></div>
                 <!-- Parameters -->
                 <div class="guide-box">
-                    <h3 class="fs-500">Parameters</h3>
+                    <h3 class="fs-500" id="guide_parameters">Parameters</h3>
                     <ul>
                         <li><b>Range</b>: <br> The distance between the AVS sensor and the detected object.</li>
                         <li><b>Received Noise Level (RNL)</b>: <br> The strength of the background noise received by the
@@ -223,7 +223,7 @@
             <header>
                 <h2>Source Inputs</h2>
                 <button class="icon input-aside-close-btn"><i class="bi bi-x mobile-only"></i><i
-                        class="bi bi-arrow-right desk-only"></i></button>
+                        class="bi bi-chevron-right desk-only"></i></button>
             </header>
 
             <!-- Aside Content -->
