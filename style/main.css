@@ -917,6 +917,96 @@ table caption {
   left: calc((var(--value-width) * -1) - 0.2rem);
 }
 
+/* DOT POINT HOLDER, DOT POINTS and TOOLTIPS */
+
+.dot-point-holder {
+  width: calc(100% - 2.4rem);
+  height: calc(100% - 2.4rem);
+  bottom: 0;
+  left: 0;
+  position: absolute;
+}
+
+.dot-point {
+  --clr-inset-border: var(--clr-primary-light);
+  position: absolute;
+  background-color: var(--clr-point);
+  min-width: 1.2rem;
+  max-width: 1.2rem;
+  min-height: 1.2rem;
+  max-height: 1.2rem;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  left: var(--x-percentage);
+  bottom: calc(var(--y-percentage) - 1.2rem);
+  box-shadow: inset 0 0 0 1px var(--clr-inset-border);
+  cursor: pointer;
+}
+
+.dot-point i {
+  font-size: var(--fs-200);
+}
+
+.dot-point:has(i) {
+  --clr-inset-border: transparent;
+}
+
+.dot-point i::before {
+  width: 1.2rem;
+}
+
+.dot-point-tooltip {
+  position: absolute;
+  background-color: var(--clr-black-light);
+  color: var(--clr-white);
+  bottom: calc(100% + 0.4rem);
+  left: var(--x-percentage);
+  transform: translateX(-50%);
+  padding: 0.8rem;
+  border-radius: 0.8rem;
+  visibility: hidden;
+  opacity: 0;
+}
+
+.dot-point-tooltip .label {
+  color: var(--clr-accent-light);
+}
+
+.dot-point-tooltip .subtitle {
+  color: var(--clr-grey-bg);
+}
+
+/* DOT POINT HOVER EFFECTS */
+.dot-point:hover {
+  box-shadow: inset 0 0 0 1px var(--clr-inset-border),
+    0 0 0 8px var(--clr-primary-hover);
+}
+
+.dot-point:hover + .dot-point-tooltip {
+  box-shadow: 0 0 0 8px var(--clr-primary-hover);
+}
+
+/* Selected */
+
+.dot-point.selected,
+.dot-point-tooltip.visible {
+  box-shadow: inset 0 0 0 1px var(--clr-inset-border),
+    0 0 0 2px var(--clr-primary-light);
+}
+
+.dot-point:hover + .dot-point-tooltip,
+.dot-point-tooltip.visible {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Hovering After Selected */
+.dot-point.selected:hover,
+.dot-point:hover + .dot-point-tooltip.visible {
+  box-shadow: inset 0 0 0 1px var(--clr-inset-border),
+    0 0 0 2px var(--clr-primary-light), 0 0 0 8px var(--clr-primary-hover);
+}
+
 /* GRAPH INDEX SECTION */
 
 .graph-sec .index {

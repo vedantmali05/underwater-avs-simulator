@@ -41,7 +41,8 @@ button i {
   font-size: var(--fs-500) !important;
 }
 
-button.icon > i::before {
+button.icon > i::before,
+.dot-point > i::before {
   width: 3.2rem;
   aspect-ratio: 1;
   display: flex;

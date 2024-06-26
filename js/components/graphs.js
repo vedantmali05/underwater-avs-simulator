@@ -1,5 +1,6 @@
 // IMPORTS
 import { GRAPH_AXIS_TYPE, GRAPH_TYPE, UI_COLORS } from "./data.js"
+import { getCoordinatePercentages } from "./utils.js"
 
 
 /* ///////////////
@@ -168,9 +169,12 @@ function createAxisGridLines(axisType, axisInfo, holder) {
         if (!Number.isInteger(i)) i = i.toFixed(4);
         // Create and append the grid lines
         let gridLine = document.createElement("span");
-        gridLine.classList.add(`grid-line-${axisType}`);
         gridLine.innerHTML = `<span class="value">${i}</span><span class="line"></span><span class="point"></span>`;
-        holder.append(gridLine);
+        gridLine.classList.add(`grid-line-${axisType}`);
+        if (axisType == GRAPH_AXIS_TYPE.x)
+            holder.append(gridLine);
+        else
+            holder.prepend(gridLine);
     }
 }
 
@@ -241,7 +245,7 @@ export function createGraph(options = {}) {
     gridXElems.forEach((elem, i) => {
         elem.style.left = `calc(${i * gridXIntervals}% - ${Math.floor(elem.clientWidth) / 2}px)`;
     });
-    
+
     // Position Y Axis Lines 
     let longestValue = 0;
     gridYElems.forEach((elem, i) => {
@@ -254,4 +258,47 @@ export function createGraph(options = {}) {
     graphBox.style.setProperty("--height", (gridYElems.length * 3) + "ch");
     graphSec.style.setProperty("--value-width", longestValue + "ch");
 
+    if (type == GRAPH_TYPE.positional) {
+        setDotPoints(dotPoints, axisX, axisY, graphHolder);
+    }
+}
+
+// Setting Dot Points on the graph
+function setDotPoints(dotPoints, axisX, axisY, graphHolder) {
+    // Create dot point holder element
+    let dotPointHolder = document.createElement("div");
+    dotPointHolder.classList.add("dot-point-holder");
+    graphHolder.append(dotPointHolder);
+
+    // For Each Dot Point in the Array
+    dotPoints.forEach(point => {
+        // Creating a Dot Point and append to dotPointHolder
+        let dotPointElem = document.createElement("span");
+        dotPointElem.classList.add("dot-point");
+        if (point.icon) dotPointElem.innerHTML = `<i class="bi bi-${point.icon}"></i>`;
+        dotPointHolder.append(dotPointElem);
+
+        // Creating corresponding tooltip and append to dotPointHolder
+        let tooltipElem = document.createElement("span");
+        tooltipElem.classList.add("dot-point-tooltip");
+        tooltipElem.innerHTML = `
+        <div class="label">${point.label}</div>
+        <div class="subtitle">x:${point.x}, y:${point.y}</div>`;
+        dotPointHolder.append(tooltipElem);
+
+        // Set color to Point
+        dotPointElem.style.setProperty("--clr-point", point.color);
+
+        // Positioning the Dot Point and it's tooltip
+        const [xPercentage, yPercentage] = getCoordinatePercentages(point.x, point.y, axisX, axisY);
+        dotPointElem.style.setProperty("--x-percentage", xPercentage + "%");
+        dotPointElem.style.setProperty("--y-percentage", yPercentage + "%");
+        tooltipElem.style.setProperty("--x-percentage", xPercentage + "%");
+
+        // Tooltip and Point Selection Event
+        dotPointElem.addEventListener("click", () => {
+            dotPointElem.classList.toggle("selected");
+            tooltipElem.classList.toggle("visible");
+        });
+    });
 }

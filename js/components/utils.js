@@ -300,3 +300,23 @@ export function getRandomInRange(min, max) {
     // Return Random Array element
     return allNumbers[Math.floor(Math.random() * allNumbers.length)];
 }
+
+// CALCULATE POSITION PERCENTAGES
+export function getCoordinatePercentages(targetX, targetY, axisX, axisY) {
+    // Adjust minimum values for centered origins
+    let minX = axisX.originPoint;
+    if (axisX.centeredOrigin) {
+        minX -= (axisX.maxPoint - minX);
+    }
+
+    let minY = axisY.originPoint;
+    if (axisY.centeredOrigin) {
+        minY -= (axisY.maxPoint - minY);
+    }
+
+    // Calculate position percentages
+    let xPercentage = ((targetX - minX) / (axisX.maxPoint - minX)) * 100;
+    let yPercentage = ((targetY - minY) / (axisY.maxPoint - minY)) * 100;
+
+    return [xPercentage, yPercentage];
+}

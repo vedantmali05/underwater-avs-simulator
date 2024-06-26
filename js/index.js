@@ -157,11 +157,12 @@ document.addEventListener("DOMContentLoaded", () => {
     let graphDotPoints = [
         new GraphDotPoint(graphIndexItems[0], 100, 100),
         new GraphDotPoint(graphIndexItems[1], 200, 200),
-        new GraphDotPoint(graphIndexItems[2], 300, 300)
+        new GraphDotPoint(graphIndexItems[2], 210, 210)
     ];
     // X and Y Axis
-    let graphAxisX = new GraphAxisX("Distance (meters)", 20, 100);
-    let graphAxisY = new GraphAxisY("Time (seconds)", 2, 6);
+    let graphAxisX = new GraphAxisX("Distance (meters)", 100, 500);
+    let graphAxisY = new GraphAxisY("Time (seconds)", 100, 500);
+    // graphAxisX.centeredOrigin = true;
     
     // Graph Settings
     let graph = new Graph("graph_example", "Example Graph", "This graph is meow cheow", GRAPH_TYPE.positional);
