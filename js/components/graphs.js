@@ -1,5 +1,5 @@
 // IMPORTS
-import { GRAPH_TYPE, UI_COLORS } from "./data.js"
+import { GRAPH_AXIS_TYPE, GRAPH_TYPE, UI_COLORS } from "./data.js"
 
 
 /* ///////////////
@@ -58,7 +58,7 @@ export class GraphAxisY extends GraphAxis {
     }
 }
 
-
+// GRAPH
 export class Graph {
     constructor(parentID, title, description, type) {
         this.parentID = parentID;
@@ -72,11 +72,8 @@ export class Graph {
         this.dotPoints = [];
     }
 
-    setAxisX(axisX) {
+    setAxis(axisX, axisY) {
         this.axisX = axisX;
-    }
-
-    setAxisY(axisY) {
         this.axisY = axisY;
     }
 
@@ -152,6 +149,32 @@ function createGraphIndexSec(indexItems) {
     return indexSec;
 }
 
+// FUNCTION TO CREATE AXIS GRID LINES
+function createAxisGridLines(axisType, axisInfo, holder) {
+
+    // axisInfo destructuring
+    const { originPoint, maxPoint, centeredOrigin, pointDifference } = axisInfo;
+
+    // START AND END for Iteration
+    let start = originPoint;
+    let end = maxPoint;
+
+    // If origin in center,
+    if (centeredOrigin) start -= (maxPoint - start);
+
+    // Append Lines
+    for (let i = start; i <= end; i += pointDifference) {
+        // Only upto 4 decimal points allowed
+        if (!Number.isInteger(i)) i = i.toFixed(4);
+        // Create and append the grid lines
+        let gridLine = document.createElement("span");
+        gridLine.classList.add(`grid-line-${axisType}`);
+        gridLine.innerHTML = `<span class="value">${i}</span><span class="line"></span><span class="point"></span>`;
+        holder.append(gridLine);
+    }
+}
+
+// FUNCTION TO CREATE GRAPH UI
 export function createGraph(options = {}) {
     // BUILDING GRAPH
     const {
@@ -166,15 +189,69 @@ export function createGraph(options = {}) {
         dotPoints,
     } = options;
 
-    // GRAPH SECTION
-    let graphSec = document.getElementById(parentID);
 
-    let graphBox = document.createElement("div");
+    // Create the main graph container element
+    const graphBox = document.createElement("div");
     graphBox.classList.add("graph-box");
 
+    // X and Y Axis name and label
+    const axisXLabel = document.createElement("p");
+    axisXLabel.classList.add("axis-x-label");
+    axisXLabel.innerText = axisX.label;
+
+    const axisYLabel = document.createElement("p");
+    axisYLabel.classList.add("axis-y-label");
+    axisYLabel.innerText = axisY.label;
+    // Appending created X and Y Labels
+    graphBox.append(axisXLabel, axisYLabel);
+
+    // Create the graph holder element and its sub-containers
+    const graphHolder = document.createElement("div");
+    graphHolder.classList.add("graph-holder");
+    // X Axis Grid lines
+    let gridLineXHolder = document.createElement("div");
+    gridLineXHolder.classList.add("grid-line-x-holder");
+    // Y Axis Grid lines
+    let gridLineYHolder = document.createElement("div");
+    gridLineYHolder.classList.add("grid-line-y-holder");
+    // Appending created Grid Lines holders
+    graphHolder.append(gridLineXHolder, gridLineYHolder);
+    graphBox.append(graphHolder);
+
+    // Create X and Y Grid Lines and Append them
+    createAxisGridLines(GRAPH_AXIS_TYPE.x, axisX, gridLineXHolder);
+    createAxisGridLines(GRAPH_AXIS_TYPE.y, axisY, gridLineYHolder);
+
+    // GET GRAPH SECTION by parentID and append Title Section, Graph and Index Items
+    const graphSec = document.getElementById(parentID);
+    // APPENDING 
     graphSec.append(
         createGraphTitleSec(title, description, controls),
         graphBox,
         createGraphIndexSec(indexItems)
     );
+
+    // GRID X and Y Elems Positioning and Sizing
+    let gridXElems = graphSec.querySelectorAll(".grid-line-x");
+    let gridYElems = graphSec.querySelectorAll(".grid-line-y");
+    let gridXIntervals = 100 / (gridXElems.length - 1);
+    let gridYIntervals = 100 / (gridYElems.length - 1);
+
+    // Position X Axis Lines 
+    gridXElems.forEach((elem, i) => {
+        elem.style.left = `calc(${i * gridXIntervals}% - ${Math.floor(elem.clientWidth) / 2}px)`;
+    });
+    
+    // Position Y Axis Lines 
+    let longestValue = 0;
+    gridYElems.forEach((elem, i) => {
+        elem.style.top = `calc(${i * gridYIntervals}% - ${Math.floor(elem.clientHeight / 2)}px)`;
+        let elemValue = elem.querySelector(".value").innerHTML;
+        if (elemValue.length > longestValue) longestValue = elemValue.length;
+    });
+
+    // Set Height and Width Properties
+    graphBox.style.setProperty("--height", (gridYElems.length * 3) + "ch");
+    graphSec.style.setProperty("--value-width", longestValue + "ch");
+
 }

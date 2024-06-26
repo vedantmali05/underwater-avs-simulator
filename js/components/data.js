@@ -156,6 +156,11 @@ export const GRAPH_INDEX_ITEM_TYPE = {
     dottedLine: "dottedLine"
 }
 
+export const GRAPH_AXIS_TYPE = {
+    x: "x",
+    y: "y",
+}
+
 /* ///////////////
     OTHER DATA
 /////////////// */

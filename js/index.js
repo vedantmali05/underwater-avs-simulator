@@ -147,26 +147,28 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // POPULATING GRAPH
-    let graphControls = new GraphControls();
+    // Graph Items
     let graphIndexItems = [
         new GraphIndexItem("Item 1", GRAPH_INDEX_ITEM_TYPE.dot, UI_COLORS.primary.base),
         new GraphIndexItem("Item 2", GRAPH_INDEX_ITEM_TYPE.dot, UI_COLORS.accent.base),
         new GraphIndexItem("Item 3", GRAPH_INDEX_ITEM_TYPE.icon, UI_COLORS.accent.hover, `crosshair`),
     ];
+    // Dot Points
     let graphDotPoints = [
         new GraphDotPoint(graphIndexItems[0], 100, 100),
         new GraphDotPoint(graphIndexItems[1], 200, 200),
         new GraphDotPoint(graphIndexItems[2], 300, 300)
     ];
-    let graphAxisX = new GraphAxisX("Distance (m)", 20, 100);
-    let graphAxisY = new GraphAxisY("Time (seconds)", 2, 10);
-    graphAxisY.centeredOrigin = true;
-
+    // X and Y Axis
+    let graphAxisX = new GraphAxisX("Distance (meters)", 20, 100);
+    let graphAxisY = new GraphAxisY("Time (seconds)", 2, 6);
+    
+    // Graph Settings
     let graph = new Graph("graph_example", "Example Graph", "This graph is meow cheow", GRAPH_TYPE.positional);
     graph.addDotPoints(graphDotPoints);
     graph.addIndexItems(graphIndexItems);
-    graph.setAxisX(graphAxisX);
-    graph.setAxisY(graphAxisY);
+    graph.setAxis(graphAxisX, graphAxisY);
 
+    // Create Graph
     createGraph(graph);
 });
