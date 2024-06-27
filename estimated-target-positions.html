@@ -27,6 +27,17 @@
         .table-sec .table-container {
             margin: 0;
         }
+
+        .graphs-toggle-sec .toggle-btn-box {
+            margin-bottom: 1.6rem;
+            margin-left: auto;
+        }
+
+        .graphs-toggle-sec .graph-sec:not(.visible) {
+            position: absolute;
+            opacity: 0;
+            visibility: hidden;
+        }
     </style>
 
 </head>
@@ -142,21 +153,27 @@
             </section>
             <!-- Table Ends -->
 
-            <!-- Graph Starts -->
-            <section>
-                <!-- Heading -->
-                <h2 class="fs-600">AVS and Target Positions Graph</h2>
-                <!-- Details -->
-                <p class="subtitle">Following data shows the actual and estimated target positions, with the range
-                    error. And it has been illustrated in the graph below the data.</p>
+            <section class="graphs-toggle-sec" id="graph_toggle_sec">
 
+                <div class="toggle-btn-box center-mobile">
+                    <button class="toggle-btn text" data-target-id="avs_target_position">AVS and Target
+                        Position</button>
+                    <button class="toggle-btn text selected" data-target-id="estimated_target_position">Estimated Target
+                        Position</button>
+                </div>
 
-                <!-- GRAPHS STARTS -->
-                <section class="graph-sec" id="graph_example">
+                <!-- AVS and TARGET POSITION's GRAPH STARTS -->
+                <section>
+                    <section class="graph-sec" id="avs_target_position"></section>
                 </section>
-                <!-- GRAPHS ENDS -->
+                <!-- AVS and TARGET POSITION's GRAPH ENDS -->
+                <!-- ESTIMATED TARGET POSITION's GRAPH STARTS -->
+                <section>
+                    <section class="graph-sec visible" id="estimated_target_position"></section>
+                </section>
+                <!-- ESTIMATED TARGET POSITION's GRAPH ENDS -->
+
             </section>
-            <!-- Graph Ends -->
 
         </section>
         <!-- MAIN CONTENT STARTS -->
@@ -246,6 +263,7 @@
     <!-- INPUT HISTORY ENDS -->
 
     <script type="module" src="./js/index.js"></script>
+    <script type="module" src="./js/estimated-target-positions.js"></script>
 </body>
 
 </html>

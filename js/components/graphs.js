@@ -38,24 +38,25 @@ export class GraphDotPoint {
 
 // Graph's X Axis and Y Axis
 export class GraphAxis {
-    constructor(label, pointDifference, maxPoint) {
+    constructor(label, setDynamically = true, pointDifference = 0, maxPoint = 0) {
         this.label = label;
         this.originPoint = 0;
         this.centeredOrigin = false;
         this.pointDifference = pointDifference;
         this.maxPoint = maxPoint;
+        this.setDynamically = setDynamically;
     }
 }
 
 export class GraphAxisX extends GraphAxis {
-    constructor(label, pointDifference, maxPoint) {
-        super(label, pointDifference, maxPoint);
+    constructor(label, setDynamically = true, pointDifference = 0, maxPoint = 0) {
+        super(label, setDynamically, pointDifference, maxPoint);
     }
 }
 
 export class GraphAxisY extends GraphAxis {
-    constructor(label, pointDifference, maxPoint) {
-        super(label, pointDifference, maxPoint);
+    constructor(label, setDynamically = true, pointDifference = 0, maxPoint = 0) {
+        super(label, setDynamically, pointDifference, maxPoint);
     }
 }
 
@@ -95,7 +96,7 @@ export class Graph {
 /////////////// */
 
 // Create the TITLE SECTION of the Graph
-function createGraphTitleSec(title, description, controls) {
+function createGraphTitleSec(title, description, controls, indexItems) {
     // Create the title section element
     let titleSec = document.createElement("div");
     titleSec.classList.add("title-sec");
@@ -105,18 +106,20 @@ function createGraphTitleSec(title, description, controls) {
         <h3>${title}</h3>
         ${description ? `<p class="subtitle">${description}</p>` : ``}
         <div class="controls-box">
-            ${controls.clearGraph ?
-            `<button class="icon negative control-clear-graph"><i class="bi bi-trash"></i></button>` : ``}  
-            ${controls.saveAsPDF ?
-            `<button class="icon control-save-as-pdf"><i class="bi bi-filetype-pdf"></i></button>` : ``}
+            <div class="controls">
             ${controls.pan ?
             `<button class="icon control-pan"><i class="bi bi-arrows-move"></i></button>` : ``}
-            ${controls.zoom ?
-            `<button class="icon control-zoom-in"><i class="bi bi-zoom-in"></i></button>
+            ${controls.zoom ?    
+            `<span class="btn-box">
+            <button class="icon control-zoom-in"><i class="bi bi-zoom-in"></i></button>
              <span>Zoom</span>
-             <button class="icon control-zoom-out"><i class="bi bi-zoom-out"></i></button>` : ``}
+             <button class="icon control-zoom-out"><i class="bi bi-zoom-out"></i></button>
+             </span>` : ``}
+            </div>
         </div>
     `;
+
+    titleSec.querySelector(".controls-box").prepend(createGraphIndexSec(indexItems))
 
     // Return to append
     return titleSec;
@@ -136,13 +139,12 @@ function createGraphIndexSec(indexItems) {
             <span class="index-symbol ${item.type}">
             ${item.icon ? `<i class="bi bi-${item.icon}"></i>` : ``}
             </span> 
-            ${item.label}
+            <span class="fs-300">${item.label}</span>
         </li>
         `;
     });
 
     indexSec.innerHTML = `
-        <p>Index</p>
         <ul class="index">${indexItemsHTML}</ul>
     `;
 
@@ -166,16 +168,40 @@ function createAxisGridLines(axisType, axisInfo, holder) {
     // Append Lines
     for (let i = start; i <= end; i += pointDifference) {
         // Only upto 4 decimal points allowed
-        if (!Number.isInteger(i)) i = i.toFixed(4);
+        const pointValue = !Number.isInteger(i) ? i.toFixed(4).replace(/0+$/, "") : i;
         // Create and append the grid lines
         let gridLine = document.createElement("span");
-        gridLine.innerHTML = `<span class="value">${i}</span><span class="line"></span><span class="point"></span>`;
+        gridLine.innerHTML = `<span class="value">${pointValue}</span><span class="line"></span><span class="point"></span>`;
         gridLine.classList.add(`grid-line-${axisType}`);
         if (axisType == GRAPH_AXIS_TYPE.x)
             holder.append(gridLine);
         else
             holder.prepend(gridLine);
     }
+}
+
+// FUNCTION TO SET MIN AND MAX AXIS POINTS DYNAMICALLY
+function setMinMaxDynamically(axisType, axis, dotPoints) {
+    // If setDynamically is true,
+    if (axis.setDynamically) {
+        // Don't center the origin
+        axis.centeredOrigin = false;
+
+        // Find lowest and highest values (X or Y) among all dotPoints
+        let lowest = dotPoints[0][axisType];
+        let highest = dotPoints[0][axisType];
+        dotPoints.forEach(point => {
+            lowest = Math.min(lowest, point[axisType]);
+            highest = Math.max(highest, point[axisType]);
+        });
+
+        // Set axis origin and max point with point difference
+        axis.pointDifference = Math.round((highest - lowest) / 5);
+        axis.originPoint = Math.round(lowest - axis.pointDifference);
+        axis.maxPoint = Math.round(highest + axis.pointDifference);
+
+    }
+    return axis;
 }
 
 // FUNCTION TO CREATE GRAPH UI
@@ -188,11 +214,13 @@ export function createGraph(options = {}) {
         type,
         controls,
         indexItems,
-        axisX,
-        axisY,
         dotPoints,
     } = options;
+    let { axisX, axisY } = options;
 
+    // Set X and Y originPoint, maxPoint and pointDifference dynamically
+    axisX = setMinMaxDynamically(GRAPH_AXIS_TYPE.x, axisX, dotPoints);
+    axisY = setMinMaxDynamically(GRAPH_AXIS_TYPE.y, axisY, dotPoints);
 
     // Create the main graph container element
     const graphBox = document.createElement("div");
@@ -228,11 +256,11 @@ export function createGraph(options = {}) {
 
     // GET GRAPH SECTION by parentID and append Title Section, Graph and Index Items
     const graphSec = document.getElementById(parentID);
+
     // APPENDING 
     graphSec.append(
-        createGraphTitleSec(title, description, controls),
+        createGraphTitleSec(title, description, controls, indexItems),
         graphBox,
-        createGraphIndexSec(indexItems)
     );
 
     // GRID X and Y Elems Positioning and Sizing
@@ -287,7 +315,7 @@ function setDotPoints(dotPoints, axisX, axisY, graphHolder) {
         dotPointHolder.append(tooltipElem);
 
         // Set color to Point
-        dotPointElem.style.setProperty("--clr-point", point.color);
+        dotPointElem.style.setProperty("--clr-index", point.color);
 
         // Positioning the Dot Point and it's tooltip
         const [xPercentage, yPercentage] = getCoordinatePercentages(point.x, point.y, axisX, axisY);

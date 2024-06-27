@@ -133,6 +133,7 @@ button,
 .gradient-accent {
   background-image: var(--gradient-primary);
   -webkit-background-clip: text;
+  background-clip: text;
   color: transparent;
 }
 
@@ -397,14 +398,13 @@ nav header {
   align-items: center;
   justify-content: space-between;
   gap: 0.8rem;
-  border-bottom: 1px solid var(--clr-grey-divider);
+  border-bottom: 1px solid var(--clr-primary);
   background-color: var(--clr-white);
   padding: 0 0.8rem;
   min-height: 4.04rem;
 }
 
 main header {
-  border-bottom-color: var(--clr-accent);
   box-shadow: 0px 4px 10px 0px #00000025;
 }
 
@@ -532,10 +532,10 @@ nav .nav-body .nav-content {
     opacity: 1;
   }
   aside {
-    border-left: 1px solid var(--clr-accent);
+    border-left: 1px solid var(--clr-primary);
   }
   nav {
-    border-right: 1px solid var(--clr-accent);
+    border-right: 1px solid var(--clr-primary);
   }
   .input-aside-close-btn {
     position: static;
@@ -629,16 +629,16 @@ nav.nav-visible .nav-body {
   width: 100%;
 }
 
+.nav-content .menu-item a i {
+  color: var(--clr-primary);
+}
+
 /* Menu Item Hover Effects */
 .menu-item:hover {
   background-color: var(--clr-grey-hover);
 }
 
 /* Active Menu Item - Color and Icon change */
-.menu-item.active {
-  background-color: var(--clr-primary-focus);
-}
-
 .menu-item .icon.filled,
 .menu-item.active .icon:not(.filled) {
   visibility: hidden;
@@ -651,8 +651,8 @@ nav.nav-visible .nav-body {
 }
 
 .menu-item.active {
-  background-color: var(--clr-primary-focus);
-  color: var(--clr-primary);
+  background-color: var(--clr-primary-hover);
+  color: var(--clr-primary-dark);
 }
 
 /* /////////////////////////
@@ -766,13 +766,12 @@ table caption {
 }
 
 /* /////////////////////////
-  GRAPHS
+GRAPHS
 ///////////////////////// */
 
 .graph-sec {
-  margin: 1.6rem 0;
-  border-radius: 1.6rem;
-  border: 1px solid var(--clr-grey-divider);
+  border-radius: 0.8rem;
+  overflow: hidden;
 }
 
 .graph-sec > div {
@@ -785,22 +784,58 @@ table caption {
   font-size: var(--fs-500);
 }
 
-.graph-sec .controls-box {
+.graph-sec .controls-box,
+.graph-sec .controls-box .controls,
+.graph-sec .controls-box .controls .btn-box {
   display: flex;
   align-items: center;
-  justify-content: flex-end;
-  margin-left: auto;
-  width: fit-content;
-  background-color: var(--clr-grey-bg);
+  justify-content: space-between;
   border-radius: 1.6rem;
+}
+
+.graph-sec .controls-box {
+  margin-top: 1.6rem;
+  flex-wrap: wrap;
+  border: 1px solid var(--clr-primary-hover);
+}
+
+.graph-sec .controls-box .controls {
+  border: 1px solid var(--clr-primary-focus);
+  margin-left: auto;
+}
+
+/* GRAPH INDEX SECTION */
+
+.graph-sec .index {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0.8rem;
+  gap: 1.6rem;
+}
+
+.graph-sec .index-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.graph-sec .index-item .index-symbol,
+.dot-point {
+  background-color: var(--clr-index);
+  display: grid;
+  place-items: center;
+  min-width: 1.2rem;
+  max-width: 1.2rem;
+  min-height: 1.2rem;
+  max-height: 1.2rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  font-size: var(--fs-200);
 }
 
 /* GRAPH SECTION */
 
 .graph-sec .graph-box {
-  border: 1px solid var(--clr-grey-divider);
-  border-left: none;
-  border-right: none;
   padding: 2.4rem;
   min-height: calc(var(--height) + 12.8rem);
   position: relative;
@@ -847,13 +882,12 @@ table caption {
 .graph-holder .grid-line-y-holder {
   display: flex;
   z-index: -1;
-  color: var(--clr-grey-text);
+  color: var(--clr-primary);
 }
 
 .graph-holder .grid-line-x-holder {
   width: calc(100% - 2.4rem);
   height: 100%;
-  left: -0.05rem;
 }
 
 .graph-holder .grid-line-y-holder {
@@ -885,12 +919,12 @@ table caption {
 }
 
 .grid-line-x .line {
-  border-left: 1px solid var(--clr-grey-divider);
+  border-left: 1px dotted var(--clr-primary-light);
   height: 100%;
 }
 
 .grid-line-y .line {
-  border-top: 1px solid var(--clr-grey-divider);
+  border-top: 1px dotted var(--clr-primary-light);
   width: 100%;
 }
 
@@ -920,6 +954,7 @@ table caption {
 /* DOT POINT HOLDER, DOT POINTS and TOOLTIPS */
 
 .dot-point-holder {
+  --clr-inset-border: var(--clr-primary-light);
   width: calc(100% - 2.4rem);
   height: calc(100% - 2.4rem);
   bottom: 0;
@@ -928,14 +963,7 @@ table caption {
 }
 
 .dot-point {
-  --clr-inset-border: var(--clr-primary-light);
   position: absolute;
-  background-color: var(--clr-point);
-  min-width: 1.2rem;
-  max-width: 1.2rem;
-  min-height: 1.2rem;
-  max-height: 1.2rem;
-  border-radius: 50%;
   transform: translate(-50%, -50%);
   left: var(--x-percentage);
   bottom: calc(var(--y-percentage) - 1.2rem);
@@ -959,6 +987,7 @@ table caption {
   position: absolute;
   background-color: var(--clr-black-light);
   color: var(--clr-white);
+  width: max-content;
   bottom: calc(100% + 0.4rem);
   left: var(--x-percentage);
   transform: translateX(-50%);
@@ -966,6 +995,10 @@ table caption {
   border-radius: 0.8rem;
   visibility: hidden;
   opacity: 0;
+}
+
+.dot-point-tooltip:hover {
+  z-index: 11;
 }
 
 .dot-point-tooltip .label {
@@ -1002,35 +1035,7 @@ table caption {
 
 /* Hovering After Selected */
 .dot-point.selected:hover,
-.dot-point:hover + .dot-point-tooltip.visible {
+.dot-point.selected:hover + .dot-point-tooltip.visible {
   box-shadow: inset 0 0 0 1px var(--clr-inset-border),
     0 0 0 2px var(--clr-primary-light), 0 0 0 8px var(--clr-primary-hover);
-}
-
-/* GRAPH INDEX SECTION */
-
-.graph-sec .index {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 0.8rem;
-  gap: 1.6rem;
-}
-
-.graph-sec .index-item {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-}
-
-.graph-sec .index-item .index-symbol {
-  background-color: var(--clr-index);
-  display: grid;
-  place-items: center;
-  min-width: 2rem;
-  max-width: 2rem;
-  min-height: 2rem;
-  max-height: 2rem;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  font-size: var(--fs-300);
 }
