@@ -69,6 +69,26 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    // TOGGLE BUTTONS
+    let toggleBtnBoxesArr = document.querySelectorAll(".toggle-btn-box");
+
+
+    toggleBtnBoxesArr.forEach(box => {
+        let btnsArr = box.querySelectorAll("button");
+
+        btnsArr.forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                e.preventDefault();
+                btnsArr.forEach(otherBtns => {
+                    otherBtns.classList.remove("selected")
+                    document.querySelector(`#${otherBtns.getAttribute("data-target-id")}`).classList.remove("visible");
+                })
+                btn.classList.add("selected");
+                document.querySelector(`#${btn.getAttribute("data-target-id")}`).classList.add("visible");
+            })
+        })
+    })
+
     /* ///////////////
         Typography and Accessibility
     /////////////// */
@@ -145,31 +165,4 @@ document.addEventListener("DOMContentLoaded", () => {
         let elem = document.getElementById(`source_data_${key}`);
         if (elem) elem.innerHTML = value;
     }
-
-    // POPULATING GRAPH
-    // Graph Items
-    let graphIndexItems = [
-        new GraphIndexItem("Item 1", GRAPH_INDEX_ITEM_TYPE.dot, UI_COLORS.primary.base),
-        new GraphIndexItem("Item 2", GRAPH_INDEX_ITEM_TYPE.dot, UI_COLORS.accent.base),
-        new GraphIndexItem("Item 3", GRAPH_INDEX_ITEM_TYPE.icon, UI_COLORS.accent.hover, `crosshair`),
-    ];
-    // Dot Points
-    let graphDotPoints = [
-        new GraphDotPoint(graphIndexItems[0], 100, 100),
-        new GraphDotPoint(graphIndexItems[1], 200, 200),
-        new GraphDotPoint(graphIndexItems[2], 210, 210)
-    ];
-    // X and Y Axis
-    let graphAxisX = new GraphAxisX("Distance (meters)", 100, 500);
-    let graphAxisY = new GraphAxisY("Time (seconds)", 100, 500);
-    // graphAxisX.centeredOrigin = true;
-    
-    // Graph Settings
-    let graph = new Graph("graph_example", "Example Graph", "This graph is meow cheow", GRAPH_TYPE.positional);
-    graph.addDotPoints(graphDotPoints);
-    graph.addIndexItems(graphIndexItems);
-    graph.setAxis(graphAxisX, graphAxisY);
-
-    // Create Graph
-    createGraph(graph);
 });

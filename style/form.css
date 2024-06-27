@@ -193,6 +193,39 @@ form .btn-box {
   }
 }
 
+/* TOGGLE BUTTON BOX */
+.toggle-btn-box {
+  display: flex;
+  gap: 0.4rem;
+  padding: 0.4rem;
+  background-color: var(--clr-primary-hover);
+  border-radius: 100rem;
+  width: fit-content;
+}
+
+.toggle-btn-box > :is(button.primary, button.text, button.ghost) {
+  border-radius: 100rem;
+  width: 100%;
+  max-width: 100%;
+  background-color: transparent;
+  margin: 0;
+  padding: .8rem;
+  letter-spacing: normal;
+}
+
+.toggle-btn-box > :is(button.primary, button.text, button.ghost):hover {
+  background-color: var(--clr-primary-focus);
+}
+
+.toggle-btn-box button.selected {
+  background-color: var(--clr-primary);
+  color: var(--clr-white);
+}
+
+.toggle-btn-box button.selected:hover {
+  background-color: var(--clr-primary-light);
+}
+
 /* /////////////////////////
   INPUTS
 ///////////////////////// */
@@ -262,7 +295,7 @@ fieldset label {
 }
 
 fieldset:has(.text-input:hover) label {
-  color: var(--clr-accent);
+  color: var(--clr-primary);
 }
 
 fieldset .text-input {
