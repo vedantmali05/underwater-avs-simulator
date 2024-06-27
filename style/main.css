@@ -441,6 +441,7 @@ main .main-content > * {
   background-color: var(--clr-white);
   padding: 1.6rem;
   border-radius: 1.6rem;
+  box-shadow: 0 4px 18px #00000010;
 }
 
 /* Side Sections */
@@ -547,7 +548,7 @@ nav .nav-body .nav-content {
 
 button.icon.nav-open-btn {
   background: var(--gradient-accent);
-  color: var(--clr-primary);
+  color: var(--clr-black);
   margin-left: -0.8rem;
   border-radius: 0 50rem 50rem 0 !important;
   width: 6.4rem;
@@ -590,7 +591,8 @@ nav.nav-visible .nav-body {
 }
 
 @media (min-width: 1024px) {
-  aside {
+  aside,
+  nav {
     max-width: 0px;
   }
 
@@ -598,7 +600,6 @@ nav.nav-visible .nav-body {
     max-width: 36rem;
   }
 
-  nav,
   nav.nav-visible {
     max-width: 28rem;
   }
@@ -831,6 +832,14 @@ GRAPHS
   aspect-ratio: 1;
   border-radius: 50%;
   font-size: var(--fs-200);
+}
+
+.graph-sec .index-item .index-symbol.line {
+  min-width: 2.4rem;
+  max-width: 2.4rem;
+  min-height: 0.2rem;
+  max-height: 0.2rem;
+  border-radius: 0.2rem;
 }
 
 /* GRAPH SECTION */

@@ -125,6 +125,16 @@ document.addEventListener("DOMContentLoaded", () => {
     // Navigation bar
     let navElementArray = [document.querySelector(".nav-open-btn"), document.querySelector(".nav-close-btn"), document.querySelector("nav")];
 
+    if (window.innerWidth > 768) {
+        navElementArray.forEach(elem => elem.classList.add("nav-visible"));
+    }
+
+    window.addEventListener("resize", () => {
+        if (window.innerWidth < 768) {
+            navElementArray.forEach(elem => elem.classList.remove("nav-visible"));
+        }
+    })
+
     // Navigation bar Open Button Click
     navElementArray[0]?.addEventListener("click", () => {
         navElementArray.forEach(elem => elem.classList.add("nav-visible"));

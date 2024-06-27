@@ -132,7 +132,7 @@ function createGraphIndexSec(indexItems) {
     indexSec.classList.add("index-sec");
 
     // Build the index items HTML string
-    let indexItemsHTML = ``;
+    let indexItemsHTML = `<p>Index:</p>`;
     indexItems.forEach(item => {
         indexItemsHTML += `
         <li class="index-item" style="--clr-index: ${item.color}">
@@ -168,7 +168,7 @@ function createAxisGridLines(axisType, axisInfo, holder) {
     // Append Lines
     for (let i = start; i <= end; i += pointDifference) {
         // Only upto 4 decimal points allowed
-        const pointValue = !Number.isInteger(i) ? i.toFixed(4).replace(/0+$/, "") : i;
+        const pointValue = !Number.isInteger(i) ? i.toFixed(4).replace(/0+$/, "").replace(/\.$/, "") : i;
         // Create and append the grid lines
         let gridLine = document.createElement("span");
         gridLine.innerHTML = `<span class="value">${pointValue}</span><span class="line"></span><span class="point"></span>`;
