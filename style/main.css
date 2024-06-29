@@ -821,7 +821,7 @@ GRAPHS
 }
 
 .graph-sec .index-item .index-symbol,
-.dot-point {
+.data-point {
   background-color: var(--clr-index);
   display: grid;
   place-items: center;
@@ -960,9 +960,9 @@ GRAPHS
   left: calc((var(--value-width) * -1) - 0.2rem);
 }
 
-/* DOT POINT HOLDER, DOT POINTS and TOOLTIPS */
+/* Data Point HOLDER, Data PointS and TOOLTIPS */
 
-.dot-point-holder {
+.data-point-holder {
   --clr-inset-border: var(--clr-primary-light);
   width: calc(100% - 2.4rem);
   height: calc(100% - 2.4rem);
@@ -971,7 +971,8 @@ GRAPHS
   position: absolute;
 }
 
-.dot-point {
+.data-point,
+.linebox {
   position: absolute;
   transform: translate(-50%, -50%);
   left: var(--x-percentage);
@@ -980,19 +981,19 @@ GRAPHS
   cursor: pointer;
 }
 
-.dot-point i {
+.data-point i {
   font-size: var(--fs-200);
 }
 
-.dot-point:has(i) {
+.data-point:has(i) {
   --clr-inset-border: transparent;
 }
 
-.dot-point i::before {
+.data-point i::before {
   width: 1.2rem;
 }
 
-.dot-point-tooltip {
+.data-point-tooltip {
   position: absolute;
   background-color: var(--clr-black-light);
   color: var(--clr-white);
@@ -1006,45 +1007,72 @@ GRAPHS
   opacity: 0;
 }
 
-.dot-point-tooltip:hover {
+.data-point-tooltip:hover {
   z-index: 11;
 }
 
-.dot-point-tooltip .label {
+.data-point-tooltip .label {
   color: var(--clr-accent-light);
 }
 
-.dot-point-tooltip .subtitle {
+.data-point-tooltip .subtitle {
   color: var(--clr-grey-bg);
 }
 
-/* DOT POINT HOVER EFFECTS */
-.dot-point:hover {
+/* Data Point HOVER EFFECTS */
+.data-point:hover {
   box-shadow: inset 0 0 0 1px var(--clr-inset-border),
     0 0 0 8px var(--clr-primary-hover);
 }
 
-.dot-point:hover + .dot-point-tooltip {
+.data-point:hover + .data-point-tooltip {
   box-shadow: 0 0 0 8px var(--clr-primary-hover);
 }
 
 /* Selected */
 
-.dot-point.selected,
-.dot-point-tooltip.visible {
+.data-point.selected,
+.data-point-tooltip.visible {
   box-shadow: inset 0 0 0 1px var(--clr-inset-border),
     0 0 0 2px var(--clr-primary-light);
 }
 
-.dot-point:hover + .dot-point-tooltip,
-.dot-point-tooltip.visible {
+.data-point:hover + .data-point-tooltip,
+.data-point-tooltip.visible {
   visibility: visible;
   opacity: 1;
 }
 
 /* Hovering After Selected */
-.dot-point.selected:hover,
-.dot-point.selected:hover + .dot-point-tooltip.visible {
+.data-point.selected:hover,
+.data-point.selected:hover + .data-point-tooltip.visible {
   box-shadow: inset 0 0 0 1px var(--clr-inset-border),
     0 0 0 2px var(--clr-primary-light), 0 0 0 8px var(--clr-primary-hover);
+}
+
+/* Waveline */
+
+.data-point-holder .linebox {
+  bottom: var(--y-percentage);
+  transform: translate(0, 0);
+  box-shadow: none;
+
+  background: linear-gradient(
+    to top left,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0) calc(50% - 0.6px),
+    var(--clr-index) 50%,
+    rgba(0, 0, 0, 0) calc(50% + 0.6px),
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+.data-point-holder .linebox.downwards {
+  background: linear-gradient(
+    to top right,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0) calc(50% - 0.6px),
+    var(--clr-index) 50%,
+    rgba(0, 0, 0, 0) calc(50% + 0.6px),
+    rgba(0, 0, 0, 0) 100%
+  );
 }

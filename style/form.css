@@ -42,7 +42,7 @@ button i {
 }
 
 button.icon > i::before,
-.dot-point > i::before {
+.data-point > i::before {
   width: 3.2rem;
   aspect-ratio: 1;
   display: flex;

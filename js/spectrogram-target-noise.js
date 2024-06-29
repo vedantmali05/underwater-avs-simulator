@@ -1,4 +1,4 @@
-import { GraphControls, GraphIndexItem, GraphAxisX, GraphAxisY, GraphDotPoint, Graph, createGraph } from "./components/graphs.js"
+import { GraphControls, GraphIndexItem, GraphAxisX, GraphAxisY, GraphdataPoint, Graph, createGraph } from "./components/graphs.js"
 import { UI_COLORS, GRAPH_AXIS_TYPE, GRAPH_INDEX_ITEM_TYPE, GRAPH_TYPE } from "./components/data.js"
 
 document.addEventListener("DOMContentLoaded", () => {

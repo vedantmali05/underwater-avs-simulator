@@ -25,8 +25,8 @@ export class GraphIndexItem {
     }
 }
 
-// Graph Dot Point
-export class GraphDotPoint {
+// Graph Data Point
+export class GraphdataPoint {
     constructor(indexItemProperties, x, y) {
         this.label = indexItemProperties.label;
         this.color = indexItemProperties.color;
@@ -71,7 +71,7 @@ export class Graph {
         this.indexItems = [];
         this.axisX = {};
         this.axisY = {};
-        this.dotPoints = [];
+        this.dataPoints = [];
     }
 
     setAxis(axisX, axisY) {
@@ -83,11 +83,14 @@ export class Graph {
         this.indexItems = this.indexItems.concat(indexItem);
     }
 
-    addDotPoints(dotPoint) {
+    adddataPoints(dataPoint) {
         if (this.type == GRAPH_TYPE.positional) {
-            this.dotPoints = this.dotPoints.concat(dotPoint);
+            this.dataPoints = this.dataPoints.concat(dataPoint);
+        } else if (this.type == GRAPH_TYPE.waveform) {
+            this.dataPoints = dataPoint;
         }
     }
+
 }
 
 
@@ -181,16 +184,16 @@ function createAxisGridLines(axisType, axisInfo, holder) {
 }
 
 // FUNCTION TO SET MIN AND MAX AXIS POINTS DYNAMICALLY
-function setMinMaxDynamically(axisType, axis, dotPoints) {
+function setMinMaxDynamically(axisType, axis, dataPoints) {
     // If setDynamically is true,
     if (axis.setDynamically) {
         // Don't center the origin
         axis.centeredOrigin = false;
 
-        // Find lowest and highest values (X or Y) among all dotPoints
-        let lowest = dotPoints[0][axisType];
-        let highest = dotPoints[0][axisType];
-        dotPoints.forEach(point => {
+        // Find lowest and highest values (X or Y) among all dataPoints
+        let lowest = dataPoints[0][axisType];
+        let highest = dataPoints[0][axisType];
+        dataPoints.forEach(point => {
             lowest = Math.min(lowest, point[axisType]);
             highest = Math.max(highest, point[axisType]);
         });
@@ -214,13 +217,13 @@ export function createGraph(options = {}) {
         type,
         controls,
         indexItems,
-        dotPoints,
+        dataPoints,
     } = options;
     let { axisX, axisY } = options;
 
     // Set X and Y originPoint, maxPoint and pointDifference dynamically
-    axisX = setMinMaxDynamically(GRAPH_AXIS_TYPE.x, axisX, dotPoints);
-    axisY = setMinMaxDynamically(GRAPH_AXIS_TYPE.y, axisY, dotPoints);
+    axisX = setMinMaxDynamically(GRAPH_AXIS_TYPE.x, axisX, dataPoints);
+    axisY = setMinMaxDynamically(GRAPH_AXIS_TYPE.y, axisY, dataPoints);
 
     // Create the main graph container element
     const graphBox = document.createElement("div");
@@ -287,48 +290,100 @@ export function createGraph(options = {}) {
     graphSec.style.setProperty("--value-width", longestValue + "ch");
 
     if (type == GRAPH_TYPE.positional) {
-        setDotPoints(dotPoints, axisX, axisY, graphHolder);
+        setdataPoints(dataPoints, axisX, axisY, graphHolder);
     } else if (type == GRAPH_TYPE.waveform) {
-        
+        setWaveLines(dataPoints, axisX, axisY, indexItems[0], graphHolder);
     }
 }
 
-// Setting Dot Points on the graph
-function setDotPoints(dotPoints, axisX, axisY, graphHolder) {
-    // Create dot point holder element
-    let dotPointHolder = document.createElement("div");
-    dotPointHolder.classList.add("dot-point-holder");
-    graphHolder.append(dotPointHolder);
+// Setting Data Points on the graph
+function setdataPoints(dataPoints, axisX, axisY, graphHolder) {
+    // Create Data Point holder element
+    let dataPointHolder = document.createElement("div");
+    dataPointHolder.classList.add("data-point-holder");
+    graphHolder.append(dataPointHolder);
 
-    // For Each Dot Point in the Array
-    dotPoints.forEach(point => {
-        // Creating a Dot Point and append to dotPointHolder
-        let dotPointElem = document.createElement("span");
-        dotPointElem.classList.add("dot-point");
-        if (point.icon) dotPointElem.innerHTML = `<i class="bi bi-${point.icon}"></i>`;
-        dotPointHolder.append(dotPointElem);
+    // For Each Data Point in the Array
+    dataPoints.forEach(point => {
+        // Creating a Data Point and append to dataPointHolder
+        let dataPointElem = document.createElement("span");
+        dataPointElem.classList.add("data-point");
+        if (point.icon) dataPointElem.innerHTML = `<i class="bi bi-${point.icon}"></i>`;
+        dataPointHolder.append(dataPointElem);
 
-        // Creating corresponding tooltip and append to dotPointHolder
+        // Creating corresponding tooltip and append to dataPointHolder
         let tooltipElem = document.createElement("span");
-        tooltipElem.classList.add("dot-point-tooltip");
+        tooltipElem.classList.add("data-point-tooltip");
         tooltipElem.innerHTML = `
         <div class="label">${point.label}</div>
         <div class="subtitle">x:${point.x}, y:${point.y}</div>`;
-        dotPointHolder.append(tooltipElem);
+        dataPointHolder.append(tooltipElem);
 
         // Set color to Point
-        dotPointElem.style.setProperty("--clr-index", point.color);
+        dataPointElem.style.setProperty("--clr-index", point.color);
 
-        // Positioning the Dot Point and it's tooltip
+        // Positioning the Data Point and it's tooltip
         const [xPercentage, yPercentage] = getCoordinatePercentages(point.x, point.y, axisX, axisY);
-        dotPointElem.style.setProperty("--x-percentage", xPercentage + "%");
-        dotPointElem.style.setProperty("--y-percentage", yPercentage + "%");
+        dataPointElem.style.setProperty("--x-percentage", xPercentage + "%");
+        dataPointElem.style.setProperty("--y-percentage", yPercentage + "%");
         tooltipElem.style.setProperty("--x-percentage", xPercentage + "%");
 
         // Tooltip and Point Selection Event
-        dotPointElem.addEventListener("click", () => {
-            dotPointElem.classList.toggle("selected");
+        dataPointElem.addEventListener("click", () => {
+            dataPointElem.classList.toggle("selected");
             tooltipElem.classList.toggle("visible");
         });
     });
+}
+
+// FUNCTION to Create Waveform Lines and Set them to graph
+function setWaveLines(dataPoints, axisX, axisY, indexItems, graphHolder) {
+    if (dataPoints.length === 0) return;
+
+
+    // Create dot point holder element
+    let dataPointHolder = document.createElement("div");
+    dataPointHolder.classList.add("data-point-holder");
+    graphHolder.append(dataPointHolder);
+
+    for (let i = 0; i < dataPoints.length - 1; i++) {
+        const point = dataPoints[i];
+        // Get Line Length
+        let [x1Percentage, y1Percentage] = getCoordinatePercentages(point[0], point[1], axisX, axisY);
+        let [x2Percentage, y2Percentage] = getCoordinatePercentages(dataPoints[i + 1][0], dataPoints[i + 1][1], axisX, axisY);
+
+        x1Percentage = parseFloat(x1Percentage.toFixed(100));
+        y1Percentage = parseFloat(y1Percentage.toFixed(100));
+        x2Percentage = parseFloat(x2Percentage.toFixed(100));
+        y2Percentage = parseFloat(y2Percentage.toFixed(100));
+
+        // dataPointHolder.innerHTML += `
+        // <line x1="${x1Percentage}%" y1="${y1Percentage}%" x2="${x2Percentage}%" y2="${y2Percentage}%" stroke="red" fill="none" stroke-width="1"></line>
+        // `
+
+        // console.log(
+        //     "\n",
+        //     "x1-" + x1Percentage, 
+        //     "y1-" + y1Percentage,
+        //     "\n",
+        //     "x2-" + x1Percentage, 
+        //     "y2-" + y1Percentage
+        // );
+        // console.log((y2Percentage - y1Percentage).toString().replace('e-', ''));
+
+
+        let lineBox = document.createElement("span");
+        lineBox.classList.add("linebox")
+        lineBox.style.width = `${x2Percentage - x1Percentage}%`;
+        lineBox.style.height = `${(y2Percentage - y1Percentage).toString().replace('e-', '')}%`;
+        lineBox.style.setProperty("--x-percentage", x1Percentage + "%");
+        lineBox.style.setProperty("--y-percentage", y1Percentage + "%");
+        lineBox.style.setProperty("--clr-index", indexItems.color);
+        if (y1Percentage > y2Percentage) {
+            lineBox.classList.add("downwards")
+            lineBox.style.height = `${(y1Percentage - y2Percentage).toString().replace('e-', '')}%`;
+            lineBox.style.setProperty("--y-percentage", y2Percentage + "%");
+        }
+        dataPointHolder.append(lineBox)
+    }
 }

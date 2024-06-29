@@ -11,7 +11,7 @@ import {
 
 import { setTitleAttr, createDialog, createSnackbar } from "./components/utils.js";
 import { getParentElement, refreshInputs } from "./components/utils.js";
-import { GraphControls, GraphIndexItem, GraphAxisX, GraphAxisY, GraphDotPoint, Graph, createGraph } from "./components/graphs.js";
+import { GraphControls, GraphIndexItem, GraphAxisX, GraphAxisY, GraphdataPoint, Graph, createGraph } from "./components/graphs.js";
 
 document.addEventListener("DOMContentLoaded", () => {
 
