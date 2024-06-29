@@ -109,7 +109,7 @@ function createGraphTitleSec(title, description, controls, indexItems) {
             <div class="controls">
             ${controls.pan ?
             `<button class="icon control-pan"><i class="bi bi-arrows-move"></i></button>` : ``}
-            ${controls.zoom ?    
+            ${controls.zoom ?
             `<span class="btn-box">
             <button class="icon control-zoom-in"><i class="bi bi-zoom-in"></i></button>
              <span>Zoom</span>
@@ -288,6 +288,8 @@ export function createGraph(options = {}) {
 
     if (type == GRAPH_TYPE.positional) {
         setDotPoints(dotPoints, axisX, axisY, graphHolder);
+    } else if (type == GRAPH_TYPE.waveform) {
+        
     }
 }
 

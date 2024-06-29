@@ -9,7 +9,7 @@ import {
     GRAPH_TYPE
 } from "./components/data.js";
 
-import { createDialog, createSnackbar } from "./components/utils.js";
+import { setTitleAttr, createDialog, createSnackbar } from "./components/utils.js";
 import { getParentElement, refreshInputs } from "./components/utils.js";
 import { GraphControls, GraphIndexItem, GraphAxisX, GraphAxisY, GraphDotPoint, Graph, createGraph } from "./components/graphs.js";
 
@@ -90,15 +90,6 @@ document.addEventListener("DOMContentLoaded", () => {
     })
 
     /* ///////////////
-        Typography and Accessibility
-    /////////////// */
-    let textElementsArr = document.querySelectorAll("p, h1, h2, h3, h4, h5, h6, th, td");
-
-    textElementsArr.forEach(elem => {
-        elem.setAttribute("title", elem.innerText);
-    })
-
-    /* ///////////////
         SIDEBARs OPENING AND CLOSING
     /////////////// */
 
@@ -126,29 +117,31 @@ document.addEventListener("DOMContentLoaded", () => {
     let navElementArray = [document.querySelector(".nav-open-btn"), document.querySelector(".nav-close-btn"), document.querySelector("nav")];
 
     if (window.innerWidth > 768) {
-        navElementArray.forEach(elem => elem.classList.add("nav-visible"));
+        navElementArray?.forEach(elem => elem?.classList.add("nav-visible"));
     }
 
     window.addEventListener("resize", () => {
         if (window.innerWidth < 768) {
-            navElementArray.forEach(elem => elem.classList.remove("nav-visible"));
+            navElementArray?.forEach(elem => elem.classList.remove("nav-visible"));
+        } else {
+            navElementArray?.forEach(elem => elem.classList.add("nav-visible"));
         }
     })
 
     // Navigation bar Open Button Click
     navElementArray[0]?.addEventListener("click", () => {
-        navElementArray.forEach(elem => elem.classList.add("nav-visible"));
+        navElementArray?.forEach(elem => elem.classList.add("nav-visible"));
     });
 
     // Navigation bar Close Button Click
     navElementArray[1]?.addEventListener("click", () => {
-        navElementArray.forEach(elem => elem.classList.remove("nav-visible"));
+        navElementArray?.forEach(elem => elem.classList.remove("nav-visible"));
     });
 
     // Navigation bar Scrim Click - Close nav
     navElementArray[2]?.addEventListener('click', (e) => {
         if (!e.target.closest(".nav-body")) {
-            navElementArray.forEach(elem => elem.classList.remove("nav-visible"));
+            navElementArray?.forEach(elem => elem.classList.remove("nav-visible"));
         }
     });
 
@@ -161,6 +154,7 @@ document.addEventListener("DOMContentLoaded", () => {
         targetStrength: 1,
         noiseSourceFrequency: 2000,
         signalDuration: 1.2,
+        samplingRate: 12,
         avs1X: 10,
         avs1Y: 25,
         avs2X: 32,
@@ -175,4 +169,10 @@ document.addEventListener("DOMContentLoaded", () => {
         let elem = document.getElementById(`source_data_${key}`);
         if (elem) elem.innerHTML = value;
     }
+
+    /* ///////////////
+    Typography and Accessibility
+    /////////////// */
+
+    setTitleAttr();
 });

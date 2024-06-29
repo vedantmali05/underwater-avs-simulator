@@ -1,4 +1,4 @@
-import { toTwoDigit } from "./components/utils.js"
+import { toTwoDigit, setTitleAttr } from "./components/utils.js"
 import { TIME_WEEK_DAYS, TIME_MONTHS } from "./components/data.js";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -31,5 +31,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     })
 
+    setTitleAttr();
 
 });

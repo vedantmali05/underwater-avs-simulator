@@ -20,6 +20,15 @@ export function getParentElement(element, targetParent) {
     return null; // No parent found with the target class
 }
 
+// FUNCTION to Set Title Attribute
+export function setTitleAttr() {
+    let textElementsArr = document.querySelectorAll("p, h1, h2, h3, h4, h5, h6, th, td");
+
+    textElementsArr.forEach(elem => {
+        elem.setAttribute("title", elem.innerText);
+    })
+}
+
 /* ///////////////
     UI COMPONENTS FUNCTIONS
 /////////////// */

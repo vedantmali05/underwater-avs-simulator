@@ -46,15 +46,15 @@
                     <fieldset>
                         <label for="target_strength">Target Strength</label>
                         <input type="text" id="target_strength" name="target_strength" placeholder="0" required
-                            class="text-input" pattern="^[\-\+]?\d+(\.\d+)?$"
-                            data-msg="Must be a positive whole integer number.">
+                            class="text-input" pattern="^[\+\-]?\d+$"
+                            data-msg="Must be a positive or negative whole number.">
                         <span class="trail">dB re 1 V/µPa</span>
                     </fieldset>
 
                     <!-- Frequency of Noise Source -->
                     <fieldset>
                         <label for="noise_source_frequency">Frequency of Noise Source</label>
-                        <input type="text" id="noise_source_frequency" name="noise_source_frequency" placeholder="0"
+                        <input type="text" id="noise_source_frequency" name="noise_source_frequency" placeholder="0.0"
                             required class="text-input" pattern="^[\+]?\d+$"
                             data-msg="Must be a positive integer or floating point number.">
                         <span class="trail">Hz</span>
@@ -63,10 +63,19 @@
                     <!-- Duration of Signal -->
                     <fieldset>
                         <label for="signal_duration">Duration of Signal</label>
-                        <input type="text" id="signal_duration" name="signal_duration" placeholder="0" required
+                        <input type="text" id="signal_duration" name="signal_duration" placeholder="0.0" required
                             class="text-input" pattern="^[\+]?\d+(\.\d+)?$"
-                            data-msg="Must be a valid positive or negative integer or floating point number.">
+                            data-msg="Must be a valid positive integer or floating point number.">
                         <span class="trail">Seconds</span>
+                    </fieldset>
+
+                    <!-- Sampling Rate -->
+                    <fieldset>
+                        <label for="sampling_rate">Sampling Rate</label>
+                        <input type="text" id="sampling_rate" name="sampling_rate" placeholder="0" required
+                            class="text-input" pattern="^[\+]?\d+$"
+                            data-msg="Must be a valid positive whole number.">
+                        <span class="trail">Samples/Sec</span>
                     </fieldset>
 
                     <!-- Seastate -->

@@ -10,6 +10,7 @@ let INPUT_HISTORY = [
         targetStrength: 1,
         noiseSourceFrequency: 2000,
         signalDuration: 1.2,
+        samplingRate: 3,
         avs1X: 10,
         avs1Y: 25,
         avs2X: 32,
@@ -23,6 +24,7 @@ let INPUT_HISTORY = [
         targetStrength: 2,
         noiseSourceFrequency: 3500,
         signalDuration: 0.8,
+        samplingRate: 3,
         avs1X: 8,
         avs1Y: 30,
         avs2X: 27,
@@ -36,6 +38,7 @@ let INPUT_HISTORY = [
         targetStrength: 3,
         noiseSourceFrequency: 1500,
         signalDuration: 2.1,
+        samplingRate: 3,
         avs1X: 14,
         avs1Y: 18,
         avs2X: 39,
@@ -49,6 +52,7 @@ let INPUT_HISTORY = [
         targetStrength: 4,
         noiseSourceFrequency: 2800,
         signalDuration: 0.9,
+        samplingRate: 3,
         avs1X: 5,
         avs1Y: 35,
         avs2X: 24,
@@ -62,6 +66,7 @@ let INPUT_HISTORY = [
         targetStrength: 5,
         noiseSourceFrequency: 1800,
         signalDuration: 1.5,
+        samplingRate: 3,
         avs1X: 3,
         avs1Y: 40,
         avs2X: 21,
@@ -112,6 +117,10 @@ function populateInputHistory(inputHistorySec, INPUT_HISTORY, formInputsSet, sea
         <tr>
             <td>Signal Duration</td>
             <td colspan="2">${elem.signalDuration} <span class="fs-300">Seconds</span></td>
+        </tr>
+        <tr>
+            <td>Sampling Rate</td>
+            <td colspan="2">${elem.samplingRate} <span class="fs-300">Samples/Sec</span></td>
         </tr>
         <tr>
             <td>Seastate</td>
@@ -172,6 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
         targetStrengthInput: document.getElementById("target_strength"),
         noiseSourceFrequencyInput: document.getElementById("noise_source_frequency"),
         signalDurationInput: document.getElementById("signal_duration"),
+        samplingRateInput: document.getElementById("sampling_rate"),
         avs1XInput: document.getElementById("avs_1_x"),
         avs1YInput: document.getElementById("avs_1_y"),
         avs2XInput: document.getElementById("avs_2_x"),
@@ -244,6 +254,13 @@ document.addEventListener('DOMContentLoaded', () => {
             primaryAction: () => {
                 // If clear clicked, clear the inputs
                 document.getElementById("hidden_clear_form_btn")?.click();
+
+                for (const [inputName, inputElem] of Object.entries(formInputsSet)) {
+                    removeInputMsg(inputElem);
+                }
+
+                removeInputMsg(seastateToggleInput[0]);
+                
                 return true;
             },
             danger: true
