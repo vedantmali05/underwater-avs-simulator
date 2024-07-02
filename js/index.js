@@ -117,31 +117,31 @@ document.addEventListener("DOMContentLoaded", () => {
     let navElementArray = [document.querySelector(".nav-open-btn"), document.querySelector(".nav-close-btn"), document.querySelector("nav")];
 
     if (window.innerWidth > 768) {
-        navElementArray?.forEach(elem => elem?.classList.add("nav-visible"));
+        navElementArray.forEach(elem => elem?.classList.add("nav-visible"));
     }
 
     window.addEventListener("resize", () => {
         if (window.innerWidth < 768) {
-            navElementArray?.forEach(elem => elem.classList.remove("nav-visible"));
+            navElementArray.forEach(elem => elem?.classList.remove("nav-visible"));
         } else {
-            navElementArray?.forEach(elem => elem.classList.add("nav-visible"));
+            navElementArray.forEach(elem => elem?.classList.add("nav-visible"));
         }
     })
 
     // Navigation bar Open Button Click
     navElementArray[0]?.addEventListener("click", () => {
-        navElementArray?.forEach(elem => elem.classList.add("nav-visible"));
+        navElementArray.forEach(elem => elem?.classList.add("nav-visible"));
     });
 
     // Navigation bar Close Button Click
     navElementArray[1]?.addEventListener("click", () => {
-        navElementArray?.forEach(elem => elem.classList.remove("nav-visible"));
+        navElementArray.forEach(elem => elem?.classList.remove("nav-visible"));
     });
 
     // Navigation bar Scrim Click - Close nav
     navElementArray[2]?.addEventListener('click', (e) => {
         if (!e.target.closest(".nav-body")) {
-            navElementArray?.forEach(elem => elem.classList.remove("nav-visible"));
+            navElementArray.forEach(elem => elem?.classList.remove("nav-visible"));
         }
     });
 

@@ -330,7 +330,7 @@ export function getCoordinatePercentages(targetX, targetY, axisX, axisY) {
     return [xPercentage, yPercentage];
 }
 
-export function getLinspaceArray(sampleRate, duration) {
+export function getLinspaceArray(sampleRate, duration, frequency) {
     // Calculate the total number of samples
     const numSamples = Math.floor(sampleRate * duration);
 
@@ -339,7 +339,7 @@ export function getLinspaceArray(sampleRate, duration) {
 
     // Generate an array of sound wave amplitudes (y-coordinates)
     // This example generates a simple sine wave, you can replace this with your sound wave logic
-    const yAxis = timeAxis.map(t => Math.sin(2 * Math.PI * t * 440)); // Adjust frequency as needed (440 Hz here)
+    const yAxis = timeAxis.map(t => Math.sin(2 * Math.PI * t * frequency)); // Adjust frequency as needed (440 Hz here)
 
     return { xPoints: timeAxis, yPoints: yAxis };
 }

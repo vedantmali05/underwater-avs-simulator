@@ -10,7 +10,8 @@
   "author": "Vedant Mali",
   "license": "ISC",
   "dependencies": {
-    "electron": "^31.0.1"
+    "electron": "^31.0.1",
+    "wav-spectrogram": "^0.0.4"
   },
   "keywords": [
     "electron",

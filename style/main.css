@@ -1052,6 +1052,11 @@ GRAPHS
 
 /* Waveline */
 
+.data-point-holder path {
+  display: block;
+  transform: scaleY(180deg) translateY(-100%);
+}
+
 .data-point-holder .linebox {
   bottom: var(--y-percentage);
   transform: translate(0, 0);

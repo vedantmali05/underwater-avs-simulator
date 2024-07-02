@@ -217,26 +217,22 @@ document.addEventListener('DOMContentLoaded', () => {
         // Is everything is okay,
         if (!validationArray.includes(false)) {
 
-            let inputData = {};
+            let INPUT_DATA = {};
 
             for (const [inputName, inputElem] of Object.entries(formInputsSet)) {
-                inputData[inputName.slice(0, -5)] = inputElem.value;
+                INPUT_DATA[inputName.slice(0, -5)] = inputElem.value;
                 removeInputMsg(inputElem);
             }
 
             seastateToggleInput.forEach(radio => {
                 if (radio.checked) {
-                    inputData.seastate = radio.value;
+                    INPUT_DATA.seastate = radio.value;
                 }
             })
-            removeInputMsg(seastateToggleInput);
-            inputData.recordTime = new Date().getTime();
+            removeInputMsg(seastateToggleInput[0]);
+            INPUT_DATA.recordTime = new Date().getTime();
 
-            INPUT_HISTORY.unshift(inputData)
-
-            populateInputHistory(inputHistorySec, INPUT_HISTORY, formInputsSet, seastateToggleInput);
-
-            // Pass
+            ipcRenderer.send("input:save-data", INPUT_DATA);
         }
 
     });
@@ -260,22 +256,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 removeInputMsg(seastateToggleInput[0]);
-                
+
                 return true;
             },
             danger: true
         })
-
+        
     });
-
-
-
+    
+    
+    
     /* ///////////////
-        INPUT HISTORY
+    INPUT HISTORY
     /////////////// */
-
-    let inputHistorySec = document.getElementById("input_history_box");
-
-    populateInputHistory(inputHistorySec, INPUT_HISTORY, formInputsSet, seastateToggleInput);
+    
+    window.indexBridge.fetchInputHistory((e, data) => {
+        let inputHistorySec = document.getElementById("input_history_box");
+        populateInputHistory(inputHistorySec, data, formInputsSet, seastateToggleInput);
+    })
+    
+    window.indexBridge.fetchInputData((e, data) => {
+        console.log(data);
+    })
+    
 
 })

@@ -40,13 +40,14 @@
                     <!-- Heading -->
                     <h2 class="fs-600">Underwater environmental parameters</h2>
                     <!-- Details -->
-                    <p class="subtitle">Enter following data about the surrounding underwater environmental conditions.</p>
+                    <p class="subtitle">Enter following data about the surrounding underwater environmental conditions.
+                    </p>
 
                     <!-- Target Strength -->
                     <fieldset>
                         <label for="target_strength">Target Strength</label>
                         <input type="text" id="target_strength" name="target_strength" placeholder="0" required
-                            class="text-input" pattern="^[\+\-]?\d+$"
+                            value="100" class="text-input" pattern="^[\+\-]?\d+$"
                             data-msg="Must be a positive or negative whole number.">
                         <span class="trail">dB re 1 V/µPa</span>
                     </fieldset>
@@ -55,7 +56,7 @@
                     <fieldset>
                         <label for="noise_source_frequency">Frequency of Noise Source</label>
                         <input type="text" id="noise_source_frequency" name="noise_source_frequency" placeholder="0.0"
-                            required class="text-input" pattern="^[\+]?\d+$"
+                            required class="text-input" pattern="^[\+]?\d+$" value="100"
                             data-msg="Must be a positive integer or floating point number.">
                         <span class="trail">Hz</span>
                     </fieldset>
@@ -64,7 +65,7 @@
                     <fieldset>
                         <label for="signal_duration">Duration of Signal</label>
                         <input type="text" id="signal_duration" name="signal_duration" placeholder="0.0" required
-                            class="text-input" pattern="^[\+]?\d+(\.\d+)?$"
+                            value="100" class="text-input" pattern="^[\+]?\d+(\.\d+)?$"
                             data-msg="Must be a valid positive integer or floating point number.">
                         <span class="trail">Seconds</span>
                     </fieldset>
@@ -72,9 +73,8 @@
                     <!-- Sampling Rate -->
                     <fieldset>
                         <label for="sampling_rate">Sampling Rate</label>
-                        <input type="text" id="sampling_rate" name="sampling_rate" placeholder="0" required
-                            class="text-input" pattern="^[\+]?\d+$"
-                            data-msg="Must be a valid positive whole number.">
+                        <input type="text" id="sampling_rate" name="sampling_rate" placeholder="0" required value="100"
+                            class="text-input" pattern="^[\+]?\d+$" data-msg="Must be a valid positive whole number.">
                         <span class="trail">Samples/Sec</span>
                     </fieldset>
 
@@ -86,7 +86,8 @@
                                 <input type="radio" id="seastate_0" name="seastate" required value="0"> 0 Seastate
                             </label>
                             <label for="seastate_1">
-                                <input type="radio" id="seastate_1" name="seastate" required value="1"> 1 Seastate
+                                <input type="radio" id="seastate_1" name="seastate" required value="1" checked> 1
+                                Seastate
                             </label>
                             <label for="seastate_3">
                                 <input type="radio" id="seastate_3" name="seastate" required value="3"> 3 Seastate
@@ -123,14 +124,14 @@
                                     <td>
                                         <fieldset>
                                             <input type="text" name="avs_1_x" id="avs_1_x" class="text-input" required
-                                                placeholder="0" pattern="^[\-\+]?\d+(\.\d+)?$"
+                                                value="100" placeholder="0" pattern="^[\-\+]?\d+(\.\d+)?$"
                                                 data-msg="Must be a valid positive or negative integer or floating point number.">
                                         </fieldset>
                                     </td>
                                     <td>
                                         <fieldset>
                                             <input type="text" name="avs_1_y" id="avs_1_y" class="text-input" required
-                                                placeholder="0" pattern="^[\-\+]?\d+(\.\d+)?$"
+                                                value="100" placeholder="0" pattern="^[\-\+]?\d+(\.\d+)?$"
                                                 data-msg="Must be a valid positive or negative integer or floating point number.">
                                         </fieldset>
                                     </td>
@@ -140,14 +141,14 @@
                                     <td>
                                         <fieldset>
                                             <input type="text" name="avs_2_x" id="avs_2_x" class="text-input" required
-                                                placeholder="0" pattern="^[\-\+]?\d+(\.\d+)?$"
+                                                value="100" placeholder="0" pattern="^[\-\+]?\d+(\.\d+)?$"
                                                 data-msg="Must be a valid positive or negative integer or floating point number.">
                                         </fieldset>
                                     </td>
                                     <td>
                                         <fieldset>
                                             <input type="text" name="avs_2_y" id="avs_2_y" class="text-input" required
-                                                placeholder="0" pattern="^[\-\+]?\d+(\.\d+)?$"
+                                                value="100" placeholder="0" pattern="^[\-\+]?\d+(\.\d+)?$"
                                                 data-msg="Must be a valid positive or negative integer or floating point number.">
                                         </fieldset>
                                     </td>
@@ -157,14 +158,14 @@
                                     <td>
                                         <fieldset>
                                             <input type="text" name="target_x" id="target_x" class="text-input" required
-                                                placeholder="0" pattern="^[\-\+]?\d+(\.\d+)?$"
+                                                value="100" placeholder="0" pattern="^[\-\+]?\d+(\.\d+)?$"
                                                 data-msg="Must be a valid positive or negative integer or floating point number.">
                                         </fieldset>
                                     </td>
                                     <td>
                                         <fieldset>
                                             <input type="text" name="target_y" id="target_y" class="text-input" required
-                                                placeholder="0" pattern="^[\-\+]?\d+(\.\d+)?$"
+                                                value="100" placeholder="0" pattern="^[\-\+]?\d+(\.\d+)?$"
                                                 data-msg="Must be a valid positive or negative integer or floating point number.">
                                         </fieldset>
                                     </td>
@@ -174,9 +175,7 @@
                     </div>
 
                     <!-- Attribution -->
-                    <p class="subtitle" style="color: var(--clr-accent);">All the fields in this form are required, and
-                        their value must be a
-                        number.</p>
+                    <p class="subtitle" style="color: var(--clr-accent);">All the fields in this form are required, and required their value must be a number.</p>
                 </section>
                 <!-- Section B Ends -->
 
@@ -213,7 +212,8 @@
             <!-- Aside Content -->
             <section class="aside-content">
                 <!-- Caption -->
-                <p class="subtitle center-mobile" style="margin-bottom: -1.6rem;">Your recently used inputs, allowing you to
+                <p class="subtitle center-mobile" style="margin-bottom: -1.6rem;">Your recently used inputs, allowing
+                    you to
                     effortlessly select and reuse them.
                     Search, review and reenter all the data in one click.</p>
 

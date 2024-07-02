@@ -208,7 +208,7 @@ function setMinMaxDynamically(axisType, axis, dataPoints) {
 }
 
 // FUNCTION TO CREATE GRAPH UI
-export function createGraph(options = {}) {
+export async function createGraph(options = {}) {
     // BUILDING GRAPH
     const {
         parentID,
@@ -260,6 +260,10 @@ export function createGraph(options = {}) {
     // GET GRAPH SECTION by parentID and append Title Section, Graph and Index Items
     const graphSec = document.getElementById(parentID);
 
+    if (type == GRAPH_TYPE.waveform) {
+        graphSec.innerHTML = `<svg class="data-point-holder" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="" fill="none" stroke-width=".2%"></path></svg>`
+    }
+
     // APPENDING 
     graphSec.append(
         createGraphTitleSec(title, description, controls, indexItems),
@@ -292,7 +296,7 @@ export function createGraph(options = {}) {
     if (type == GRAPH_TYPE.positional) {
         setdataPoints(dataPoints, axisX, axisY, graphHolder);
     } else if (type == GRAPH_TYPE.waveform) {
-        setWaveLines(dataPoints, axisX, axisY, indexItems[0], graphHolder);
+        await setWaveLines(dataPoints, axisX, axisY, indexItems[0], graphSec);
     }
 }
 
@@ -337,14 +341,17 @@ function setdataPoints(dataPoints, axisX, axisY, graphHolder) {
 }
 
 // FUNCTION to Create Waveform Lines and Set them to graph
-function setWaveLines(dataPoints, axisX, axisY, indexItems, graphHolder) {
+async function setWaveLines(dataPoints, axisX, axisY, indexItems, graphSec) {
     if (dataPoints.length === 0) return;
 
+    console.log(dataPoints.length);
 
+    let drawSymbol = "M"
     // Create dot point holder element
-    let dataPointHolder = document.createElement("div");
-    dataPointHolder.classList.add("data-point-holder");
-    graphHolder.append(dataPointHolder);
+    let dataPointHolder = graphSec.querySelector(".data-point-holder");
+    let linePath = dataPointHolder.querySelector("path");
+    let directionAttr = linePath.getAttribute("d");
+
 
     for (let i = 0; i < dataPoints.length - 1; i++) {
         const point = dataPoints[i];
@@ -357,33 +364,14 @@ function setWaveLines(dataPoints, axisX, axisY, indexItems, graphHolder) {
         x2Percentage = parseFloat(x2Percentage.toFixed(100));
         y2Percentage = parseFloat(y2Percentage.toFixed(100));
 
-        // dataPointHolder.innerHTML += `
-        // <line x1="${x1Percentage}%" y1="${y1Percentage}%" x2="${x2Percentage}%" y2="${y2Percentage}%" stroke="red" fill="none" stroke-width="1"></line>
-        // `
+        directionAttr += ` ${drawSymbol}${x1Percentage} ${y1Percentage}`;
 
-        // console.log(
-        //     "\n",
-        //     "x1-" + x1Percentage, 
-        //     "y1-" + y1Percentage,
-        //     "\n",
-        //     "x2-" + x1Percentage, 
-        //     "y2-" + y1Percentage
-        // );
-        // console.log((y2Percentage - y1Percentage).toString().replace('e-', ''));
-
-
-        let lineBox = document.createElement("span");
-        lineBox.classList.add("linebox")
-        lineBox.style.width = `${x2Percentage - x1Percentage}%`;
-        lineBox.style.height = `${(y2Percentage - y1Percentage).toString().replace('e-', '')}%`;
-        lineBox.style.setProperty("--x-percentage", x1Percentage + "%");
-        lineBox.style.setProperty("--y-percentage", y1Percentage + "%");
-        lineBox.style.setProperty("--clr-index", indexItems.color);
-        if (y1Percentage > y2Percentage) {
-            lineBox.classList.add("downwards")
-            lineBox.style.height = `${(y1Percentage - y2Percentage).toString().replace('e-', '')}%`;
-            lineBox.style.setProperty("--y-percentage", y2Percentage + "%");
-        }
-        dataPointHolder.append(lineBox)
+        drawSymbol = "L";
     }
+
+    linePath.setAttribute("d", directionAttr);
+    linePath.setAttribute("stroke", indexItems.color);
+    graphSec.querySelector(".graph-holder").append(dataPointHolder);
+    // dataPointHolder.remove();
+
 }
