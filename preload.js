@@ -10,5 +10,6 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
 // Bridging Main process to UI Process
 contextBridge.exposeInMainWorld("indexBridge", {
     fetchInputHistory: (callback) => ipcRenderer.on("fetchInputHistory", (callback)),
-    fetchInputData: (callback) => ipcRenderer.on("fetchInputData", (callback))
+    fetchInputData: (callback) => ipcRenderer.on("fetchInputData", (callback)),
+    fillDataFromHistory: (callback) => ipcRenderer.on("fillDataFromHistory", (callback))
 })

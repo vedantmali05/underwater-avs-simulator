@@ -4,81 +4,6 @@ import { allowNumberInputOnly, validateInput, validateToggleInputs } from "./com
 import { toTwoDigit } from "./components/utils.js"
 import { TIME_WEEK_DAYS, TIME_MONTHS } from "./components/data.js";
 
-// Dummy Input History Data <to be Removed later>
-let INPUT_HISTORY = [
-    {
-        targetStrength: 1,
-        noiseSourceFrequency: 2000,
-        signalDuration: 1.2,
-        samplingRate: 3,
-        avs1X: 10,
-        avs1Y: 25,
-        avs2X: 32,
-        avs2Y: 17,
-        targetX: 15,
-        targetY: 22,
-        seastate: 1,
-        recordTime: 1818960001371,
-    },
-    {
-        targetStrength: 2,
-        noiseSourceFrequency: 3500,
-        signalDuration: 0.8,
-        samplingRate: 3,
-        avs1X: 8,
-        avs1Y: 30,
-        avs2X: 27,
-        avs2Y: 19,
-        targetX: 12,
-        targetY: 24,
-        seastate: 1,
-        recordTime: 1718960001372,
-    },
-    {
-        targetStrength: 3,
-        noiseSourceFrequency: 1500,
-        signalDuration: 2.1,
-        samplingRate: 3,
-        avs1X: 14,
-        avs1Y: 18,
-        avs2X: 39,
-        avs2Y: 12,
-        targetX: 18,
-        targetY: 20,
-        seastate: 1,
-        recordTime: 1718960001373,
-    },
-    {
-        targetStrength: 4,
-        noiseSourceFrequency: 2800,
-        signalDuration: 0.9,
-        samplingRate: 3,
-        avs1X: 5,
-        avs1Y: 35,
-        avs2X: 24,
-        avs2Y: 21,
-        targetX: 10,
-        targetY: 28,
-        seastate: 1,
-        recordTime: 1718960001374,
-    },
-    {
-        targetStrength: 5,
-        noiseSourceFrequency: 1800,
-        signalDuration: 1.5,
-        samplingRate: 3,
-        avs1X: 3,
-        avs1Y: 40,
-        avs2X: 21,
-        avs2Y: 15,
-        targetX: 7,
-        targetY: 32,
-        seastate: 1,
-        recordTime: 1718960901375,
-    },
-];
-
-
 /* ///////////////
     HELPER FUNCTIONS
 /////////////// */
@@ -86,14 +11,13 @@ let INPUT_HISTORY = [
 // FUNCTION to populate the recent inputs
 function populateInputHistory(inputHistorySec, INPUT_HISTORY, formInputsSet, seastateToggleInput) {
     if (!inputHistorySec) { return } else { inputHistorySec.innerHTML = ``; inputHistorySec.scrollIntoView({ behavior: 'smooth' }) }
-
     // If no History Available
     if (!INPUT_HISTORY || INPUT_HISTORY.length == 0) {
-        inputHistorySec.innerHTML = `<p class="center">No History available. Enter data to the fields will add it to this list for reuse when "Calculate" button is clicked.</p>`;
+        inputHistorySec.innerHTML = `<p class="center empty-sec">No History available. Input data will be added to this list for reuse when "Calculate" button is clicked.</p>`;
+        return;
     }
 
     INPUT_HISTORY.forEach(elem => {
-
         let date = new Date(elem.recordTime);
         let hours = date.getHours();
         let meridian = hours >= 12 ? "PM" : "AM";
@@ -156,19 +80,10 @@ function populateInputHistory(inputHistorySec, INPUT_HISTORY, formInputsSet, sea
     inputHistorySelectBtnsArr.forEach((btn, i) => {
         btn.addEventListener("click", () => {
             let selectedData = INPUT_HISTORY.splice(i, 1)[0];
-
-            for (const [inputName, inputElem] of Object.entries(formInputsSet)) {
-                inputElem.value = selectedData[inputName.slice(0, -5)];
-            }
-
-            seastateToggleInput.forEach(radio => {
-                if (selectedData.seastate == +radio.value) {
-                    radio.checked = true;
-                }
-            })
-
             INPUT_HISTORY.unshift(selectedData);
-            populateInputHistory(inputHistorySec, INPUT_HISTORY, formInputsSet, seastateToggleInput);
+            ipcRenderer.send("history:selected", INPUT_HISTORY);
+
+            // populateInputHistory(inputHistorySec, INPUT_HISTORY, formInputsSet, seastateToggleInput);
         });
     })
 }
@@ -261,23 +176,32 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             danger: true
         })
-        
+
     });
-    
-    
-    
+
+
+
     /* ///////////////
     INPUT HISTORY
     /////////////// */
-    
+
     window.indexBridge.fetchInputHistory((e, data) => {
         let inputHistorySec = document.getElementById("input_history_box");
         populateInputHistory(inputHistorySec, data, formInputsSet, seastateToggleInput);
     })
-    
-    window.indexBridge.fetchInputData((e, data) => {
-        console.log(data);
+
+    window.indexBridge.fillDataFromHistory((e, data) => {
+        let selectedData = data[0];
+        for (const [inputName, inputElem] of Object.entries(formInputsSet)) {
+            inputElem.value = selectedData[inputName.slice(0, -5)];
+        }
+
+        seastateToggleInput.forEach(radio => {
+            if (selectedData.seastate == +radio.value) {
+                radio.checked = true;
+            }
+        })
     })
-    
+
 
 })

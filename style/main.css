@@ -83,6 +83,13 @@ UTILITY CLASSES
   border-top: 1px solid var(--clr-grey-divider);
 }
 
+.empty-sec {
+  background-color: var(--clr-grey-hover);
+  color: var(--clr-grey-text);
+  padding: 1.6rem;
+  border-radius: 1.6rem;
+}
+
 /* /////////////////////////
 DECORATIONS, ILLUSTRATIONS and ANIMATIONS
 ///////////////////////// */
@@ -566,12 +573,14 @@ aside.aside-visible .aside-body,
 nav.nav-visible,
 .nav-close-btn.nav-visible,
 nav.nav-visible .nav-body {
+  position: static;
   opacity: 1;
   visibility: visible;
 }
 
 .input-aside-open-btn.aside-visible,
 .nav-open-btn.nav-visible {
+  position: absolute;
   opacity: 0;
   visibility: hidden;
 }

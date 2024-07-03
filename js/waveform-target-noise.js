@@ -1,7 +1,6 @@
 import { GraphControls, GraphIndexItem, GraphAxisX, GraphAxisY, GraphdataPoint, Graph, createGraph } from "./components/graphs.js"
 import { getLinspaceArray } from "./components/utils.js"
 import { UI_COLORS, GRAPH_AXIS_TYPE, GRAPH_INDEX_ITEM_TYPE, GRAPH_TYPE } from "./components/data.js"
-import { ipcRenderer } from "electron";
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -50,7 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
         })
 
         // X and Y Axis
-        let graphAxisX = new GraphAxisX("Time (sec)", false, .05, SOURCE_DATA.signalDuration);
+        let graphAxisX = new GraphAxisX("Time (sec)", false, .1, SOURCE_DATA.signalDuration);
         let graphAxisY = new GraphAxisY("Amplitude (Volts)", false, .5, 1);
         graphAxisY.centeredOrigin = true;
 

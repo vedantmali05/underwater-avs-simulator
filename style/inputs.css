@@ -62,7 +62,12 @@ table tr > td:nth-of-type(3) {
   align-content: start;
 }
 
+.inputs-history-sec .empty-sec {
+  margin-top: 2.4rem;
+}
+
 .inputs-history-sec table {
+  margin: auto;
   margin-top: 1.6rem;
 }
 

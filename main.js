@@ -1,5 +1,6 @@
 // Dependencies Requirements
 const { app, BrowserWindow, screen, Menu, ipcMain, ipcRenderer } = require('electron')
+// const reloader = require('electron-reloader')(module, {ignore: [regex_to_config_json]})
 const path = require('path')
 const os = require('os')
 const fs = require('fs')
@@ -12,6 +13,7 @@ const PATH_INPUTS_HISTORY = path.join(__dirname, "./db/inputs-history.json");
 const FUNC_NAMES = {
     fetchInputHistory: "fetchInputHistory",
     fetchInputData: "fetchInputData",
+    fillDataFromHistory: "fillDataFromHistory",
 }
 let MAIN_WIN = null;
 
@@ -41,6 +43,11 @@ function createMainWindow() {
         }
     });
 
+    mainWin.webContents.on('did-finish-load', () => {
+        sendToRenderer(MAIN_WIN, PATH_INPUTS_HISTORY, FUNC_NAMES.fetchInputHistory)
+        sendToRenderer(MAIN_WIN, PATH_INPUTS, FUNC_NAMES.fetchInputData);
+    });
+
     if (ISDEV) mainWin.webContents.openDevTools();
 
     mainWin.loadFile('index.html');
@@ -55,20 +62,34 @@ function sendToRenderer(window, filePath, funcName) {
     setTimeout(() => {
         if (fs.existsSync(filePath)) {
             let data = fs.readFileSync(filePath, "utf8");
-            if (data) {
-                window.webContents.send(funcName, JSON.parse(data));
-            }
+            data = data ? JSON.parse(data) : null;
+            window.webContents.send(funcName, data);
         }
     }, 1500);
 }
 
+// FUNCTION to UPDATE INPUT HISTORY
+function updateInputHistory(window, data, overwrite = false) {
+    // Checking if Input History File exists or if it is empty, create or initialize by []
+    if (!fs.existsSync(PATH_INPUTS_HISTORY) || !fs.readFileSync(PATH_INPUTS_HISTORY, "utf8")) {
+        fs.writeFileSync(PATH_INPUTS_HISTORY, '[]');
+    }
+
+    // Get, update and save input history data
+    let updatedData;
+    if (overwrite) {
+        updatedData = data;
+    } else {
+        updatedData = JSON.parse(fs.readFileSync(PATH_INPUTS_HISTORY, "utf8"));
+        updatedData.unshift(data);
+    }
+    fs.writeFileSync(PATH_INPUTS_HISTORY, JSON.stringify(updatedData));
+    sendToRenderer(MAIN_WIN, PATH_INPUTS_HISTORY, FUNC_NAMES.fetchInputHistory)
+}
+
 // Built App
 app.whenReady().then(() => {
-
     MAIN_WIN = createMainWindow();
-
-    sendToRenderer(MAIN_WIN, PATH_INPUTS_HISTORY, FUNC_NAMES.fetchInputHistory)
-    sendToRenderer(MAIN_WIN, PATH_INPUTS, FUNC_NAMES.fetchInputData);
 });
 
 // Save Inputs
@@ -77,18 +98,17 @@ ipcMain.on("input:save-data", async function (e, data) {
     // If db (database) folder doesn't exists, create one,
     if (!fs.existsSync("./db")) fs.mkdirSync("./db");
 
-    // Checking if Input History File exists or if it is empty, create or initialize by []
-    if (!fs.existsSync(PATH_INPUTS_HISTORY) || !fs.readFileSync(PATH_INPUTS_HISTORY, "utf8")) {
-        fs.writeFileSync(PATH_INPUTS_HISTORY, '[]');
-    }
-
-    // Get, update and save input history data
-    let inputHistoryData = JSON.parse(fs.readFileSync(PATH_INPUTS_HISTORY, "utf8"));
-    inputHistoryData.unshift(data);
-    fs.writeFileSync(PATH_INPUTS_HISTORY, JSON.stringify(inputHistoryData));
+    updateInputHistory(MAIN_WIN, data);
 
     // Save current data
     fs.writeFileSync(PATH_INPUTS, JSON.stringify(data));
+    sendToRenderer(MAIN_WIN, PATH_INPUTS, FUNC_NAMES.fetchInputData);
 
-    sendToRenderer(MAIN_WIN, PATH_INPUTS_HISTORY, FUNC_NAMES.fetchInputHistory)
+    MAIN_WIN.loadFile("avs-calculations.html");
+});
+
+// When a Input From INPUT HISTORY IS SELECTED, IT IS MOVED TO FIRST LOCATION
+ipcMain.on("history:selected", async function (e, data) {
+    updateInputHistory(MAIN_WIN, data, true);
+    sendToRenderer(MAIN_WIN, PATH_INPUTS_HISTORY, FUNC_NAMES.fillDataFromHistory)
 });
