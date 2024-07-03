@@ -44,8 +44,8 @@ function createMainWindow() {
     });
 
     mainWin.webContents.on('did-finish-load', () => {
-        sendToRenderer(MAIN_WIN, PATH_INPUTS_HISTORY, FUNC_NAMES.fetchInputHistory)
         sendToRenderer(MAIN_WIN, PATH_INPUTS, FUNC_NAMES.fetchInputData);
+        sendToRenderer(MAIN_WIN, PATH_INPUTS_HISTORY, FUNC_NAMES.fetchInputHistory)
     });
 
     if (ISDEV) mainWin.webContents.openDevTools();
@@ -62,7 +62,7 @@ function sendToRenderer(window, filePath, funcName) {
     setTimeout(() => {
         if (fs.existsSync(filePath)) {
             let data = fs.readFileSync(filePath, "utf8");
-            data = data ? JSON.parse(data) : null;
+            data = data ? JSON.parse(data) : [];
             window.webContents.send(funcName, data);
         }
     }, 1500);
@@ -112,3 +112,9 @@ ipcMain.on("history:selected", async function (e, data) {
     updateInputHistory(MAIN_WIN, data, true);
     sendToRenderer(MAIN_WIN, PATH_INPUTS_HISTORY, FUNC_NAMES.fillDataFromHistory)
 });
+
+// Clearing Inputs and STARTING OVER
+ipcMain.on("input:reset", async (e, data)=>{
+    fs.writeFileSync(PATH_INPUTS, '');
+    MAIN_WIN.loadFile("index.html");
+})

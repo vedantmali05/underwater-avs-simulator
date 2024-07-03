@@ -298,6 +298,8 @@ export async function createGraph(options = {}) {
     } else if (type == GRAPH_TYPE.waveform) {
         await setWaveLines(dataPoints, axisX, axisY, indexItems[0], graphSec);
     }
+
+    setTitleAttr();
 }
 
 // Setting Data Points on the graph

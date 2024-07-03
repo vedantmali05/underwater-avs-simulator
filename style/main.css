@@ -573,7 +573,6 @@ aside.aside-visible .aside-body,
 nav.nav-visible,
 .nav-close-btn.nav-visible,
 nav.nav-visible .nav-body {
-  position: static;
   opacity: 1;
   visibility: visible;
 }

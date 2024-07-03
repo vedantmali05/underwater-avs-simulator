@@ -165,14 +165,39 @@ document.addEventListener("DOMContentLoaded", () => {
         recordTime: 1818960001371,
     };
 
-    for (const [key, value] of Object.entries(SOURCE_DATA)) {
-        let elem = document.getElementById(`source_data_${key}`);
-        if (elem) elem.innerHTML = value;
-    }
+    window.indexBridge.fetchInputData((e, data) => {
+        for (const [key, value] of Object.entries(data)) {
+            let elem = document.getElementById(`source_data_${key}`);
+            if (elem) elem.innerHTML = value;
+        }
+        setTitleAttr();
+    })
 
     /* ///////////////
     Typography and Accessibility
     /////////////// */
 
     setTitleAttr();
+
+    let editDataBtnsArr = document.querySelectorAll(".edit-data-btn");
+
+    editDataBtnsArr.forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            e.preventDefault();
+
+            
+            createDialog({
+                headline: "Start over?",
+                description: "This action will clear the currently calculated data and plots and navigate you to the empty input page with <b>available input history</b>. Are you sure want to start over?",
+                primaryBtnLabel: "Reset Data",
+                secondaryBtnLabel : "Keep",
+                primaryAction: ()=>{
+                    ipcRenderer.send("input:reset", true);
+                    return true;
+                },
+                danger: true
+            });
+            
+        })
+    })
 });
