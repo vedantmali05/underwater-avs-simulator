@@ -11,5 +11,5 @@ contextBridge.exposeInMainWorld('ipcRenderer', {
 contextBridge.exposeInMainWorld("indexBridge", {
     fetchInputHistory: (callback) => ipcRenderer.on("fetchInputHistory", (callback)),
     fetchInputData: (callback) => ipcRenderer.on("fetchInputData", (callback)),
-    fillDataFromHistory: (callback) => ipcRenderer.on("fillDataFromHistory", (callback))
+    fillDataFromHistory: (callback) => ipcRenderer.on("fillDataFromHistory", (callback)),
 })

@@ -1,6 +1,7 @@
 // IMPORTS
 import { GRAPH_AXIS_TYPE, GRAPH_TYPE, UI_COLORS } from "./data.js"
 import { getCoordinatePercentages } from "./utils.js"
+import { setTitleAttr } from "./utils.js"
 
 
 /* ///////////////
@@ -110,6 +111,8 @@ function createGraphTitleSec(title, description, controls, indexItems) {
         ${description ? `<p class="subtitle">${description}</p>` : ``}
         <div class="controls-box">
             <div class="controls">
+            ${controls.saveAsPDF ?
+            `<button class="icon control-save-as-pdf"><i class="bi bi-filetype-pdf"></i></button>` : ``}
             ${controls.pan ?
             `<button class="icon control-pan"><i class="bi bi-arrows-move"></i></button>` : ``}
             ${controls.zoom ?
@@ -300,6 +303,11 @@ export async function createGraph(options = {}) {
     }
 
     setTitleAttr();
+
+    let saveAsPDFBtn = graphSec.querySelector(".control-save-as-pdf");
+    saveAsPDFBtn.addEventListener("click", function () {
+        window.print();
+    });
 }
 
 // Setting Data Points on the graph
@@ -345,8 +353,6 @@ function setdataPoints(dataPoints, axisX, axisY, graphHolder) {
 // FUNCTION to Create Waveform Lines and Set them to graph
 async function setWaveLines(dataPoints, axisX, axisY, indexItems, graphSec) {
     if (dataPoints.length === 0) return;
-
-    console.log(dataPoints.length);
 
     let drawSymbol = "M"
     // Create dot point holder element

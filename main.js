@@ -1,6 +1,5 @@
 // Dependencies Requirements
 const { app, BrowserWindow, screen, Menu, ipcMain, ipcRenderer } = require('electron')
-// const reloader = require('electron-reloader')(module, {ignore: [regex_to_config_json]})
 const path = require('path')
 const os = require('os')
 const fs = require('fs')
@@ -45,7 +44,7 @@ function createMainWindow() {
 
     mainWin.webContents.on('did-finish-load', () => {
         sendToRenderer(MAIN_WIN, PATH_INPUTS, FUNC_NAMES.fetchInputData);
-        sendToRenderer(MAIN_WIN, PATH_INPUTS_HISTORY, FUNC_NAMES.fetchInputHistory)
+        sendToRenderer(MAIN_WIN, PATH_INPUTS_HISTORY, FUNC_NAMES.fetchInputHistory);
     });
 
     if (ISDEV) mainWin.webContents.openDevTools();
@@ -69,7 +68,7 @@ function sendToRenderer(window, filePath, funcName) {
 }
 
 // FUNCTION to UPDATE INPUT HISTORY
-function updateInputHistory(window, data, overwrite = false) {
+function updateInputHistory(data, overwrite = false) {
     // Checking if Input History File exists or if it is empty, create or initialize by []
     if (!fs.existsSync(PATH_INPUTS_HISTORY) || !fs.readFileSync(PATH_INPUTS_HISTORY, "utf8")) {
         fs.writeFileSync(PATH_INPUTS_HISTORY, '[]');
@@ -82,9 +81,28 @@ function updateInputHistory(window, data, overwrite = false) {
     } else {
         updatedData = JSON.parse(fs.readFileSync(PATH_INPUTS_HISTORY, "utf8"));
         updatedData.unshift(data);
+        updatedData = removeDuplicateHistory(updatedData);
     }
     fs.writeFileSync(PATH_INPUTS_HISTORY, JSON.stringify(updatedData));
     sendToRenderer(MAIN_WIN, PATH_INPUTS_HISTORY, FUNC_NAMES.fetchInputHistory)
+}
+
+// Remove Duplicate Input History
+function removeDuplicateHistory(arr) {
+    const seen = new Set();
+    const uniqueArray = [];
+
+    for (const obj of arr) {
+        // Create a unique key combining the object's properties (excluding "recordtime").
+        const uniqueKey = JSON.stringify(Object.assign({}, obj, { recordTime: null }));
+
+        if (!seen.has(uniqueKey)) {
+            seen.add(uniqueKey);
+            uniqueArray.push(obj);
+        }
+    }
+
+    return uniqueArray;
 }
 
 // Built App
@@ -98,7 +116,7 @@ ipcMain.on("input:save-data", async function (e, data) {
     // If db (database) folder doesn't exists, create one,
     if (!fs.existsSync("./db")) fs.mkdirSync("./db");
 
-    updateInputHistory(MAIN_WIN, data);
+    updateInputHistory(data);
 
     // Save current data
     fs.writeFileSync(PATH_INPUTS, JSON.stringify(data));
@@ -107,14 +125,19 @@ ipcMain.on("input:save-data", async function (e, data) {
     MAIN_WIN.loadFile("avs-calculations.html");
 });
 
+// Clearing Inputs and STARTING OVER
+ipcMain.on("input:reset", async (e, data) => {
+    fs.writeFileSync(PATH_INPUTS, '');
+    MAIN_WIN.loadFile("index.html");
+})
+
 // When a Input From INPUT HISTORY IS SELECTED, IT IS MOVED TO FIRST LOCATION
-ipcMain.on("history:selected", async function (e, data) {
-    updateInputHistory(MAIN_WIN, data, true);
+ipcMain.on("history:selected", async (e, data) => {
+    updateInputHistory(data, true);
     sendToRenderer(MAIN_WIN, PATH_INPUTS_HISTORY, FUNC_NAMES.fillDataFromHistory)
 });
 
-// Clearing Inputs and STARTING OVER
-ipcMain.on("input:reset", async (e, data)=>{
-    fs.writeFileSync(PATH_INPUTS, '');
-    MAIN_WIN.loadFile("index.html");
+// Clear History button clicked
+ipcMain.on("history:clear", async (e, data) => {
+    updateInputHistory([], true);
 })

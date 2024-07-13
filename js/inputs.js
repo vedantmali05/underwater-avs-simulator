@@ -82,8 +82,6 @@ function populateInputHistory(inputHistorySec, INPUT_HISTORY, formInputsSet, sea
             let selectedData = INPUT_HISTORY.splice(i, 1)[0];
             INPUT_HISTORY.unshift(selectedData);
             ipcRenderer.send("history:selected", INPUT_HISTORY);
-
-            // populateInputHistory(inputHistorySec, INPUT_HISTORY, formInputsSet, seastateToggleInput);
         });
     })
 }
@@ -185,11 +183,13 @@ document.addEventListener('DOMContentLoaded', () => {
     INPUT HISTORY
     /////////////// */
 
+    // Get input history from file
     window.indexBridge.fetchInputHistory((e, data) => {
         let inputHistorySec = document.getElementById("input_history_box");
         populateInputHistory(inputHistorySec, data, formInputsSet, seastateToggleInput);
     })
 
+    // Fill data selected from history
     window.indexBridge.fillDataFromHistory((e, data) => {
         let selectedData = data[0];
         for (const [inputName, inputElem] of Object.entries(formInputsSet)) {
@@ -201,7 +201,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 radio.checked = true;
             }
         })
+    });
+
+    // clear all input history
+    let clearInputHistoryBtn = document.getElementById("clear_input_history_btn");
+
+    clearInputHistoryBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        // Popup Dialog and ask user for confirmation
+        createDialog({
+            headline: "Clear all History",
+            description: "Are you sure want to clear all the saved input data history? This action cannot be undone.",
+            primaryBtnLabel: "Clear",
+            secondaryBtnLabel: "Keep",
+            primaryAction: () => {
+                // If clear clicked, clear the inputs
+                ipcRenderer.send("history:clear", []);
+                return true;
+            },
+            danger: true
+        })
+
+
     })
-
-
 })

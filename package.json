@@ -5,12 +5,16 @@
   "description": "Reads AVS and Signal data and generates calcutions, spectrogram, wave forms and positional graphs",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
   },
   "author": "Vedant Mali",
   "license": "ISC",
   "dependencies": {
-    "electron": "^31.0.1",
+    "child_process": "^1.0.2",
+    "electron": "^31.2.0",
+    "electron-squirrel-startup": "^1.0.1",
     "wav-spectrogram": "^0.0.4"
   },
   "keywords": [
@@ -22,5 +26,15 @@
     "spectrogram",
     "scattered-graph",
     "solenoidal-waves"
-  ]
+  ],
+  "devDependencies": {
+    "@electron-forge/cli": "^7.4.0",
+    "@electron-forge/maker-deb": "^7.4.0",
+    "@electron-forge/maker-rpm": "^7.4.0",
+    "@electron-forge/maker-squirrel": "^7.4.0",
+    "@electron-forge/maker-zip": "^7.4.0",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.4.0",
+    "@electron-forge/plugin-fuses": "^7.4.0",
+    "@electron/fuses": "^1.8.0"
+  }
 }
