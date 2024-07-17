@@ -13,10 +13,18 @@
     <link rel="stylesheet" href="./style/main.css">
 
     <style>
-        .main-content {
+
+        .main-content .main-content {
             display: grid;
             grid-template-columns: 1fr;
             grid-gap: 1.6rem;
+            background-color: var(--clr-grey-hover);
+        }
+
+        .main-content .main-content:not(.visible) {
+            position: absolute;
+            opacity: 0;
+            visibility: hidden;
         }
 
         .view-toggle-btn .list-view-btn,
@@ -119,34 +127,72 @@
         </header>
         <!-- HEADER ENDS -->
 
-        <!-- MAIN CONTENT STARTS -->
-        <section class="main-content grid-view" id="main_content">
-
-            <!-- TARGET NOISE GRAPH STARTS -->
-            <section>
-                <section class="graph-sec" id="target_noise"></section>
-            </section>
-            <!-- TARGET NOISE GRAPH ENDS -->
-            <!-- TARGET NOISE HYDROPHONE GRAPH STARTS -->
-            <section>
-                <section class="graph-sec" id="target_noise_hydrophone"></section>
-            </section>
-            <!-- TARGET NOISE HYDROPHONE GRAPH ENDS -->
-            <!-- TARGET NOISE AVS X CHANNEL GRAPH STARTS -->
-            <section>
-                <section class="graph-sec" id="target_noise_avs_x_channel"></section>
-            </section>
-            <!-- TARGET NOISE AVS X CHANNEL GRAPH ENDS -->
-            <!-- TARGET NOISE AVS Y CHANNEL GRAPH STARTS -->
-            <section>
-                <section class="graph-sec" id="target_noise_avs_y_channel"></section>
-            </section>
-            <!-- TARGET NOISE AVS Y CHANNEL GRAPH ENDS -->
-
+        <section class="toggle-btn-box center-mobile">
+            <button class="toggle-btn text selected" data-target-id="avs1_graphs">
+                AVS 1
+            </button>
+            <button class="toggle-btn text" data-target-id="avs2_graphs">
+                AVS 2
+            </button>
         </section>
 
+        <!-- MAIN CONTENT FOR AVS 1 -->
+        <section class="main-content grid-view">
+
+            <!-- MAIN CONTENT FOR AVS 1 -->
+            <section class="main-content grid-view visible" id="avs1_graphs">
+
+                <!-- TARGET NOISE GRAPH STARTS -->
+                <section>
+                    <section class="graph-sec" id="target_noise_1"></section>
+                </section>
+                <!-- TARGET NOISE GRAPH ENDS -->
+                <!-- TARGET NOISE HYDROPHONE GRAPH STARTS -->
+                <section>
+                    <section class="graph-sec" id="target_noise_hydrophone_1"></section>
+                </section>
+                <!-- TARGET NOISE HYDROPHONE GRAPH ENDS -->
+                <!-- TARGET NOISE AVS X CHANNEL GRAPH STARTS -->
+                <section>
+                    <section class="graph-sec" id="target_noise_avs_x_channel_1"></section>
+                </section>
+                <!-- TARGET NOISE AVS X CHANNEL GRAPH ENDS -->
+                <!-- TARGET NOISE AVS Y CHANNEL GRAPH STARTS -->
+                <section>
+                    <section class="graph-sec" id="target_noise_avs_y_channel_1"></section>
+                </section>
+                <!-- TARGET NOISE AVS Y CHANNEL GRAPH ENDS -->
+
+            </section>
+
+            <!-- MAIN CONTENT FOR AVS 2 -->
+            <section class="main-content grid-view" id="avs2_graphs">
+
+                <!-- TARGET NOISE GRAPH STARTS -->
+                <section>
+                    <section class="graph-sec" id="target_noise_2"></section>
+                </section>
+                <!-- TARGET NOISE GRAPH ENDS -->
+                <!-- TARGET NOISE HYDROPHONE GRAPH STARTS -->
+                <section>
+                    <section class="graph-sec" id="target_noise_hydrophone_2"></section>
+                </section>
+                <!-- TARGET NOISE HYDROPHONE GRAPH ENDS -->
+                <!-- TARGET NOISE AVS X CHANNEL GRAPH STARTS -->
+                <section>
+                    <section class="graph-sec" id="target_noise_avs_x_channel_2"></section>
+                </section>
+                <!-- TARGET NOISE AVS X CHANNEL GRAPH ENDS -->
+                <!-- TARGET NOISE AVS Y CHANNEL GRAPH STARTS -->
+                <section>
+                    <section class="graph-sec" id="target_noise_avs_y_channel_2"></section>
+                </section>
+                <!-- TARGET NOISE AVS Y CHANNEL GRAPH ENDS -->
+
+            </section>
+
         </section>
-        <!-- MAIN CONTENT STARTS -->
+        <!-- MAIN CONTENT ENDS -->
     </main>
     <!-- MAIN ENDS -->
 
@@ -169,8 +215,8 @@
                     calculations and plots. You can modify these inputs to explore different scenarios.</p>
 
                 <!-- Edit Data Button -->
-                <button class="text edit-data-btn" style="margin-left: auto;"> <i
-                        class="bi bi-input-cursor-text"></i> Edit Data</button>
+                <button class="text edit-data-btn" style="margin-left: auto;"> <i class="bi bi-input-cursor-text"></i>
+                    Edit Data</button>
 
                 <!-- Source Inputs -->
                 <section class="source-input-sec" id="source_input_box">
@@ -238,7 +284,7 @@
     <!-- INPUT HISTORY ENDS -->
 
     <script src="eel.js"></script>
-<script type="module" src="./js/index.js"></script>
+    <script type="module" src="./js/index.js"></script>
     <script type="module" src="./js/waveform-target-noise.js"></script>
 </body>
 

@@ -312,7 +312,7 @@ export async function createGraph(options = {}) {
         if (spectrogramData) {
             let specImg = document.createElement("img");
             specImg.classList.add("spectrogram-img", "data-point-holder");
-            specImg.src = `data:image/png;base64,${spectrogramData.encoded_image}`
+            specImg.src = `data:image/png;base64,${spectrogramData}`
             graphHolder.append(specImg);
         }
     }

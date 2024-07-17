@@ -398,6 +398,11 @@ main {
   overflow: hidden;
 }
 
+/* .main-content:not(.main-content .main-content):has(.graph-sec) {
+  height: calc(100vh - 8.4rem);
+  overflow: auto;
+} */
+
 main header,
 aside header,
 nav header {

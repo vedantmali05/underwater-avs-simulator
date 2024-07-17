@@ -5,6 +5,8 @@ import os
 
 import eel
 import matplotlib.pyplot as plt
+import librosa
+import librosa.display
 import numpy as np
 from ambient_noise import generate_ambient_noise
 from avs_data import avs_data
@@ -238,49 +240,33 @@ def performCalculations():
 
 
 @eel.expose
-def saveSpectrogramImage(filename, signal, frequency, samplingRate, duration, amplitude=0.5):
-    """
-        signal = Tx or p1 or vx1 or vy1 (Similarly for AVS 2)
-    """
+def saveSpectrogramImage(yAxisDataName):
 
-    # Generate time axis
-    timeAxis = np.linspace(0, duration, int(
-        samplingRate * duration), endpoint=False)
+    inputData = getFromJSONFile("calculations.json")
 
-    # Generate the sinusoidal signal
-    # sinusoid = amplitude * np.sin(2 * np.pi * frequency * timeAxis)
-    sinusoid = signal
+    try:
+        signal = inputData[yAxisDataName]
+    except KeyError:
+        print("The key", yAxisDataName, "doesn't exist")
+        return None
+    signal = np.array(signal)
+    samplingRate = inputData["samplingRate"]
 
-    # Define spectrogram parameters
-    window_length = 2048  # Window length in samples
-    fft_length = 2048     # FFT length in samples
-    hop_length = window_length // 2  # Hop length (50% overlap)
+    # Compute the Short-Time Fourier Transform (STFT)
+    D = librosa.stft(signal, n_fft=2048, hop_length=512, win_length=2048)
+    DP = np.abs(D) ** 2
 
-    # Apply windowing and compute FFT
-    n_windows = (len(sinusoid) - window_length) // hop_length + 1
-    spectrogram = np.zeros((fft_length // 2 + 1, n_windows))
+    # Convert the amplitude to dB-scaled spectrogram
+    S_db = librosa.power_to_db(DP)
 
-    window = np.hanning(window_length)
-    for i in range(n_windows):
-        start = i * hop_length
-        segment = sinusoid[start:start + window_length]
-        windowed_segment = segment * window
-        fft_segment = np.fft.rfft(windowed_segment, n=fft_length)
-        spectrogram[:, i] = np.abs(fft_segment)
-
-    # Convert to dB scale
-    spectrogram_db = 20 * np.log10(spectrogram + 1e-8)
-
-    # Time and frequency axes
-    time_axis = np.arange(n_windows) * hop_length / samplingRate
-    freq_axis = np.fft.rfftfreq(fft_length, d=1/samplingRate)
-
-    # Plot the spectrogram without axes
-    # Convert spectrogram to a byte array using a buffer
+    # Create a buffer to save image
     buffer = io.BytesIO()
+
+    # Plotting without colorbar
     plt.figure(figsize=(10, 6))
-    plt.pcolormesh(time_axis, freq_axis, spectrogram_db, shading='nearest')
-    plt.axis('off')
+    librosa.display.specshow(S_db, sr=samplingRate,
+                             hop_length=512, x_axis='time', y_axis='linear')
+    plt.axis('off')  # No axes for a cleaner image
     plt.savefig(buffer, format='png', bbox_inches='tight', pad_inches=0)
     plt.close()
     buffer.seek(0)
@@ -288,20 +274,11 @@ def saveSpectrogramImage(filename, signal, frequency, samplingRate, duration, am
     # Encode the byte array as base64 string
     encoded_image = base64.b64encode(buffer.read()).decode('utf-8')
 
-    # Return base64 string and cleanup
+    # Cleanup and return the base64 string
     buffer.close()
     return encoded_image
 
 
 # ########## STARTTING APPLICATION
-
 eel.init("web")
 eel.start('index.html', port=1234, host='localhost')
-
-
-"""
-
-        index.html
-        Calculate button --> inputs.json, inputs-history.json, avs-calculations.json
-
-"""
