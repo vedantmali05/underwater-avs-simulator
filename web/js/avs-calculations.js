@@ -3,34 +3,24 @@ import { TIME_WEEK_DAYS, TIME_MONTHS } from "./components/data.js";
 
 document.addEventListener("DOMContentLoaded", () => {
 
-    let CALCULATIONS_AVS1 = {
-        range: 1,
-        rnl: 1,
-        snr: 1,
-        actualDoa: 1,
-        estimatedDoa: 1,
-        doaError: 1,
-    }
+    eel.getFromJSONFile("calculations.json")()
+        .then((data) => {
 
-    let CALCULATIONS_AVS2 = {
-        range: 1,
-        rnl: 1,
-        snr: 1,
-        actualDoa: 1,
-        estimatedDoa: 1,
-        doaError: 1,
-    }
+            document.getElementById("calculation_avs1_range").innerHTML = Number(data["rangeArr"][0].toFixed(2));
+            document.getElementById("calculation_avs2_range").innerHTML = Number(data["rangeArr"][1].toFixed(2));
+            document.getElementById("calculation_avs1_rnl").innerHTML = Number(data["RNL1"].toFixed(2));
+            document.getElementById("calculation_avs2_rnl").innerHTML = Number(data["RNL2"].toFixed(2));
+            document.getElementById("calculation_avs1_snr").innerHTML = Number(data["SNR1"].toFixed(2));
+            document.getElementById("calculation_avs2_snr").innerHTML = Number(data["SNR2"].toFixed(2));
+            document.getElementById("calculation_avs1_actualDoa").innerHTML = Number(data["actualDoaArr"][0].toFixed(2));
+            document.getElementById("calculation_avs2_actualDoa").innerHTML = Number(data["actualDoaArr"][1].toFixed(2));
+            document.getElementById("calculation_avs1_estimatedDoa").innerHTML = Number(data["estimatedDoa1"].toFixed(2));
+            document.getElementById("calculation_avs2_estimatedDoa").innerHTML = Number(data["estimatedDoa2"].toFixed(2));
+            document.getElementById("calculation_avs1_doaError").innerHTML = Number(data["doaError1"].toFixed(7));
+            document.getElementById("calculation_avs2_doaError").innerHTML = Number(data["doaError2"].toFixed(7));
 
-    let allData = [CALCULATIONS_AVS1, CALCULATIONS_AVS2];
-    let idPrefix = ["calculation_avs1", "calculation_avs2"];
+            setTitleAttr();
+        });
 
-    allData.forEach((item, i) => {
-        for (const [key, value] of Object.entries(item)) {
-            let elem = document.getElementById(`${idPrefix[i]}_${key}`);
-            if (elem) elem.innerHTML = value;
-        }
-    })
-
-    setTitleAttr();
 
 });

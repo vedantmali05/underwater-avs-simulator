@@ -1,15 +1,20 @@
-import io
 import base64
-from matplotlib.cm import ScalarMappable
-import matplotlib.pyplot as plt
-
-import numpy as np
-import eel
+import io
 import json
 import os
 
-import http.server
-import threading
+import eel
+import matplotlib.pyplot as plt
+import numpy as np
+from ambient_noise import generate_ambient_noise
+from avs_data import avs_data
+from doa_est import doa_est
+from grid_cord_est import grid_cord_new
+from matplotlib.cm import ScalarMappable
+from pos_true_theta import pos
+from scipy.fft import fft, ifft
+from theta2_avs import theta2_avs
+from tx_sig import transmit_sig
 
 IS_DEV = False
 
@@ -83,19 +88,168 @@ def updateInputHistory(newData):
     updatedHistory = removeDuplicateHistory(updatedHistory)
     saveToJSONFile(fileName, updatedHistory)
 
+# ########## PERFORM AND SAVE CALCULATIONS
+
+
+def saveCalculationsToJSONFile(TS, fs, seastate, duration, f, SX1, SY1, SX2, SY2, TPX1, TPY1):
+    """
+    Main function to perform AVS calculations and save the results to a JSON file.
+
+    Parameters:
+    TS (float): Target Strength dB re 1uPa
+    fs (int): Sampling frequency in Hz
+    seastate (int): Sea state
+    duration (float): Duration of Signal in seconds
+    f (float): Frequency of Noise Source in Hz
+    SX1, SY1 (float): Sensor 1 positions
+    SX2, SY2 (float): Sensor 2 positions
+    TPX1, TPY1 (float): Target positions
+
+    Returns:
+    None
+    """
+
+    # Sensor positions
+    SX3, SY3 = SX2, SY2
+    SP = np.array([[SX1, SY1], [SX2, SY2], [SX3, SY3]])  # AVS Positions
+    TP = np.array([TPX1, TPY1])  # Target Position
+
+    # Generate transmitted signal
+    Tx, t = transmit_sig(duration, fs, f, TS)
+
+    # Generate ambient noise
+    noise1 = generate_ambient_noise(seastate, fs, len(t))
+    noise2 = generate_ambient_noise(seastate, fs, len(t))
+    noise3 = generate_ambient_noise(seastate, fs, len(t))
+
+    # Calculate distances and angles
+    D, true_theta = pos(SP, TP)
+    r1, r2, r3 = D
+    theta1, theta2, theta3 = true_theta
+
+    # Generate AVS data
+    p1, vx1, vy1, SNR1, RNL1 = avs_data(TS, Tx, r1, theta1, noise1)
+    p2, vx2, vy2, SNR2, RNL2 = avs_data(TS, Tx, r2, theta2, noise2)
+    p3, vx3, vy3, _, _ = avs_data(TS, Tx, r3, theta3, noise3)
+
+    # Estimate DOA
+    doa_est_1 = doa_est(p1, vx1, vy1)
+    doa_est_2 = doa_est(p2, vx2, vy2)
+    doa_est_3 = doa_est(p3, vx3, vy3)
+    theta_estimate = np.array([doa_est_1, doa_est_2, doa_est_3])
+
+    doa_error1 = abs(theta1 - doa_est_1)
+    doa_error2 = abs(theta2 - doa_est_2)
+
+    # Example initialization of the application parameters
+    N = 3
+
+    # Calculate the estimated position
+    T_est = grid_cord_new(N, SP, theta_estimate)
+
+    # Update values
+    TPX1, TPY1 = TP
+    T_est_x, T_est_y = T_est
+    range_error = np.sqrt((TPX1 - T_est_x)**2 + (TPY1 - T_est_y)**2)
+
+    # Function to convert numpy types to native python types
+
+
+# Function to convert numpy types to native python types
+
+    def convert_to_native_type(obj):
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        elif isinstance(obj, (np.int64, np.int32, np.int16, np.int8)):
+            return int(obj)
+        elif isinstance(obj, (np.float64, np.float32, np.float16)):
+            return float(obj)
+        return obj
+
+    # Convert the results dictionary
+    results = {
+        "targetStrength": convert_to_native_type(TS),
+        "samplingRate": convert_to_native_type(fs),
+        "seastate": convert_to_native_type(seastate),
+        "signalDuration": convert_to_native_type(duration),
+        "noiseSourceFrequency": convert_to_native_type(f),
+        "avs1X": convert_to_native_type(SX1),
+        "avs1Y": convert_to_native_type(SY1),
+        "avs2X": convert_to_native_type(SX2),
+        "avs2Y": convert_to_native_type(SY2),
+        "avs3X": convert_to_native_type(SX3),
+        "avs3X": convert_to_native_type(SY3),
+        "targetX": convert_to_native_type(TPX1),
+        "targetY": convert_to_native_type(TPY1),
+        "Tx": convert_to_native_type(Tx),
+        "t": convert_to_native_type(t),
+        "noise1": convert_to_native_type(noise1),
+        "noise2": convert_to_native_type(noise2),
+        "noise3": convert_to_native_type(noise3),
+        "rangeArr": convert_to_native_type(D),
+        "actualDoaArr": convert_to_native_type(true_theta),
+        "p1": convert_to_native_type(p1),
+        "vx1": convert_to_native_type(vx1),
+        "vy1": convert_to_native_type(vy1),
+        "SNR1": convert_to_native_type(SNR1),
+        "RNL1": convert_to_native_type(RNL1),
+        "p2": convert_to_native_type(p2),
+        "vx2": convert_to_native_type(vx2),
+        "vy2": convert_to_native_type(vy2),
+        "SNR2": convert_to_native_type(SNR2),
+        "RNL2": convert_to_native_type(RNL2),
+        "p3": convert_to_native_type(p3),
+        "vx3": convert_to_native_type(vx3),
+        "vy3": convert_to_native_type(vy3),
+        "estimatedDoa1": convert_to_native_type(doa_est_1),
+        "estimatedDoa2": convert_to_native_type(doa_est_2),
+        "estimatedDoa3": convert_to_native_type(doa_est_3),
+        "theta_estimate": convert_to_native_type(theta_estimate),
+        "doaError1": convert_to_native_type(doa_error1),
+        "doaError2": convert_to_native_type(doa_error2),
+        "estimatedTargetX": convert_to_native_type(T_est_x),
+        "estimatedTargetY": convert_to_native_type(T_est_y),
+        "rangeError": convert_to_native_type(range_error)
+    }
+
+    # Saving the results dictionary to a JSON file
+    saveToJSONFile("calculations.json", results)
+
+
+@eel.expose
+def performCalculations():
+    inputData = getFromJSONFile("inputs.json")
+    saveCalculationsToJSONFile(
+        inputData["targetStrength"],
+        inputData["samplingRate"],
+        inputData["seastate"],
+        inputData["signalDuration"],
+        inputData["noiseSourceFrequency"],
+        inputData["avs1X"],
+        inputData["avs1Y"],
+        inputData["avs2X"],
+        inputData["avs2Y"],
+        inputData["targetX"],
+        inputData["targetY"]
+    )
+
 
 # ########## AUDIO FILE HANDLING FUNCTIONS
 
 
 @eel.expose
-def saveSpectrogramImage(filename, frequency, samplingRate, duration, amplitude=0.5):
+def saveSpectrogramImage(filename, signal, frequency, samplingRate, duration, amplitude=0.5):
+    """
+        signal = Tx or p1 or vx1 or vy1 (Similarly for AVS 2)
+    """
 
     # Generate time axis
     timeAxis = np.linspace(0, duration, int(
         samplingRate * duration), endpoint=False)
 
     # Generate the sinusoidal signal
-    sinusoid = amplitude * np.sin(2 * np.pi * frequency * timeAxis)
+    # sinusoid = amplitude * np.sin(2 * np.pi * frequency * timeAxis)
+    sinusoid = signal
 
     # Define spectrogram parameters
     window_length = 2048  # Window length in samples
@@ -134,40 +288,20 @@ def saveSpectrogramImage(filename, frequency, samplingRate, duration, amplitude=
     # Encode the byte array as base64 string
     encoded_image = base64.b64encode(buffer.read()).decode('utf-8')
 
-    spectrogram_db = 20 * np.log10(np.abs(spectrogram + 1e-8))
-
-    # Create colormap and normalization
-    cmap = plt.cm.get_cmap('viridis')  # Choose a colormap (e.g., 'jet', 'plasma')
-    norm = plt.Normalize(vmin=spectrogram_db.min(), vmax=spectrogram_db.max())
-
-    # Create a ScalarMappable object for color-magnitude mapping
-    sm = ScalarMappable(cmap=cmap, norm=norm)
-    sm.set_array([])  # Set an empty array for color mapping
-
-    # Extract color and magnitude data
-    colors = sm.to_rgba(spectrogram_db.flatten())  # Colors for each magnitude value
-    magnitudes = spectrogram_db.flatten()  # Flatten spectrogram_db for one-dimensional data
-
-    # Convert colors to hex strings
-    color_hex = [f"#{int(c[0]*255):02x}{int(c[1]*255):02x}{int(c[2]*255):02x}" for c in colors]
-
-    # Sample magnitudes (limited to 20-30 entries)
-    num_samples = min(len(magnitudes), 30)  # Ensure at most 30 samples
-    sample_indices = np.linspace(0, len(magnitudes) - 1, num_samples, dtype=int)  # Sample indices
-    sampled_magnitudes = magnitudes[sample_indices]
-    sampled_colors = [color_hex[i] for i in sample_indices]
-
-    # Create the data dictionary
-    data = {
-        magnitude: color for magnitude, color in zip(sampled_magnitudes, sampled_colors)
-    }
-
     # Return base64 string and cleanup
     buffer.close()
-    return {"encoded_image": encoded_image, "scale": data}
+    return encoded_image
 
 
 # ########## STARTTING APPLICATION
 
 eel.init("web")
 eel.start('index.html', port=1234, host='localhost')
+
+
+"""
+
+        index.html
+        Calculate button --> inputs.json, inputs-history.json, avs-calculations.json
+
+"""

@@ -348,6 +348,12 @@ export async function createGraph(options = {}) {
     panBottomBtn.style.display = "none";
     panRightBtn.style.display = "none";
 
+    function updatePanTranslation(x, y) {
+        dataPointHolder.style.transform = `translateX(${x}%) translateY(${y}%)`
+        gridLineXHolder.style.transform = `translateX(${x}%) translateY(${y}%)`
+        gridLineYHolder.style.transform = `translateX(${x}%) translateY(${y}%)`
+    }
+
     let initialPointDifferenceX = axisX.pointDifference
     let initialPointDifferenceY = axisY.pointDifference
     zoomInBtn.addEventListener("click", function () {
@@ -450,9 +456,7 @@ export async function createGraph(options = {}) {
 
         graphHolder.style.setProperty("--zoom-percent", zoomLevel + "%")
         graphHolder.style.borderColor = "var(--clr-grey-text)";
-        dataPointHolder.style.transform = `translateX(0px) translateY(0px)`
-        gridLineXHolder.style.transform = `translateX(0px) translateY(0px)`
-        gridLineYHolder.style.transform = `translateX(0px) translateY(0px)`
+        updatePanTranslation(0, 0);
         panLeftBtn.style.display = "none";
         panTopBtn.style.display = "none";
         panBottomBtn.style.display = "none";
@@ -461,48 +465,35 @@ export async function createGraph(options = {}) {
         graphSec.querySelector(".axis-x-label").style.opacity = "1";
     });
 
-    zoomInBtn.click();
-    zoomInBtn.click();
-    zoomInBtn.click();
-    zoomInBtn.click();
-
     let translateX = 0;
     let translateY = 0;
 
     panLeftBtn.addEventListener("click", () => {
-        if (translateX <= -100) return;
-        translateX -= 5;
-        console.log(translateX);
-        dataPointHolder.style.transform = `translateX(${translateX}%) translateY(${translateY}%)`
-        gridLineXHolder.style.transform = `translateX(${translateX}%) translateY(${translateY}%)`
-        gridLineYHolder.style.transform = `translateX(${translateX}%) translateY(${translateY}%)`
-    })
-
-    panTopBtn.addEventListener("click", () => {
-        if (translateY <= 0) return;
-        translateY -= 5;
-        console.log(translateY);
-        dataPointHolder.style.transform = `translateX(${translateX}%) translateY(${translateY}%)`
-        gridLineXHolder.style.transform = `translateX(${translateX}%) translateY(${translateY}%)`
-        gridLineYHolder.style.transform = `translateX(${translateX}%) translateY(${translateY}%)`
-    })
-
-    panBottomBtn.addEventListener("click", () => {
-        if (translateY >= 100) return;
-        translateY += 5;
-        console.log(translateY);
-        dataPointHolder.style.transform = `translateX(${translateX}%) translateY(${translateY}%)`
-        gridLineXHolder.style.transform = `translateX(${translateX}%) translateY(${translateY}%)`
-        gridLineYHolder.style.transform = `translateX(${translateX}%) translateY(${translateY}%)`
-    })
-
-    panRightBtn.addEventListener("click", () => {
         if (translateX >= 0) return;
         translateX += 5;
         console.log(translateX);
-        dataPointHolder.style.transform = `translateX(${translateX}%) translateY(${translateY}%)`
-        gridLineXHolder.style.transform = `translateX(${translateX}%) translateY(${translateY}%)`
-        gridLineYHolder.style.transform = `translateX(${translateX}%) translateY(${translateY}%)`
+        updatePanTranslation(translateX, translateY)
+    })
+
+    panTopBtn.addEventListener("click", () => {
+        if (translateY >= 100) return;
+        translateY += 5;
+        console.log(translateY);
+        updatePanTranslation(translateX, translateY)
+    })
+
+    panBottomBtn.addEventListener("click", () => {
+        if (translateY <= 0) return;
+        translateY -= 5;
+        console.log(translateY);
+        updatePanTranslation(translateX, translateY)
+    })
+
+    panRightBtn.addEventListener("click", () => {
+        if (translateX <= -100) return;
+        translateX -= 5;
+        console.log(translateX);
+        updatePanTranslation(translateX, translateY)
     })
 
 

@@ -1,7 +1,10 @@
 .main-content {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  place-items: start;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+.avs-calculation-table {
+  width: 100%;
 }
 
 .avs-calculation-table :is(th, td) {
