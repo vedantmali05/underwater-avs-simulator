@@ -1,8 +1,8 @@
 // Imports
-import { createDialog, createSnackbar, removeInputMsg } from "./components/utils.js"
+import { createDialog, removeInputMsg } from "./components/utils.js"
 import { allowNumberInputOnly, validateInput, validateToggleInputs } from "./components/utils.js"
 import { toTwoDigit } from "./components/utils.js"
-import { TIME_WEEK_DAYS, TIME_MONTHS } from "./components/data.js";
+import { TIME_MONTHS } from "./components/data.js";
 
 /* ///////////////
     HELPER FUNCTIONS
@@ -80,10 +80,36 @@ function populateInputHistory(inputHistorySec, INPUT_HISTORY, formInputsSet, sea
     inputHistorySelectBtnsArr.forEach((btn, i) => {
         btn.addEventListener("click", () => {
             let selectedData = INPUT_HISTORY.splice(i, 1)[0];
-            INPUT_HISTORY.unshift(selectedData);
-            ipcRenderer.send("history:selected", INPUT_HISTORY);
+
+            selectedData.recordTime = new Date().getTime();
+
+            eel.updateInputHistory(selectedData);
+            eel.saveToJSONFile("inputs.json", selectedData);
+            repopulateInputHistory(formInputsSet, seastateToggleInput);
+
+            for (const [inputName, inputElem] of Object.entries(formInputsSet)) {
+                inputElem.value = selectedData[inputName.slice(0, -5)];
+            }
+
+            seastateToggleInput.forEach(radio => {
+                if (selectedData.seastate == +radio.value) {
+                    radio.checked = true;
+                }
+            })
+            if (window.innerWidth < 1024) {
+                document.querySelector(".input-aside-close-btn").click();
+            }
         });
     })
+}
+
+// FUNCTION to RE-POPULATE Input History on UI
+function repopulateInputHistory(formInputsSet, seastateToggleInput) {
+    eel.getFromJSONFile("inputs-history.json")()
+        .then((data) => {
+            let inputHistorySec = document.getElementById("input_history_box");
+            populateInputHistory(inputHistorySec, data, formInputsSet, seastateToggleInput);
+        });
 }
 
 // Main Code
@@ -133,19 +159,22 @@ document.addEventListener('DOMContentLoaded', () => {
             let INPUT_DATA = {};
 
             for (const [inputName, inputElem] of Object.entries(formInputsSet)) {
-                INPUT_DATA[inputName.slice(0, -5)] = inputElem.value;
+                INPUT_DATA[inputName.slice(0, -5)] = Number(inputElem.value);
                 removeInputMsg(inputElem);
             }
 
             seastateToggleInput.forEach(radio => {
                 if (radio.checked) {
-                    INPUT_DATA.seastate = radio.value;
+                    INPUT_DATA.seastate = Number(radio.value);
                 }
             })
             removeInputMsg(seastateToggleInput[0]);
             INPUT_DATA.recordTime = new Date().getTime();
 
-            ipcRenderer.send("input:save-data", INPUT_DATA);
+            // Save data to db
+            eel.saveToJSONFile("inputs.json", INPUT_DATA);
+            eel.updateInputHistory(INPUT_DATA);
+            window.location.href = "./avs-calculations.html"
         }
 
     });
@@ -183,25 +212,9 @@ document.addEventListener('DOMContentLoaded', () => {
     INPUT HISTORY
     /////////////// */
 
-    // Get input history from file
-    window.indexBridge.fetchInputHistory((e, data) => {
-        let inputHistorySec = document.getElementById("input_history_box");
-        populateInputHistory(inputHistorySec, data, formInputsSet, seastateToggleInput);
-    })
+    // Populate Input History
+    repopulateInputHistory(formInputsSet, seastateToggleInput);
 
-    // Fill data selected from history
-    window.indexBridge.fillDataFromHistory((e, data) => {
-        let selectedData = data[0];
-        for (const [inputName, inputElem] of Object.entries(formInputsSet)) {
-            inputElem.value = selectedData[inputName.slice(0, -5)];
-        }
-
-        seastateToggleInput.forEach(radio => {
-            if (selectedData.seastate == +radio.value) {
-                radio.checked = true;
-            }
-        })
-    });
 
     // clear all input history
     let clearInputHistoryBtn = document.getElementById("clear_input_history_btn");
@@ -217,7 +230,9 @@ document.addEventListener('DOMContentLoaded', () => {
             secondaryBtnLabel: "Keep",
             primaryAction: () => {
                 // If clear clicked, clear the inputs
-                ipcRenderer.send("history:clear", []);
+                // Clear Inputs
+                eel.updateInputHistory([]);
+                repopulateInputHistory(formInputsSet, seastateToggleInput);
                 return true;
             },
             danger: true

@@ -73,6 +73,7 @@ export class Graph {
         this.axisX = {};
         this.axisY = {};
         this.dataPoints = [];
+        this.spectrogramData = null;
     }
 
     setAxis(axisX, axisY) {
@@ -91,7 +92,6 @@ export class Graph {
             this.dataPoints = dataPoint;
         }
     }
-
 }
 
 
@@ -114,13 +114,18 @@ function createGraphTitleSec(title, description, controls, indexItems) {
             ${controls.saveAsPDF ?
             `<button class="icon control-save-as-pdf"><i class="bi bi-filetype-pdf"></i></button>` : ``}
             ${controls.pan ?
-            `<button class="icon control-pan"><i class="bi bi-arrows-move"></i></button>` : ``}
+            `<span class="control-pan">
+                <button class="icon pan-left"><i class="bi bi-chevron-left"></i></button>
+                <span>
+                <button class="icon pan-top"><i class="bi bi-chevron-up"></i></button>
+                <button class="icon pan-bottom"><i class="bi bi-chevron-down"></i></button>
+                </span>
+                <button class="icon pan-right"><i class="bi bi-chevron-right"></i></button>
+            </span>
+            ` : ``}
             ${controls.zoom ?
-            `<span class="btn-box">
-            <button class="icon control-zoom-in"><i class="bi bi-zoom-in"></i></button>
-             <span>Zoom</span>
-             <button class="icon control-zoom-out"><i class="bi bi-zoom-out"></i></button>
-             </span>` : ``}
+            `<button class="icon control-zoom-in"><i class="bi bi-zoom-in"></i></button>
+             <button class="icon control-zoom-out"><i class="bi bi-zoom-out"></i></button>` : ``}
             </div>
         </div>
     `;
@@ -135,6 +140,8 @@ function createGraphTitleSec(title, description, controls, indexItems) {
 function createGraphIndexSec(indexItems) {
     // Create the index section element
     let indexSec = document.createElement("div");
+    if (indexItems.length == 0) return indexSec;
+
     indexSec.classList.add("index-sec");
 
     // Build the index items HTML string
@@ -221,6 +228,7 @@ export async function createGraph(options = {}) {
         controls,
         indexItems,
         dataPoints,
+        spectrogramData,
     } = options;
     let { axisX, axisY } = options;
 
@@ -300,14 +308,204 @@ export async function createGraph(options = {}) {
         setdataPoints(dataPoints, axisX, axisY, graphHolder);
     } else if (type == GRAPH_TYPE.waveform) {
         await setWaveLines(dataPoints, axisX, axisY, indexItems[0], graphSec);
+    } else if (type == GRAPH_TYPE.spectrogram) {
+        if (spectrogramData) {
+            let specImg = document.createElement("img");
+            specImg.classList.add("spectrogram-img", "data-point-holder");
+            specImg.src = `data:image/png;base64,${spectrogramData.encoded_image}`
+            graphHolder.append(specImg);
+        }
     }
 
     setTitleAttr();
 
+    // Save as PDF
     let saveAsPDFBtn = graphSec.querySelector(".control-save-as-pdf");
     saveAsPDFBtn.addEventListener("click", function () {
+        // TODO: Graph Selections
+        let backup = document.body.innerHTML;
+        document.body.classList.add("printing");
+        graphSec.style.width = "100%";
+        document.body.innerHTML = graphSec.outerHTML;
         window.print();
+        window.location.reload();
     });
+
+    // Zoom In
+    let dataPointHolder = graphSec.querySelector(".data-point-holder");
+    let zoomInBtn = graphSec.querySelector(".control-zoom-in");
+    let zoomOutBtn = graphSec.querySelector(".control-zoom-out");
+    gridLineXHolder = graphSec.querySelector(".grid-line-x-holder");
+    gridLineYHolder = graphSec.querySelector(".grid-line-y-holder");
+
+    let panLeftBtn = graphSec.querySelector(".control-pan .pan-left");
+    let panTopBtn = graphSec.querySelector(".control-pan .pan-top");
+    let panBottomBtn = graphSec.querySelector(".control-pan .pan-bottom");
+    let panRightBtn = graphSec.querySelector(".control-pan .pan-right");
+
+    panLeftBtn.style.display = "none";
+    panTopBtn.style.display = "none";
+    panBottomBtn.style.display = "none";
+    panRightBtn.style.display = "none";
+
+    let initialPointDifferenceX = axisX.pointDifference
+    let initialPointDifferenceY = axisY.pointDifference
+    zoomInBtn.addEventListener("click", function () {
+        let zoomLevel = Number(graphHolder.style.getPropertyValue("--zoom-percent").replace("%", ''));
+        zoomLevel += 15;
+
+        if (zoomLevel > 360) return;
+
+        if (zoomLevel <= 180) {
+            if (zoomLevel % 60 == 0) {
+                axisX.pointDifference = axisX.pointDifference / 2;
+                axisY.pointDifference = axisY.pointDifference / 2;
+            }
+        }
+
+        let gridXElems = graphSec.querySelectorAll(".grid-line-x");
+        let gridYElems = graphSec.querySelectorAll(".grid-line-y");
+
+        gridXElems.forEach(elem => elem.remove())
+        gridYElems.forEach(elem => elem.remove())
+
+
+        // // Create X and Y Grid Lines and Append them
+        createAxisGridLines(GRAPH_AXIS_TYPE.x, axisX, gridLineXHolder);
+        createAxisGridLines(GRAPH_AXIS_TYPE.y, axisY, gridLineYHolder);
+
+        // // GRID X and Y Elems Positioning and Sizing
+        gridXElems = graphSec.querySelectorAll(".grid-line-x");
+        gridYElems = graphSec.querySelectorAll(".grid-line-y");
+        let gridXIntervals = 100 / (gridXElems.length - 1);
+        let gridYIntervals = 100 / (gridYElems.length - 1);
+
+        // // Position X Axis Lines 
+        gridXElems.forEach((elem, i) => {
+            elem.style.left = `calc(${i * gridXIntervals}% - ${Math.floor(elem.clientWidth) / 2}px)`;
+        });
+
+        // // Position Y Axis Lines 
+        let longestValue = 0;
+        gridYElems.forEach((elem, i) => {
+            elem.style.top = `calc(${i * gridYIntervals}% - ${Math.floor(elem.clientHeight / 2)}px)`;
+            let elemValue = elem.querySelector(".value").innerHTML;
+            if (elemValue.length > longestValue) longestValue = elemValue.length;
+        });
+
+        // // Set Height and Width Properties
+        // graphBox.style.setProperty("--height", (gridYElems.length * 3) + "ch");
+        graphSec.style.setProperty("--value-width", longestValue + "ch");
+
+        graphHolder.style.setProperty("--zoom-percent", zoomLevel + "%")
+        graphHolder.style.borderColor = "transparent";
+        panLeftBtn.style.display = "flex";
+        panTopBtn.style.display = "flex";
+        panBottomBtn.style.display = "flex";
+        panRightBtn.style.display = "flex";
+        graphSec.querySelector(".axis-y-label").style.opacity = "0";
+        graphSec.querySelector(".axis-x-label").style.opacity = "0";
+    });
+
+    zoomOutBtn.addEventListener("click", function () {
+        let zoomLevel = Number(graphHolder.style.getPropertyValue("--zoom-percent").replace("%", ''));
+        if (zoomLevel <= 0) return;
+        zoomLevel = 0;
+        axisX.pointDifference = initialPointDifferenceX;
+        axisY.pointDifference = initialPointDifferenceY;
+
+        let gridXElems = graphSec.querySelectorAll(".grid-line-x");
+        let gridYElems = graphSec.querySelectorAll(".grid-line-y");
+
+        gridXElems.forEach(elem => elem.remove())
+        gridYElems.forEach(elem => elem.remove())
+
+
+        // // Create X and Y Grid Lines and Append them
+        createAxisGridLines(GRAPH_AXIS_TYPE.x, axisX, gridLineXHolder);
+        createAxisGridLines(GRAPH_AXIS_TYPE.y, axisY, gridLineYHolder);
+
+        // // GRID X and Y Elems Positioning and Sizing
+        gridXElems = graphSec.querySelectorAll(".grid-line-x");
+        gridYElems = graphSec.querySelectorAll(".grid-line-y");
+        let gridXIntervals = 100 / (gridXElems.length - 1);
+        let gridYIntervals = 100 / (gridYElems.length - 1);
+
+        // // Position X Axis Lines 
+        gridXElems.forEach((elem, i) => {
+            elem.style.left = `calc(${i * gridXIntervals}% - ${Math.floor(elem.clientWidth) / 2}px)`;
+        });
+
+        // // Position Y Axis Lines 
+        let longestValue = 0;
+        gridYElems.forEach((elem, i) => {
+            elem.style.top = `calc(${i * gridYIntervals}% - ${Math.floor(elem.clientHeight / 2)}px)`;
+            let elemValue = elem.querySelector(".value").innerHTML;
+            if (elemValue.length > longestValue) longestValue = elemValue.length;
+        });
+
+        // // Set Height and Width Properties
+        // graphBox.style.setProperty("--height", (gridYElems.length * 3) + "ch");
+        graphSec.style.setProperty("--value-width", longestValue + "ch");
+
+        graphHolder.style.setProperty("--zoom-percent", zoomLevel + "%")
+        graphHolder.style.borderColor = "var(--clr-grey-text)";
+        dataPointHolder.style.transform = `translateX(0px) translateY(0px)`
+        gridLineXHolder.style.transform = `translateX(0px) translateY(0px)`
+        gridLineYHolder.style.transform = `translateX(0px) translateY(0px)`
+        panLeftBtn.style.display = "none";
+        panTopBtn.style.display = "none";
+        panBottomBtn.style.display = "none";
+        panRightBtn.style.display = "none";
+        graphSec.querySelector(".axis-y-label").style.opacity = "1";
+        graphSec.querySelector(".axis-x-label").style.opacity = "1";
+    });
+
+    zoomInBtn.click();
+    zoomInBtn.click();
+    zoomInBtn.click();
+    zoomInBtn.click();
+
+    let translateX = 0;
+    let translateY = 0;
+
+    panLeftBtn.addEventListener("click", () => {
+        if (translateX <= -100) return;
+        translateX -= 5;
+        console.log(translateX);
+        dataPointHolder.style.transform = `translateX(${translateX}%) translateY(${translateY}%)`
+        gridLineXHolder.style.transform = `translateX(${translateX}%) translateY(${translateY}%)`
+        gridLineYHolder.style.transform = `translateX(${translateX}%) translateY(${translateY}%)`
+    })
+
+    panTopBtn.addEventListener("click", () => {
+        if (translateY <= 0) return;
+        translateY -= 5;
+        console.log(translateY);
+        dataPointHolder.style.transform = `translateX(${translateX}%) translateY(${translateY}%)`
+        gridLineXHolder.style.transform = `translateX(${translateX}%) translateY(${translateY}%)`
+        gridLineYHolder.style.transform = `translateX(${translateX}%) translateY(${translateY}%)`
+    })
+
+    panBottomBtn.addEventListener("click", () => {
+        if (translateY >= 100) return;
+        translateY += 5;
+        console.log(translateY);
+        dataPointHolder.style.transform = `translateX(${translateX}%) translateY(${translateY}%)`
+        gridLineXHolder.style.transform = `translateX(${translateX}%) translateY(${translateY}%)`
+        gridLineYHolder.style.transform = `translateX(${translateX}%) translateY(${translateY}%)`
+    })
+
+    panRightBtn.addEventListener("click", () => {
+        if (translateX >= 0) return;
+        translateX += 5;
+        console.log(translateX);
+        dataPointHolder.style.transform = `translateX(${translateX}%) translateY(${translateY}%)`
+        gridLineXHolder.style.transform = `translateX(${translateX}%) translateY(${translateY}%)`
+        gridLineYHolder.style.transform = `translateX(${translateX}%) translateY(${translateY}%)`
+    })
+
+
 }
 
 // Setting Data Points on the graph

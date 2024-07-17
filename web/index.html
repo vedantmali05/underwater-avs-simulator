@@ -43,11 +43,13 @@
                     <p class="subtitle">Enter following data about the surrounding underwater environmental conditions.
                     </p>
 
+                    <img src="../db/target_noise_spectrogram.png" alt="">
+
                     <!-- Target Strength -->
                     <fieldset>
                         <label for="target_strength">Target Strength</label>
                         <input type="text" id="target_strength" name="target_strength" placeholder="0" required
-                         class="text-input" pattern="^[\+\-]?\d+$"
+                            class="text-input" pattern="^[\+\-]?\d+$"
                             data-msg="Must be a positive or negative whole number.">
                         <span class="trail">dB re 1 V/µPa</span>
                     </fieldset>
@@ -65,7 +67,7 @@
                     <fieldset>
                         <label for="signal_duration">Duration of Signal</label>
                         <input type="text" id="signal_duration" name="signal_duration" placeholder="0.0" required
-                         class="text-input" pattern="^[\+]?\d+(\.\d+)?$"
+                            class="text-input" pattern="^[\+]?\d+(\.\d+)?$"
                             data-msg="Must be a valid positive integer or floating point number.">
                         <span class="trail">Seconds</span>
                     </fieldset>
@@ -124,14 +126,14 @@
                                     <td>
                                         <fieldset>
                                             <input type="text" name="avs_1_x" id="avs_1_x" class="text-input" required
-                                             placeholder="0" pattern="^[\-\+]?\d+(\.\d+)?$"
+                                                placeholder="0" pattern="^[\-\+]?\d+(\.\d+)?$"
                                                 data-msg="Must be a valid positive or negative integer or floating point number.">
                                         </fieldset>
                                     </td>
                                     <td>
                                         <fieldset>
                                             <input type="text" name="avs_1_y" id="avs_1_y" class="text-input" required
-                                             placeholder="0" pattern="^[\-\+]?\d+(\.\d+)?$"
+                                                placeholder="0" pattern="^[\-\+]?\d+(\.\d+)?$"
                                                 data-msg="Must be a valid positive or negative integer or floating point number.">
                                         </fieldset>
                                     </td>
@@ -141,14 +143,14 @@
                                     <td>
                                         <fieldset>
                                             <input type="text" name="avs_2_x" id="avs_2_x" class="text-input" required
-                                             placeholder="0" pattern="^[\-\+]?\d+(\.\d+)?$"
+                                                placeholder="0" pattern="^[\-\+]?\d+(\.\d+)?$"
                                                 data-msg="Must be a valid positive or negative integer or floating point number.">
                                         </fieldset>
                                     </td>
                                     <td>
                                         <fieldset>
                                             <input type="text" name="avs_2_y" id="avs_2_y" class="text-input" required
-                                             placeholder="0" pattern="^[\-\+]?\d+(\.\d+)?$"
+                                                placeholder="0" pattern="^[\-\+]?\d+(\.\d+)?$"
                                                 data-msg="Must be a valid positive or negative integer or floating point number.">
                                         </fieldset>
                                     </td>
@@ -158,14 +160,14 @@
                                     <td>
                                         <fieldset>
                                             <input type="text" name="target_x" id="target_x" class="text-input" required
-                                             placeholder="0" pattern="^[\-\+]?\d+(\.\d+)?$"
+                                                placeholder="0" pattern="^[\-\+]?\d+(\.\d+)?$"
                                                 data-msg="Must be a valid positive or negative integer or floating point number.">
                                         </fieldset>
                                     </td>
                                     <td>
                                         <fieldset>
                                             <input type="text" name="target_y" id="target_y" class="text-input" required
-                                             placeholder="0" pattern="^[\-\+]?\d+(\.\d+)?$"
+                                                placeholder="0" pattern="^[\-\+]?\d+(\.\d+)?$"
                                                 data-msg="Must be a valid positive or negative integer or floating point number.">
                                         </fieldset>
                                     </td>
@@ -175,7 +177,8 @@
                     </div>
 
                     <!-- Attribution -->
-                    <p class="subtitle" style="color: var(--clr-accent);">All the fields in this form are required, and required their value must be a number.</p>
+                    <p class="subtitle" style="color: var(--clr-accent);">All the fields in this form are required, and
+                        required their value must be a number.</p>
                 </section>
                 <!-- Section B Ends -->
 
@@ -217,7 +220,7 @@
                     Search, review and re-enter all the data in one click.
                     <b>Redundant data, if entered, will be replaced with the latest inputs.</b>
                     <!-- Clear History Button -->
-                     <button class="text" id="clear_input_history_btn">Clear History</button>
+                    <button class="text" id="clear_input_history_btn">Clear History</button>
                 </p>
 
 
@@ -230,6 +233,7 @@
     </aside>
     <!-- INPUT HISTORY ENDS -->
 
+    <script src="eel.js"></script>
     <script type="module" src="./js/index.js"></script>
     <script type="module" src="./js/inputs.js"></script>
 </body>

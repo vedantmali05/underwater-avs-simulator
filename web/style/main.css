@@ -813,6 +813,11 @@ GRAPHS
   margin-left: auto;
 }
 
+.graph-sec .control-pan {
+  display: flex;
+  align-items: center;
+}
+
 /* GRAPH INDEX SECTION */
 
 .graph-sec .index {
@@ -848,6 +853,8 @@ GRAPHS
   min-height: 0.2rem;
   max-height: 0.2rem;
   border-radius: 0.2rem;
+  border-top: 3px solid var(--clr-index);
+  background-color: transparent;
 }
 
 /* GRAPH SECTION */
@@ -856,6 +863,7 @@ GRAPHS
   padding: 2.4rem;
   min-height: calc(var(--height) + 12.8rem);
   position: relative;
+  overflow: hidden;
 }
 
 .axis-x-label,
@@ -885,10 +893,13 @@ GRAPHS
 /* GRAPH HOLDER - ACTUAL GRAPH DISPLAYER */
 
 .graph-box .graph-holder {
-  right: 2.4rem;
-  top: 2.4rem;
-  height: calc(100% - 4.8rem - 0.4rem - 3ch);
-  width: calc(100% - 4.8rem - 0.4rem - 1.6rem - var(--value-width));
+  --zoom-percent: 0%;
+  right: calc(2.4rem - var(--zoom-percent));
+  top: calc(2.4rem - var(--zoom-percent));
+  height: calc(100% - 4.8rem - 0.4rem - 3ch + var(--zoom-percent));
+  width: calc(
+    100% - 4.8rem - 0.4rem - 1.6rem - var(--value-width) + var(--zoom-percent)
+  );
   border: 1px solid var(--clr-grey-text);
   border-top: none;
   border-right: none;
@@ -898,7 +909,6 @@ GRAPHS
 .graph-holder .grid-line-x-holder,
 .graph-holder .grid-line-y-holder {
   display: flex;
-  z-index: -1;
   color: var(--clr-primary);
 }
 
@@ -924,6 +934,7 @@ GRAPHS
   display: flex;
   align-items: center;
   font-size: var(--fs-300);
+  z-index: 100;
 }
 
 .grid-line-x {
@@ -1065,27 +1076,26 @@ GRAPHS
   transform: scaleY(180deg) translateY(-100%);
 }
 
-.data-point-holder .linebox {
-  bottom: var(--y-percentage);
-  transform: translate(0, 0);
-  box-shadow: none;
+/* SPECTROGRAM */
 
-  background: linear-gradient(
-    to top left,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 0) calc(50% - 0.6px),
-    var(--clr-index) 50%,
-    rgba(0, 0, 0, 0) calc(50% + 0.6px),
-    rgba(0, 0, 0, 0) 100%
-  );
+.graph-holder .spectrogram-img {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: calc(100% - 2.4rem);
+  height: calc(100% - 2.4rem);
 }
-.data-point-holder .linebox.downwards {
-  background: linear-gradient(
-    to top right,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 0) calc(50% - 0.6px),
-    var(--clr-index) 50%,
-    rgba(0, 0, 0, 0) calc(50% + 0.6px),
-    rgba(0, 0, 0, 0) 100%
-  );
+
+.printing .graph-sec {
+  padding: 2.4rem 6.4rem;
+}
+
+.printing .controls-box {
+  display: none;
+}
+
+.printing .controls-box .controls {
+  height: 0;
+  opacity: 0;
+  margin: 0;
 }

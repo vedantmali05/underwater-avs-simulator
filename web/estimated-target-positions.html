@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Target Noise Waveforms</title>
+    <title>Estimated Target Positions</title>
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="./assets/logo/favicon.svg" type="image/x-icon">
@@ -14,29 +14,29 @@
 
     <style>
         .main-content {
-            display: grid;
-            grid-template-columns: 1fr;
-            grid-gap: 1.6rem;
+            display: flex;
+            flex-direction: column;
         }
 
-        .view-toggle-btn .list-view-btn,
-        .view-toggle-btn.grid-view .grid-view-btn {
+        .table-sec {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.6rem;
+        }
+
+        .table-sec .table-container {
+            margin: 0;
+        }
+
+        .graphs-toggle-sec .toggle-btn-box {
+            margin-bottom: 1.6rem;
+            margin-left: auto;
+        }
+
+        .graphs-toggle-sec .graph-sec:not(.visible) {
+            position: absolute;
             opacity: 0;
             visibility: hidden;
-            display: none;
-        }
-
-        .view-toggle-btn.grid-view .list-view-btn,
-        .view-toggle-btn .grid-view-btn {
-            opacity: 1;
-            visibility: visible;
-            display: flex;
-        }
-
-        @media (min-width: 1024px) {
-            .main-content.grid-view {
-                grid-template-columns: 1fr 1fr;
-            }
         }
     </style>
 
@@ -63,7 +63,7 @@
                             <span class="icon filled"><i class="bi bi-calculator-fill"></i></span> AVS Calculations
                         </a>
                     </button>
-                    <button class="menu-item">
+                    <button class="menu-item active">
                         <a href="./estimated-target-positions.html">
                             <span class="icon"><i class="bi bi-geo-alt"></i></span>
                             <span class="icon filled"><i class="bi bi-geo-alt-fill"></i></span> Estimated Target
@@ -76,7 +76,7 @@
                             <span class="icon filled"><i class="bi bi-activity"></i></span> Target Noise Waveforms
                         </a>
                     </button>
-                    <button class="menu-item active">
+                    <button class="menu-item">
                         <a href="./spectrogram-target-noise.html">
                             <span class="icon"><i class="bi bi-soundwave"></i></span>
                             <span class="icon filled"><i class="bi bi-soundwave"></i></span> Target Noise Spectrogram
@@ -102,49 +102,77 @@
     <main>
         <!-- HEADER STARTS -->
         <header>
-            <!-- Nav OPEN Button -->
-            <button class="icon nav-open-btn" title="Open navigation menu"><i
-                    class="bi bi-list"></i></button>
-            <!-- Logo and Headline -->
+            <button class="icon nav-open-btn" title="Open navigation menu"><i class="bi bi-list"></i></button>
             <picture class="logo" data-size="extra-small"></picture>
-            <h1>Target Noise <span class="gradient-accent">Spectrogram</span> </h1>
-
-            <!-- Input aside open button -->
-            <span class="view-toggle-btn desk-only grid-view">
-                <button class="text grid-view-btn"><i class="bi bi-grid"></i> Grid View</button>
-                <button class="text list-view-btn"><i class="bi bi-view-list"></i> List View</button>
-            </span>
-            <!-- Input aside open button -->
+            <h1>Estimated Target <span class="gradient-accent">Positions</span></h1>
             <button class="text input-aside-open-btn" style="background-color: var(--clr-accent-light);"><i
                     class="bi bi-list-task"></i>Source Inputs</button>
         </header>
         <!-- HEADER ENDS -->
 
         <!-- MAIN CONTENT STARTS -->
-        <section class="main-content grid-view" id="main_content">
+        <section class="main-content">
+            <!-- Table Starts -->
+            <section class="table-sec">
+                <div>
+                    <!-- Heading -->
+                    <h2 class="fs-600">Estimated Displacement of AVS Sensors</h2>
+                    <!-- Details -->
+                    <p class="subtitle">Following data shows the actual and estimated target positions, with the range
+                        error. And it has been illustrated in the graph below the data.</p>
+                </div>
+                <!-- Table Displaying Positions -->
+                <section class="table-container estimated-positions-table">
+                    <table style="table-layout: fixed; max-width: 70rem;">
+                        <thead>
+                            <tr>
+                                <th>Parameters</th>
+                                <th>X(m)</th>
+                                <th>Y(m)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Target's Actual Coordinates</td>
+                                <td id="estimated_target_actualCoordinatesX">-</td>
+                                <td id="estimated_target_actualCoordinatesY">-</td>
+                            </tr>
+                            <tr>
+                                <td>Target's Estimated Coordinates</td>
+                                <td id="estimated_target_estimatedCoordinatesX">-</td>
+                                <td id="estimated_target_estimatedCoordinatesY">-</td>
+                            </tr>
+                            <tr>
+                                <td>Range Error (m)</td>
+                                <td id="estimated_target_rangeError" colspan="2">-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </section>
+            <!-- Table Ends -->
 
-            <!-- TARGET NOISE GRAPH STARTS -->
-            <section>
-                <section class="graph-sec" id="target_noise"></section>
-            </section>
-            <!-- TARGET NOISE GRAPH ENDS -->
-            <!-- TARGET NOISE HYDROPHONE GRAPH STARTS -->
-            <section>
-                <section class="graph-sec" id="target_noise_hydrophone"></section>
-            </section>
-            <!-- TARGET NOISE HYDROPHONE GRAPH ENDS -->
-            <!-- TARGET NOISE AVS X CHANNEL GRAPH STARTS -->
-            <section>
-                <section class="graph-sec" id="target_noise_avs_x_channel"></section>
-            </section>
-            <!-- TARGET NOISE AVS X CHANNEL GRAPH ENDS -->
-            <!-- TARGET NOISE AVS Y CHANNEL GRAPH STARTS -->
-            <section>
-                <section class="graph-sec" id="target_noise_avs_y_channel"></section>
-            </section>
-            <!-- TARGET NOISE AVS Y CHANNEL GRAPH ENDS -->
+            <section class="graphs-toggle-sec" id="graph_toggle_sec">
 
-        </section>
+                <div class="toggle-btn-box center-mobile">
+                    <button class="toggle-btn text" data-target-id="avs_target_position">AVS and Target
+                        Position</button>
+                    <button class="toggle-btn text selected" data-target-id="estimated_target_position">Estimated Target
+                        Position</button>
+                </div>
+
+                <!-- AVS and TARGET POSITION's GRAPH STARTS -->
+                <section>
+                    <section class="graph-sec" id="avs_target_position"></section>
+                </section>
+                <!-- AVS and TARGET POSITION's GRAPH ENDS -->
+                <!-- ESTIMATED TARGET POSITION's GRAPH STARTS -->
+                <section>
+                    <section class="graph-sec visible" id="estimated_target_position"></section>
+                </section>
+                <!-- ESTIMATED TARGET POSITION's GRAPH ENDS -->
+
+            </section>
 
         </section>
         <!-- MAIN CONTENT STARTS -->
@@ -186,12 +214,12 @@
                         <p class="input-value gradient-primary" id="source_data_noiseSourceFrequency">-</p>
                         <p class="subtitle nowrap">Hz (Hertz)</p>
                     </div>
-                                        <div class="source-input">
+                    <div class="source-input">
                         <p class="nowrap">Signal Duration</p>
                         <p class="input-value gradient-primary" id="source_data_signalDuration">-</p>
                         <p class="subtitle nowrap">Seconds</p>
                     </div>
-<div class="source-input">
+                    <div class="source-input">
                         <p class="nowrap">Sampling Rate</p>
                         <p class="input-value gradient-primary" id="source_data_samplingRate">-</p>
                         <p class="subtitle nowrap">Samples/Sec</p>
@@ -238,8 +266,9 @@
     </aside>
     <!-- INPUT HISTORY ENDS -->
 
-    <script type="module" src="./js/index.js"></script>
-    <script type="module" src="./js/spectrogram-target-noise.js"></script>
+    <script src="eel.js"></script>
+<script type="module" src="./js/index.js"></script>
+    <script type="module" src="./js/estimated-target-positions.js"></script>
 </body>
 
 </html>

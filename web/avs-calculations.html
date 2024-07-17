@@ -4,41 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estimated Target Positions</title>
+    <title>AVS Calculations</title>
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="./assets/logo/favicon.svg" type="image/x-icon">
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="./style/main.css">
-
-    <style>
-        .main-content {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .table-sec {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.6rem;
-        }
-
-        .table-sec .table-container {
-            margin: 0;
-        }
-
-        .graphs-toggle-sec .toggle-btn-box {
-            margin-bottom: 1.6rem;
-            margin-left: auto;
-        }
-
-        .graphs-toggle-sec .graph-sec:not(.visible) {
-            position: absolute;
-            opacity: 0;
-            visibility: hidden;
-        }
-    </style>
+    <link rel="stylesheet" href="./style/avs-calculations.css">
 
 </head>
 
@@ -57,13 +30,13 @@
             <section class="nav-content">
                 <menu>
                     <p class="overline">Output pages</p>
-                    <button class="menu-item">
+                    <button class="menu-item active">
                         <a href="./avs-calculations.html">
                             <span class="icon"><i class="bi bi-calculator"></i></span>
                             <span class="icon filled"><i class="bi bi-calculator-fill"></i></span> AVS Calculations
                         </a>
                     </button>
-                    <button class="menu-item active">
+                    <button class="menu-item">
                         <a href="./estimated-target-positions.html">
                             <span class="icon"><i class="bi bi-geo-alt"></i></span>
                             <span class="icon filled"><i class="bi bi-geo-alt-fill"></i></span> Estimated Target
@@ -102,9 +75,10 @@
     <main>
         <!-- HEADER STARTS -->
         <header>
-            <button class="icon nav-open-btn" title="Open navigation menu"><i class="bi bi-list"></i></button>
+            <button class="icon nav-open-btn" title="Open navigation menu"><i
+                    class="bi bi-list"></i></button>
             <picture class="logo" data-size="extra-small"></picture>
-            <h1>Estimated Target <span class="gradient-accent">Positions</span></h1>
+            <h1>Underwater AVS <span class="gradient-accent">Calculations</span></h1>
             <button class="text input-aside-open-btn" style="background-color: var(--clr-accent-light);"><i
                     class="bi bi-list-task"></i>Source Inputs</button>
         </header>
@@ -112,67 +86,128 @@
 
         <!-- MAIN CONTENT STARTS -->
         <section class="main-content">
-            <!-- Table Starts -->
-            <section class="table-sec">
-                <div>
-                    <!-- Heading -->
-                    <h2 class="fs-600">Estimated Displacement of AVS Sensors</h2>
-                    <!-- Details -->
-                    <p class="subtitle">Following data shows the actual and estimated target positions, with the range
-                        error. And it has been illustrated in the graph below the data.</p>
-                </div>
-                <!-- Table Displaying Positions -->
-                <section class="table-container estimated-positions-table">
-                    <table style="table-layout: fixed; max-width: 70rem;">
+            <!-- Column Left -->
+            <section class="col-left">
+                <!-- Heading -->
+                <h2 class="fs-600">Inputs Based AVS Calculations</h2>
+                <!-- Details -->
+                <p class="subtitle">This table displays the key parameters and results derived from the Acoustic
+                    Vector Sensor (AVS) data.</p>
+
+                <!-- Table Displaying Calculations -->
+                <section class="table-container avs-calculation-table">
+                    <table>
                         <thead>
                             <tr>
                                 <th>Parameters</th>
-                                <th>X(m)</th>
-                                <th>Y(m)</th>
+                                <th>AVS-1</th>
+                                <th>AVS-2</th>
+                                <th>Unit</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Target's Actual Coordinates</td>
-                                <td id="estimated_target_actualCoordinatesX">-</td>
-                                <td id="estimated_target_actualCoordinatesY">-</td>
+                                <td>Range</td>
+                                <td id="calculation_avs1_range">-</td>
+                                <td id="calculation_avs2_range">-</td>
+                                <td class="subtitle">Meters (m)</td>
                             </tr>
                             <tr>
-                                <td>Target's Estimated Coordinates</td>
-                                <td id="estimated_target_estimatedCoordinatesX">-</td>
-                                <td id="estimated_target_estimatedCoordinatesY">-</td>
+                                <td>RNL</td>
+                                <td id="calculation_avs1_rnl">-</td>
+                                <td id="calculation_avs2_rnl">-</td>
+                                <td class="subtitle">Decibles (dB)</td>
                             </tr>
                             <tr>
-                                <td>Range Error (m)</td>
-                                <td id="estimated_target_rangeError" colspan="2">-</td>
+                                <td>SNR</td>
+                                <td id="calculation_avs1_snr">-</td>
+                                <td id="calculation_avs2_snr">-</td>
+                                <td class="subtitle">Decibles (dB)</td>
+                            </tr>
+                            <tr>
+                                <td>Actual DoA</td>
+                                <td id="calculation_avs1_actualDoa">-</td>
+                                <td id="calculation_avs2_actualDoa">-</td>
+                                <td class="subtitle">Degrees (deg)</td>
+                            </tr>
+                            <tr>
+                                <td>Estimated DoA</td>
+                                <td id="calculation_avs1_estimatedDoa">-</td>
+                                <td id="calculation_avs2_estimatedDoa">-</td>
+                                <td class="subtitle">Degrees (deg)</td>
+                            </tr>
+                            <tr>
+                                <td>DoA Error</td>
+                                <td id="calculation_avs1_doaError">-</td>
+                                <td id="calculation_avs2_doaError">-</td>
+                                <td class="subtitle">Degrees (deg)</td>
                             </tr>
                         </tbody>
                     </table>
                 </section>
             </section>
-            <!-- Table Ends -->
 
-            <section class="graphs-toggle-sec" id="graph_toggle_sec">
+            <!-- Column Right -->
+            <section class="col-right">
+                <!-- Heading -->
+                <h2 class="fs-600">Guide</h2>
+                <!-- Details -->
+                <p class="subtitle">Here is the short information about the <a href="#guide_abbreviations"
+                        class="text-link">Abbreviations</a>, <a href="#guide_units" class="text-link">Units</a>
+                    and <a href="#guide_parameters" class="text-link">Parameters</a> on this page</p>
 
-                <div class="toggle-btn-box center-mobile">
-                    <button class="toggle-btn text" data-target-id="avs_target_position">AVS and Target
-                        Position</button>
-                    <button class="toggle-btn text selected" data-target-id="estimated_target_position">Estimated Target
-                        Position</button>
+                <!-- Full Forms -->
+                <div class="guide-box">
+                    <h3 class="fs-500" id="guide_abbreviations">Abbreviations</h3>
+                    <ul>
+                        <li><b>AVS</b>: Acoustic Vector Sensor</li>
+                        <li><b>DoA</b>: Direction of Arrival</li>
+                        <li><b>RNL</b>: Received Noise Level</li>
+                        <li><b>SNR</b>: Signal-to-Noise Ratio</li>
+                    </ul>
                 </div>
-
-                <!-- AVS and TARGET POSITION's GRAPH STARTS -->
-                <section>
-                    <section class="graph-sec" id="avs_target_position"></section>
-                </section>
-                <!-- AVS and TARGET POSITION's GRAPH ENDS -->
-                <!-- ESTIMATED TARGET POSITION's GRAPH STARTS -->
-                <section>
-                    <section class="graph-sec visible" id="estimated_target_position"></section>
-                </section>
-                <!-- ESTIMATED TARGET POSITION's GRAPH ENDS -->
-
+                <div class="divider"></div>
+                <!-- Units -->
+                <div class="guide-box">
+                    <h3 class="fs-500" id="guide_units">Units</h3>
+                    <ul>
+                        <li><b>Meters (m)</b>: <br> Unit of distance for Range.</li>
+                        <li><b>Decibels (dB)</b>: <br> Unit of sound pressure level for RNL and SNR.</li>
+                        <li><b>Degrees (deg)</b>: <br> Unit of angular measurement for DoA, Estimated DoA, and DoA
+                            Error.</li>
+                    </ul>
+                </div>
+                <div class="divider"></div>
+                <!-- Parameters -->
+                <div class="guide-box">
+                    <h3 class="fs-500" id="guide_parameters">Parameters</h3>
+                    <ul>
+                        <li><b>Range</b>: <br> The distance between the AVS sensor and the detected object.</li>
+                        <li><b>Received Noise Level (RNL)</b>: <br> The strength of the background noise received by the
+                            AVS
+                            sensor.
+                            Measured in decibels (dB).</li>
+                        <li><b>Signal-to-Noise Ratio (SNR)</b>: <br> The ratio of the strength of the desired signal
+                            (from
+                            the
+                            target object) to the background noise level. Measured in decibels (dB). Higher SNR
+                            indicates a clearer signal.</li>
+                        <li><b>Actual DoA</b>: <br> The true direction of arrival of the sound wave from the target
+                            object,
+                            relative
+                            to the AVS sensor. Measured in degrees (deg).</li>
+                        <li><b>Estimated DoA</b>: <br> The direction of arrival of the sound wave as estimated by the
+                            AVS
+                            system,
+                            based on its processing of the received signal. Measured in degrees (deg).</li>
+                        <li><b>DoA Error</b>: <br> The difference between the actual DoA and the estimated DoA. Measured
+                            in
+                            degrees
+                            (deg). A lower DoA error indicates a more accurate estimation.</li>
+                    </ul>
+                </div>
             </section>
+
 
         </section>
         <!-- MAIN CONTENT STARTS -->
@@ -266,8 +301,9 @@
     </aside>
     <!-- INPUT HISTORY ENDS -->
 
-    <script type="module" src="./js/index.js"></script>
-    <script type="module" src="./js/estimated-target-positions.js"></script>
+    <script src="eel.js"></script>
+<script type="module" src="./js/index.js"></script>
+    <script type="module" src="./js/avs-calculations.js"></script>
 </body>
 
 </html>

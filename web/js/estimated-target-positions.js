@@ -15,8 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelector(`#estimated_target_${key}`).innerHTML = value;
     }
 
-
-
     let SOURCE_DATA =
     {
         targetStrength: 1,

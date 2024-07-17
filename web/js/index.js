@@ -1,17 +1,12 @@
 "use strict"
 
 import {
-    UI_COLORS,
     UI_CLASSES,
     UI_SIZE,
-    UI_STATUS_FEEDBACK,
-    GRAPH_INDEX_ITEM_TYPE,
-    GRAPH_TYPE
 } from "./components/data.js";
 
-import { setTitleAttr, createDialog, createSnackbar } from "./components/utils.js";
+import { setTitleAttr, createDialog } from "./components/utils.js";
 import { getParentElement, refreshInputs } from "./components/utils.js";
-import { GraphControls, GraphIndexItem, GraphAxisX, GraphAxisY, GraphdataPoint, Graph, createGraph } from "./components/graphs.js";
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -149,29 +144,16 @@ document.addEventListener("DOMContentLoaded", () => {
         DISPLAY DATA
     /////////////// */
 
-    let SOURCE_DATA =
-    {
-        targetStrength: 1,
-        noiseSourceFrequency: 2000,
-        signalDuration: 1.2,
-        samplingRate: 12,
-        avs1X: 10,
-        avs1Y: 25,
-        avs2X: 32,
-        avs2Y: 17,
-        targetX: 15,
-        targetY: 22,
-        seastate: 1,
-        recordTime: 1818960001371,
-    };
+    // Fetch Input data here from Python
+    eel.getFromJSONFile("inputs.json")()
+        .then((data) => {
+            for (const [key, value] of Object.entries(data)) {
+                let elem = document.getElementById(`source_data_${key}`);
+                if (elem) elem.innerHTML = value;
+            }
+            setTitleAttr();
+        });
 
-    window.indexBridge.fetchInputData((e, data) => {
-        for (const [key, value] of Object.entries(data)) {
-            let elem = document.getElementById(`source_data_${key}`);
-            if (elem) elem.innerHTML = value;
-        }
-        setTitleAttr();
-    })
 
     /* ///////////////
     Typography and Accessibility
@@ -185,19 +167,20 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.addEventListener("click", (e) => {
             e.preventDefault();
 
-            
+
             createDialog({
                 headline: "Start over?",
                 description: "This action will clear the currently calculated data and plots and navigate you to the empty input page with <b>available input history</b>. Are you sure want to start over?",
                 primaryBtnLabel: "Reset Data",
-                secondaryBtnLabel : "Keep",
-                primaryAction: ()=>{
-                    ipcRenderer.send("input:reset", true);
+                secondaryBtnLabel: "Keep",
+                primaryAction: () => {
+                    eel.saveToJSONFile("inputs.json", {});
+                    window.location.href = "./index.html";
                     return true;
                 },
                 danger: true
             });
-            
+
         })
     })
 });
