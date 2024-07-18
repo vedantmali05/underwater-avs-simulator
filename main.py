@@ -18,7 +18,7 @@ from scipy.fft import fft, ifft
 from theta2_avs import theta2_avs
 from tx_sig import transmit_sig
 
-IS_DEV = False
+IS_DEV = True
 
 # ########## BASIC FILE HANDLING FUNCTIONS
 
@@ -54,6 +54,9 @@ def getFromJSONFile(jsonFileName):
             return data
     except FileNotFoundError:
         print("File not found")
+        return None
+    except json.JSONDecodeError:
+        print("File is Empty")
         return None
 
 

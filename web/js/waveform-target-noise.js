@@ -21,7 +21,65 @@ document.addEventListener("DOMContentLoaded", () => {
             // CREATING GRAPH
 
             // Target Noise GRAPH
-            const buildWaveformGraph = () => {
+            const buildWaveformGraph1 = () => {
+                // Graph Items
+                let graphIndexItems = [
+                    new GraphIndexItem("Noise", GRAPH_INDEX_ITEM_TYPE.line, UI_COLORS.primary.dark),
+                ];
+
+                let { xPoints, yPoints } = { xPoints: SOURCE_DATA["t"], yPoints: SOURCE_DATA["Tx"] };
+
+                let dataPoints = [];
+
+                xPoints.forEach((x, i) => {
+                    dataPoints.push([x, yPoints[i]]);
+                })
+
+                // X and Y Axis
+                let graphAxisX = new GraphAxisX("Time (sec)", false, SOURCE_DATA.signalDuration / 5, SOURCE_DATA.signalDuration);
+                let graphAxisY = new GraphAxisY("Amplitude (Volts)", false, .5, 1);
+                graphAxisY.centeredOrigin = true;
+
+                // Graph Settings
+                let graph = new Graph("target_noise_1", "Target Noise", null, GRAPH_TYPE.waveform);
+                graph.adddataPoints(dataPoints);
+                graph.addIndexItems(graphIndexItems);
+                graph.setAxis(graphAxisX, graphAxisY);
+
+                // Create Graph
+                createGraph(graph);
+            }
+            buildWaveformGraph1();
+            const buildHydrophoneWaveformGraph1 = () => {
+                // Graph Items
+                let graphIndexItems = [
+                    new GraphIndexItem("Noise", GRAPH_INDEX_ITEM_TYPE.line, UI_COLORS.primary.dark),
+                ];
+
+                let { xPoints, yPoints } = { xPoints: SOURCE_DATA["t"], yPoints: SOURCE_DATA["p1"] };
+
+                let dataPoints = [];
+
+                xPoints.forEach((x, i) => {
+                    dataPoints.push([x, yPoints[i]]);
+                })
+
+                // X and Y Axis
+                let graphAxisX = new GraphAxisX("Time (sec)", false, SOURCE_DATA.signalDuration / 5, SOURCE_DATA.signalDuration);
+                let graphAxisY = new GraphAxisY("Amplitude (Volts)", false, .5, 1);
+                graphAxisY.centeredOrigin = true;
+
+                // Graph Settings
+                let graph = new Graph("target_noise_hydrophone_1", "Target Noise", null, GRAPH_TYPE.waveform);
+                graph.adddataPoints(dataPoints);
+                graph.addIndexItems(graphIndexItems);
+                graph.setAxis(graphAxisX, graphAxisY);
+
+                // Create Graph
+                createGraph(graph);
+            }
+            buildHydrophoneWaveformGraph1();
+            const buildXChannelWaveformGraph1 = () => {
                 // Graph Items
                 let graphIndexItems = [
                     new GraphIndexItem("Noise", GRAPH_INDEX_ITEM_TYPE.line, UI_COLORS.primary.dark),
@@ -29,8 +87,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 let { xPoints, yPoints } = { xPoints: SOURCE_DATA["t"], yPoints: SOURCE_DATA["vx1"] };
 
-                console.log(yPoints.slice(0, 100));
-
                 let dataPoints = [];
 
                 xPoints.forEach((x, i) => {
@@ -43,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 graphAxisY.centeredOrigin = true;
 
                 // Graph Settings
-                let graph = new Graph("target_noise_1", "Target Noise", null, GRAPH_TYPE.waveform);
+                let graph = new Graph("target_noise_avs_x_channel_1", "Target Noise", null, GRAPH_TYPE.waveform);
                 graph.adddataPoints(dataPoints);
                 graph.addIndexItems(graphIndexItems);
                 graph.setAxis(graphAxisX, graphAxisY);
@@ -51,16 +107,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Create Graph
                 createGraph(graph);
             }
-            buildWaveformGraph();
-
-            // Target Noise GRAPH
-            const buildHydrophoneWaveformGraph = () => {
+            buildXChannelWaveformGraph1();
+            const buildYChannelWaveformGraph1 = () => {
                 // Graph Items
                 let graphIndexItems = [
                     new GraphIndexItem("Noise", GRAPH_INDEX_ITEM_TYPE.line, UI_COLORS.primary.dark),
                 ];
 
-                let { xPoints, yPoints } = getLinspaceArray(SOURCE_DATA);
+                let { xPoints, yPoints } = { xPoints: SOURCE_DATA["t"], yPoints: SOURCE_DATA["vy1"] };
 
                 let dataPoints = [];
 
@@ -74,7 +128,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 graphAxisY.centeredOrigin = true;
 
                 // Graph Settings
-                let graph = new Graph("target_noise_1", "Target Noise", null, GRAPH_TYPE.waveform);
+                let graph = new Graph("target_noise_avs_y_channel_1", "Target Noise", null, GRAPH_TYPE.waveform);
                 graph.adddataPoints(dataPoints);
                 graph.addIndexItems(graphIndexItems);
                 graph.setAxis(graphAxisX, graphAxisY);
@@ -82,16 +136,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Create Graph
                 createGraph(graph);
             }
-            buildHydrophoneWaveformGraph();
+            buildYChannelWaveformGraph1();
 
+            /* ///////////////
+                AVS 2
+            /////////////// */
+            
             // Target Noise GRAPH
-            const buildXChannelWaveformGraph = () => {
+            const buildWaveformGraph2 = () => {
                 // Graph Items
                 let graphIndexItems = [
                     new GraphIndexItem("Noise", GRAPH_INDEX_ITEM_TYPE.line, UI_COLORS.primary.dark),
                 ];
 
-                let { xPoints, yPoints } = getLinspaceArray(SOURCE_DATA);
+                let { xPoints, yPoints } = { xPoints: SOURCE_DATA["t"], yPoints: SOURCE_DATA["Tx"] };
 
                 let dataPoints = [];
 
@@ -105,7 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 graphAxisY.centeredOrigin = true;
 
                 // Graph Settings
-                let graph = new Graph("target_noise_1", "Target Noise", null, GRAPH_TYPE.waveform);
+                let graph = new Graph("target_noise_2", "Target Noise", null, GRAPH_TYPE.waveform);
                 graph.adddataPoints(dataPoints);
                 graph.addIndexItems(graphIndexItems);
                 graph.setAxis(graphAxisX, graphAxisY);
@@ -113,24 +171,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Create Graph
                 createGraph(graph);
             }
-            buildXChannelWaveformGraph();
-
-            // Target Noise GRAPH
-            const buildYChannelWaveformGraph = () => {
+            buildWaveformGraph2();
+            const buildHydrophoneWaveformGraph2 = () => {
                 // Graph Items
                 let graphIndexItems = [
                     new GraphIndexItem("Noise", GRAPH_INDEX_ITEM_TYPE.line, UI_COLORS.primary.dark),
                 ];
 
-                let { xPoints, yPoints } = getLinspaceArray(SOURCE_DATA);
+                let { xPoints, yPoints } = { xPoints: SOURCE_DATA["t"], yPoints: SOURCE_DATA["p2"] };
 
                 let dataPoints = [];
-
 
                 xPoints.forEach((x, i) => {
                     dataPoints.push([x, yPoints[i]]);
                 })
-                // dataPoints = [[x, y], [x, y]]
 
                 // X and Y Axis
                 let graphAxisX = new GraphAxisX("Time (sec)", false, SOURCE_DATA.signalDuration / 5, SOURCE_DATA.signalDuration);
@@ -138,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 graphAxisY.centeredOrigin = true;
 
                 // Graph Settings
-                let graph = new Graph("target_noise_1", "Target Noise", null, GRAPH_TYPE.waveform);
+                let graph = new Graph("target_noise_hydrophone_2", "Target Noise", null, GRAPH_TYPE.waveform);
                 graph.adddataPoints(dataPoints);
                 graph.addIndexItems(graphIndexItems);
                 graph.setAxis(graphAxisX, graphAxisY);
@@ -146,9 +200,65 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Create Graph
                 createGraph(graph);
             }
-            buildYChannelWaveformGraph();
+            buildHydrophoneWaveformGraph2();
+            const buildXChannelWaveformGraph2 = () => {
+                // Graph Items
+                let graphIndexItems = [
+                    new GraphIndexItem("Noise", GRAPH_INDEX_ITEM_TYPE.line, UI_COLORS.primary.dark),
+                ];
+
+                let { xPoints, yPoints } = { xPoints: SOURCE_DATA["t"], yPoints: SOURCE_DATA["vx2"] };
+
+                let dataPoints = [];
+
+                xPoints.forEach((x, i) => {
+                    dataPoints.push([x, yPoints[i]]);
+                })
+
+                // X and Y Axis
+                let graphAxisX = new GraphAxisX("Time (sec)", false, SOURCE_DATA.signalDuration / 5, SOURCE_DATA.signalDuration);
+                let graphAxisY = new GraphAxisY("Amplitude (Volts)", false, .5, 1);
+                graphAxisY.centeredOrigin = true;
+
+                // Graph Settings
+                let graph = new Graph("target_noise_avs_x_channel_2", "Target Noise", null, GRAPH_TYPE.waveform);
+                graph.adddataPoints(dataPoints);
+                graph.addIndexItems(graphIndexItems);
+                graph.setAxis(graphAxisX, graphAxisY);
+
+                // Create Graph
+                createGraph(graph);
+            }
+            buildXChannelWaveformGraph2();
+            const buildYChannelWaveformGraph2 = () => {
+                // Graph Items
+                let graphIndexItems = [
+                    new GraphIndexItem("Noise", GRAPH_INDEX_ITEM_TYPE.line, UI_COLORS.primary.dark),
+                ];
+
+                let { xPoints, yPoints } = { xPoints: SOURCE_DATA["t"], yPoints: SOURCE_DATA["vy2"] };
+
+                let dataPoints = [];
+
+                xPoints.forEach((x, i) => {
+                    dataPoints.push([x, yPoints[i]]);
+                })
+
+                // X and Y Axis
+                let graphAxisX = new GraphAxisX("Time (sec)", false, SOURCE_DATA.signalDuration / 5, SOURCE_DATA.signalDuration);
+                let graphAxisY = new GraphAxisY("Amplitude (Volts)", false, .5, 1);
+                graphAxisY.centeredOrigin = true;
+
+                // Graph Settings
+                let graph = new Graph("target_noise_avs_y_channel_2", "Target Noise", null, GRAPH_TYPE.waveform);
+                graph.adddataPoints(dataPoints);
+                graph.addIndexItems(graphIndexItems);
+                graph.setAxis(graphAxisX, graphAxisY);
+
+                // Create Graph
+                createGraph(graph);
+            }
+            buildYChannelWaveformGraph2();
 
         });
-
-
 });

@@ -1,6 +1,6 @@
 // Imports
 import { createDialog, removeInputMsg } from "./components/utils.js"
-import { allowNumberInputOnly, validateInput, validateToggleInputs } from "./components/utils.js"
+import { allowNumberInputOnly, validateInput, validateToggleInputs, setInputMsg } from "./components/utils.js"
 import { toTwoDigit } from "./components/utils.js"
 import { TIME_MONTHS } from "./components/data.js";
 
@@ -91,11 +91,23 @@ function populateInputHistory(inputHistorySec, INPUT_HISTORY, formInputsSet, sea
                 inputElem.value = selectedData[inputName.slice(0, -5)];
             }
 
-            seastateToggleInput.forEach(radio => {
-                if (selectedData.seastate == +radio.value) {
-                    radio.checked = true;
-                }
-            })
+            switch (selectedData.seastate) {
+                case 0:
+                    seastateToggleInput[0].checked = true;
+                    break;
+                case 1:
+                    seastateToggleInput[1].checked = true;
+                    break;
+                case 2:
+                    seastateToggleInput[2].checked = true;
+                    break;
+                case 3:
+                    seastateToggleInput[3].checked = true;
+                    break;
+
+                default:
+                    break;
+            }
             if (window.innerWidth < 1024) {
                 document.querySelector(".input-aside-close-btn").click();
             }
@@ -153,7 +165,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         validationArray.push(validateToggleInputs(seastateToggleInput, "Please choose a seastate"));
 
-        // Is everything is okay,
+        if (Number(formInputsSet.samplingRateInput.value) != NaN && Number(formInputsSet.samplingRateInput.value) <= 5000) {
+            setInputMsg(formInputsSet.samplingRateInput, "The value cannot be 5000 or less than 5000.");
+            validationArray.push(false);
+        }
+
+        // If everything is okay,
         if (!validationArray.includes(false)) {
 
             let INPUT_DATA = {};
@@ -168,6 +185,28 @@ document.addEventListener('DOMContentLoaded', () => {
                     INPUT_DATA.seastate = Number(radio.value);
                 }
             })
+
+
+            switch (INPUT_DATA.seastate) {
+                case 0:
+                    INPUT_DATA.seastate = 0
+                    break;
+                case 1:
+                    INPUT_DATA.seastate = 1
+                    break;
+                case 3:
+                    INPUT_DATA.seastate = 2
+                    break;
+                case 6:
+                    INPUT_DATA.seastate = 3
+                    break;
+
+                default:
+                    break;
+            }
+
+            console.log(INPUT_DATA.seastate);
+
             removeInputMsg(seastateToggleInput[0]);
             INPUT_DATA.recordTime = new Date().getTime();
 
