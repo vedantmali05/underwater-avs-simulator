@@ -35,7 +35,7 @@ def generate_ambient_noise(seastate, fs, N):
 
     # Select appropriate ambient noise levels based on sea state and fs
     freq = f[:l]
-    uric_data_power_db = amb[seastate, :l]
+    uric_data_power_db = amb[seastate, :l] # ########## ON THIS LINE
 
     # Convert dB to power
     uric_data_power = 10 ** (uric_data_power_db / 10)

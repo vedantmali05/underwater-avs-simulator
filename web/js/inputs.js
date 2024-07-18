@@ -173,8 +173,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Save data to db
             eel.saveToJSONFile("inputs.json", INPUT_DATA);
-            eel.updateInputHistory(INPUT_DATA);
             eel.performCalculations();
+            eel.updateInputHistory(INPUT_DATA);
             window.location.href = "./avs-calculations.html"
         }
 

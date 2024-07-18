@@ -23,26 +23,33 @@ IS_DEV = False
 # ########## BASIC FILE HANDLING FUNCTIONS
 
 
-# Get database folder and root directory after distribution
-def getRootDBPath():
+def getRootDBPath(relative_path=None):
     if IS_DEV:
-        return os.path.abspath("./db") + "/"
+        base_path = os.path.abspath("./db")
     else:
-        return os.path.join(os.path.dirname(__file__), "db") + "/"
+        base_path = os.path.join(os.path.dirname(__file__), "db")
+
+    if relative_path:
+        return os.path.join(base_path, relative_path)
+    else:
+        return base_path
 
 
-# Save data to specified file
 @eel.expose
 def saveToJSONFile(jsonFileName, data):
-    with open(getRootDBPath() + jsonFileName, 'w', encoding='utf-8') as f:
-        json.dump(data, f, ensure_ascii=False, indent=4)
+    file_path = getRootDBPath(jsonFileName)
+    try:
+        with open(file_path, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=4)
+    except Exception as e:
+        print(f"Error saving JSON file: {e}")
 
 
 # get data from specified file
 @eel.expose
 def getFromJSONFile(jsonFileName):
     try:
-        with open(getRootDBPath() + jsonFileName, 'r', encoding='utf-8') as f:
+        with open(getRootDBPath(jsonFileName), 'r', encoding='utf-8') as f:
             data = json.load(f)
             return data
     except FileNotFoundError:
@@ -120,6 +127,7 @@ def saveCalculationsToJSONFile(TS, fs, seastate, duration, f, SX1, SY1, SX2, SY2
     Tx, t = transmit_sig(duration, fs, f, TS)
 
     # Generate ambient noise
+    # ###### ###### THROWS ERROR ###### ######
     noise1 = generate_ambient_noise(seastate, fs, len(t))
     noise2 = generate_ambient_noise(seastate, fs, len(t))
     noise3 = generate_ambient_noise(seastate, fs, len(t))
@@ -158,6 +166,7 @@ def saveCalculationsToJSONFile(TS, fs, seastate, duration, f, SX1, SY1, SX2, SY2
 
 
 # Function to convert numpy types to native python types
+
 
     def convert_to_native_type(obj):
         if isinstance(obj, np.ndarray):

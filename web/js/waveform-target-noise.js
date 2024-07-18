@@ -5,15 +5,17 @@ import { UI_COLORS, GRAPH_AXIS_TYPE, GRAPH_INDEX_ITEM_TYPE, GRAPH_TYPE } from ".
 document.addEventListener("DOMContentLoaded", () => {
 
     // MAIN CONTENT's GRID or LIST View
-    let mainContentElem = document.querySelector("#");
+    let mainContentElem = document.querySelectorAll(".main-content");
     let viewToggleBtn = document.querySelector(".view-toggle-btn");
 
     viewToggleBtn.addEventListener("click", () => {
         viewToggleBtn.classList.toggle("grid-view");
-        mainContentElem.classList.toggle("grid-view");
+        mainContentElem.forEach(elem => {
+            elem.classList.toggle("grid-view");
+        })
     });
 
-    eel.getFromJSONFile("inputs.json")()
+    eel.getFromJSONFile("calculations.json")()
         .then((SOURCE_DATA) => {
 
             // CREATING GRAPH
@@ -25,7 +27,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     new GraphIndexItem("Noise", GRAPH_INDEX_ITEM_TYPE.line, UI_COLORS.primary.dark),
                 ];
 
-                let { xPoints, yPoints } = getLinspaceArray(SOURCE_DATA);
+                let { xPoints, yPoints } = { xPoints: SOURCE_DATA["t"], yPoints: SOURCE_DATA["vx1"] };
+
+                console.log(yPoints.slice(0, 100));
 
                 let dataPoints = [];
 
@@ -122,9 +126,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 let dataPoints = [];
 
+
                 xPoints.forEach((x, i) => {
                     dataPoints.push([x, yPoints[i]]);
                 })
+                // dataPoints = [[x, y], [x, y]]
 
                 // X and Y Axis
                 let graphAxisX = new GraphAxisX("Time (sec)", false, SOURCE_DATA.signalDuration / 5, SOURCE_DATA.signalDuration);
