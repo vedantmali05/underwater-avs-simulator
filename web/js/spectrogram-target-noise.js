@@ -1,5 +1,6 @@
 import { GraphControls, GraphIndexItem, GraphAxisX, GraphAxisY, GraphdataPoint, Graph, createGraph } from "./components/graphs.js"
-import { UI_COLORS, GRAPH_AXIS_TYPE, GRAPH_INDEX_ITEM_TYPE, GRAPH_TYPE } from "./components/data.js"
+import { UI_COLORS, GRAPH_AXIS_TYPE, GRAPH_INDEX_ITEM_TYPE, GRAPH_TYPE, UI_SIZE } from "./components/data.js"
+import { removeLoader, setLoadingSpinner } from "./components/utils.js";
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -18,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     eel.getFromJSONFile("inputs.json")()
         .then((SOURCE_DATA) => {
+            setLoadingSpinner(document.body, "black", UI_SIZE.xl);
             // Target Noise GRAPH
             const buildSpectrogramGraph1 = () => {
                 // X and Y Axis
@@ -171,6 +173,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             }
             buildYChannelSpectrogramGraph2();
+            removeLoader(document.body);
         });
 
 

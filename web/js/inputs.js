@@ -1,8 +1,8 @@
 // Imports
 import { createDialog, removeInputMsg } from "./components/utils.js"
-import { allowNumberInputOnly, validateInput, validateToggleInputs, setInputMsg } from "./components/utils.js"
+import { allowNumberInputOnly, validateInput, validateToggleInputs, setInputMsg, removeLoader, setLoadingSpinner } from "./components/utils.js"
 import { toTwoDigit } from "./components/utils.js"
-import { TIME_MONTHS } from "./components/data.js";
+import { TIME_MONTHS, UI_SIZE } from "./components/data.js";
 
 /* ///////////////
     HELPER FUNCTIONS
@@ -172,6 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // If everything is okay,
         if (!validationArray.includes(false)) {
+            setLoadingSpinner(calculateBtn, "white", UI_SIZE.xs);
 
             let INPUT_DATA = {};
 
@@ -277,7 +278,9 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             danger: true
         })
-
-
     })
+
+    setTimeout(() => {
+        removeLoader(document.body);
+    }, 2000);
 })

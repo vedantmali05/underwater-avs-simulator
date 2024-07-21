@@ -387,6 +387,100 @@ DIALOG COMPONENT
 }
 
 /* /////////////////////////
+LOADER
+///////////////////////// */
+
+.loader.fullscreen {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: var(--clr-white);
+  z-index: 101;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 0.8rem;
+  text-align: center;
+}
+
+.loader.fullscreen .logo-title {
+  font-size: var(--fs-600);
+  font-weight: 500;
+}
+
+.loader.fullscreen .loading-bar {
+  margin-top: 1.6rem;
+  width: 100%;
+  height: 0.2rem;
+  background-color: var(--clr-primary-hover);
+  max-width: 22.4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.loader.fullscreen .loading-bar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background-color: var(--clr-primary);
+  animation: loadingBar 1.5s infinite linear;
+}
+
+.loader.spinner {
+  display: flex;
+  aspect-ratio: 1;
+  animation: spinner 1s infinite linear;
+}
+
+.loader.spinner.white path {
+  fill: var(--clr-white);
+}
+.loader.spinner.black path {
+  fill: var(--clr-black);
+}
+.loader.spinner.primary path {
+  fill: var(--clr-primary);
+}
+.loader.spinner.accent path {
+  fill: var(--clr-accent);
+}
+
+body > .loader.spinner {
+  position: fixed;
+  z-index: 102;
+  bottom: 2.4rem;
+  right: 2.4rem;
+  padding: 1.6rem;
+  background-color: var(--clr-white);
+  border-radius: 50%;
+  width: 6.4rem !important;
+  box-shadow: 0 0 10px 0 var(--clr-grey-overlay);
+}
+
+@keyframes loadingBar {
+  0% {
+    left: -100%;
+  }
+
+  100% {
+    left: 100%;
+  }
+}
+
+/* LOADING ANIMATIONS */
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+/* /////////////////////////
 CONTAINERS and LAYOUTS
 ///////////////////////// */
 

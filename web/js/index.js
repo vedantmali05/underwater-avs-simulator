@@ -2,10 +2,11 @@
 
 import {
     UI_CLASSES,
+    UI_COLORS,
     UI_SIZE,
 } from "./components/data.js";
 
-import { setTitleAttr, createDialog } from "./components/utils.js";
+import { setTitleAttr, createDialog, setLoadingSpinner, removeLoader } from "./components/utils.js";
 import { getParentElement, refreshInputs } from "./components/utils.js";
 
 document.addEventListener("DOMContentLoaded", () => {

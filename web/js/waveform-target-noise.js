@@ -1,6 +1,6 @@
 import { GraphControls, GraphIndexItem, GraphAxisX, GraphAxisY, GraphdataPoint, Graph, createGraph } from "./components/graphs.js"
-import { getLinspaceArray } from "./components/utils.js"
-import { UI_COLORS, GRAPH_AXIS_TYPE, GRAPH_INDEX_ITEM_TYPE, GRAPH_TYPE } from "./components/data.js"
+import { getLinspaceArray, setLoadingSpinner, removeLoader } from "./components/utils.js"
+import { UI_COLORS, UI_SIZE, GRAPH_AXIS_TYPE, GRAPH_INDEX_ITEM_TYPE, GRAPH_TYPE } from "./components/data.js"
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -17,6 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     eel.getFromJSONFile("calculations.json")()
         .then((SOURCE_DATA) => {
+
+            setLoadingSpinner(document.body, "black", UI_SIZE.xl);
 
             // CREATING GRAPH
 
@@ -141,7 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
             /* ///////////////
                 AVS 2
             /////////////// */
-            
+
             // Target Noise GRAPH
             const buildWaveformGraph2 = () => {
                 // Graph Items
@@ -260,5 +262,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             buildYChannelWaveformGraph2();
 
+            removeLoader(document.body);
         });
 });

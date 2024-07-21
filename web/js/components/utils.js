@@ -1,6 +1,7 @@
 import {
     UI_STATUS_FEEDBACK,
     UI_CLASSES,
+    UI_SIZE,
 } from "./data.js";
 
 /* ///////////////
@@ -331,7 +332,7 @@ export function getCoordinatePercentages(targetX, targetY, axisX, axisY) {
 }
 
 export function getLinspaceArray(SOURCE_DATA) {
-    const {samplingRate, signalDuration, noiseSourceFrequency} = SOURCE_DATA;
+    const { samplingRate, signalDuration, noiseSourceFrequency } = SOURCE_DATA;
     // Calculate the total number of samples
     const numSamples = Math.floor(samplingRate * signalDuration);
 
@@ -343,4 +344,39 @@ export function getLinspaceArray(SOURCE_DATA) {
     const yAxis = timeAxis.map(t => Math.sin(2 * Math.PI * t * noiseSourceFrequency)); // Adjust frequency as needed (440 Hz here)
 
     return { xPoints: timeAxis, yPoints: yAxis };
+}
+
+// SET LOADING SPINNER
+export function setLoadingSpinner(elem, theme, size = UI_SIZE.l) {
+    let spinner = document.createElement("span");
+    spinner.classList.add("loader", "spinner", theme);
+    spinner.innerHTML = `
+        <svg viewBox="0 0 110 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path opacity="0.3"
+                d="M110 55C110 85.3757 85.3757 110 55 110C24.6243 110 0 85.3757 0 55C0 24.6243 24.6243 0 55 0C85.3757 0 110 24.6243 110 55ZM17.1499 55C17.1499 75.904 34.096 92.8501 55 92.8501C75.904 92.8501 92.8501 75.904 92.8501 55C92.8501 34.096 75.904 17.1499 55 17.1499C34.096 17.1499 17.1499 34.096 17.1499 55Z" />
+            <path
+                d="M96.985 74.8127C101.268 76.8338 106.45 75.0087 107.781 70.4639C109 66.3026 109.726 62.0021 109.936 57.6509C110.284 50.4365 109.208 43.2243 106.769 36.4259C104.33 29.6276 100.575 23.3762 95.7201 18.0288C92.7918 14.8035 89.4976 11.9452 85.911 9.50815C81.9939 6.84653 76.8338 8.73209 74.8127 13.015V13.015C72.7916 17.2979 74.7097 22.3414 78.4291 25.2729C80.0726 26.5681 81.6097 28.0005 83.0229 29.557C86.3641 33.237 88.9478 37.5391 90.6264 42.2176C92.305 46.8962 93.0456 51.8595 92.8061 56.8243C92.7047 58.9242 92.4289 61.007 91.9838 63.0517C90.9763 67.6791 92.7021 72.7916 96.985 74.8127V74.8127Z" />
+        </svg>
+    `;
+
+    let width = 2.4;
+    switch (size) {
+        case UI_SIZE.xs: width = 2; break;
+        case UI_SIZE.s: width = 2.8; break;
+        case UI_SIZE.m: width = 3.2; break;
+        case UI_SIZE.l: width = 3.6; break;
+        case UI_SIZE.xl: width = 4.2; break;
+    }
+    spinner.style.width = `${width}rem`;
+
+    elem.disabled = true;
+    elem.append(spinner);
+}
+
+// Remove Loaders
+export function removeLoader(elem) {
+    setTimeout(() => {
+        elem.disabled = false;
+        elem.querySelector(".loader").remove();
+    }, 1000);
 }

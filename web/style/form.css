@@ -58,7 +58,18 @@ fieldset .check-radio-box:has(input:disabled) *,
   opacity: 0.5;
   pointer-events: none;
   user-select: none;
-  filter: grayscale(1);
+}
+
+button.primary:disabled {
+  opacity: 1;
+}
+
+button.primary:disabled::before {
+  background-color: var(--clr-primary-dark);
+}
+
+button:has(.loader.spinner):disabled > *:not(:last-child) {
+  display: none;
 }
 
 :is(button.primary, button.fab) {
@@ -209,7 +220,7 @@ form .btn-box {
   max-width: 100%;
   background-color: transparent;
   margin: 0;
-  padding: .8rem;
+  padding: 0.8rem;
   letter-spacing: normal;
 }
 
