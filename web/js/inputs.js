@@ -47,8 +47,8 @@ function populateInputHistory(inputHistorySec, INPUT_HISTORY, formInputsSet, sea
             <td colspan="2">${elem.samplingRate} <span class="fs-300">Samples/Sec</span></td>
         </tr>
         <tr>
-            <td>Seastate</td>
-            <td colspan="2">${elem.seastate} <span class="fs-300">Seastate</span></td>
+            <td>Sea state</td>
+            <td colspan="2">${elem.seastate} <span class="fs-300">Sea state</span></td>
         </tr>
         <tr>
             <td>AVS-1</td>

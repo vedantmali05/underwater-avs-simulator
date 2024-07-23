@@ -878,8 +878,16 @@ GRAPHS
 ///////////////////////// */
 
 .graph-sec {
+  min-height: 42rem;
   border-radius: 0.8rem;
+  position: relative;
   overflow: hidden;
+}
+
+.graph-sec .loader.spinner {
+  position: absolute;
+  bottom: 1.6rem;
+  right: 1.6rem;
 }
 
 .graph-sec > div {
