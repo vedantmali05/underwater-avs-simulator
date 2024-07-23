@@ -874,6 +874,54 @@ table caption {
 }
 
 /* /////////////////////////
+Contact Us
+///////////////////////// */
+section:has(> .contact-info-sec) {
+  margin-top: 1.6rem;
+}
+
+.contact-info-sec {
+  padding: 0 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+.contact-info-sec > * {
+  flex: 1;
+}
+
+.contact-info {
+  margin-bottom: 1.6rem;
+}
+
+.contact-info .info {
+  display: flex;
+  align-items: start;
+  padding: 0.8rem 0;
+  gap: 1.6rem;
+}
+
+@media (min-width: 769px) {
+  .contact-info-sec {
+    flex-direction: row;
+  }
+}
+
+.social-links {
+  min-width: fit-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+  gap: 1.6rem;
+}
+
+.social-links * {
+  text-wrap: nowrap;
+}
+
+/* /////////////////////////
 GRAPHS
 ///////////////////////// */
 

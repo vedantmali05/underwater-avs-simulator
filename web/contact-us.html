@@ -4,50 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Target Noise Waveforms</title>
+    <title>AVS Calculations</title>
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="./assets/logo/logo.png" type="image/x-icon">
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="./style/main.css">
-
-
-    <style>
-
-        .main-content .main-content {
-            display: grid;
-            grid-template-columns: 1fr;
-            grid-gap: 1.6rem;
-            background-color: var(--clr-grey-hover);
-        }
-
-        .main-content .main-content:not(.visible) {
-            position: absolute;
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .view-toggle-btn .list-view-btn,
-        .view-toggle-btn.grid-view .grid-view-btn {
-            opacity: 0;
-            visibility: hidden;
-            display: none;
-        }
-
-        .view-toggle-btn.grid-view .list-view-btn,
-        .view-toggle-btn .grid-view-btn {
-            opacity: 1;
-            visibility: visible;
-            display: flex;
-        }
-
-        @media (min-width: 1024px) {
-            .main-content.grid-view {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="./style/avs-calculations.css">
 
 </head>
 
@@ -66,7 +30,7 @@
             <section class="nav-content">
                 <menu>
                     <p class="overline">Output pages</p>
-                    <button class="menu-item">
+                    <button class="menu-item active">
                         <a href="./avs-calculations.html">
                             <span class="icon"><i class="bi bi-calculator"></i></span>
                             <span class="icon filled"><i class="bi bi-calculator-fill"></i></span> AVS Calculations
@@ -85,14 +49,14 @@
                             <span class="icon filled"><i class="bi bi-activity"></i></span> Target Noise Waveforms
                         </a>
                     </button>
-                    <button class="menu-item active">
+                    <button class="menu-item">
                         <a href="./spectrogram-target-noise.html">
                             <span class="icon"><i class="bi bi-soundwave"></i></span>
                             <span class="icon filled"><i class="bi bi-soundwave"></i></span> Target Noise Spectrogram
                         </a>
                     </button>
                 </menu>
-<div class="divider"></div>
+                <div class="divider"></div>
                 <menu>
                     <button class="menu-item">
                         <a href="./contact-us.html">
@@ -120,88 +84,59 @@
     <main>
         <!-- HEADER STARTS -->
         <header>
-            <!-- Nav OPEN Button -->
             <button class="icon nav-open-btn" title="Open navigation menu"><i class="bi bi-list"></i></button>
-            <!-- Logo and Headline -->
             <picture class="logo" data-size="extra-small"></picture>
-            <h1>Target Noise <span class="gradient-accent">Spectrogram</span> </h1>
-
-            <!-- Input aside open button -->
-            <span class="view-toggle-btn desk-only grid-view">
-                <button class="text grid-view-btn"><i class="bi bi-grid"></i> Grid View</button>
-                <button class="text list-view-btn"><i class="bi bi-view-list"></i> List View</button>
-            </span>
-            <!-- Input aside open button -->
+            <h1>Contact Us</h1>
             <button class="text input-aside-open-btn" style="background-color: var(--clr-accent-light);"><i
                     class="bi bi-list-task"></i>Source Inputs</button>
         </header>
         <!-- HEADER ENDS -->
 
-        <section class="toggle-btn-box center-mobile">
-            <button class="toggle-btn text selected" data-target-id="avs1_graphs">
-                AVS 1
-            </button>
-            <button class="toggle-btn text" data-target-id="avs2_graphs">
-                AVS 2
-            </button>
-        </section>
+        <!-- MAIN CONTENT STARTS -->
+        <section class="main-content">
+            <section>
+                <h2 class="fs-600">Contact Information</h2>
 
-        <!-- MAIN CONTENT FOR AVS 1 -->
-        <section class="main-content grid-view">
+                <section class="contact-info-sec">
+                    <section class="contact-info">
+                        <div class="info">
+                            <span><i class="bi bi-geo-alt"></i></span>
+                            <p>Augusta Point, DLF Phase V Golf Course Road, Gurgaon, Harayana, India - 122002</p>
+                        </div>
+                        <div class="info">
+                            <span><i class="bi bi-telephone"></i></span>
+                            <p>+91 6386872709</p>
+                        </div>
+                        <div class="info">
+                            <span><i class="bi bi-envelope"></i></span>
+                            <p>swapnil@aikairos.com</p>
+                        </div>
 
-            <!-- MAIN CONTENT FOR AVS 1 -->
-            <section class="main-content grid-view visible" id="avs1_graphs">
+                    </section>
+                    <section class="contact-info">
+                        <div class="info">
+                            <span><i class="bi bi-geo-alt"></i></span>
+                            <p>28/1, 1st Floor, 4th Main, Industrial Town, Rajajinagar, Bangalore 560010, India</p>
+                        </div>
+                        <div class="info">
+                            <span><i class="bi bi-telephone"></i></span>
+                            <p>+91 9844541485</p>
+                        </div>
+                        <div class="info">
+                            <span><i class="bi bi-envelope"></i></span>
+                            <p>shenoy@aikairos.com</p>
+                        </div>
 
-                <!-- TARGET NOISE GRAPH STARTS -->
-                <section>
-                    <section class="graph-sec" id="target_noise_1"></section>
-                </section>
-                <!-- TARGET NOISE GRAPH ENDS -->
-                <!-- TARGET NOISE HYDROPHONE GRAPH STARTS -->
-                <section>
-                    <section class="graph-sec" id="target_noise_hydrophone_1"></section>
-                </section>
-                <!-- TARGET NOISE HYDROPHONE GRAPH ENDS -->
-                <!-- TARGET NOISE AVS X CHANNEL GRAPH STARTS -->
-                <section>
-                    <section class="graph-sec" id="target_noise_avs_x_channel_1"></section>
-                </section>
-                <!-- TARGET NOISE AVS X CHANNEL GRAPH ENDS -->
-                <!-- TARGET NOISE AVS Y CHANNEL GRAPH STARTS -->
-                <section>
-                    <section class="graph-sec" id="target_noise_avs_y_channel_1"></section>
-                </section>
-                <!-- TARGET NOISE AVS Y CHANNEL GRAPH ENDS -->
+                    </section>
 
-            </section>
-
-            <!-- MAIN CONTENT FOR AVS 2 -->
-            <section class="main-content grid-view" id="avs2_graphs">
-
-                <!-- TARGET NOISE GRAPH STARTS -->
-                <section>
-                    <section class="graph-sec" id="target_noise_2"></section>
+                    <!-- Social Media Links -->
+                    <section class="social-links">
+                        <a href="#"><span><i class="bi bi-linkedin"></i></span> LinkedIn</a>
+                        <a href="#"><span><i class="bi bi-youtube"></i></span> YouTube</a>
+                    </section>
                 </section>
-                <!-- TARGET NOISE GRAPH ENDS -->
-                <!-- TARGET NOISE HYDROPHONE GRAPH STARTS -->
-                <section>
-                    <section class="graph-sec" id="target_noise_hydrophone_2"></section>
-                </section>
-                <!-- TARGET NOISE HYDROPHONE GRAPH ENDS -->
-                <!-- TARGET NOISE AVS X CHANNEL GRAPH STARTS -->
-                <section>
-                    <section class="graph-sec" id="target_noise_avs_x_channel_2"></section>
-                </section>
-                <!-- TARGET NOISE AVS X CHANNEL GRAPH ENDS -->
-                <!-- TARGET NOISE AVS Y CHANNEL GRAPH STARTS -->
-                <section>
-                    <section class="graph-sec" id="target_noise_avs_y_channel_2"></section>
-                </section>
-                <!-- TARGET NOISE AVS Y CHANNEL GRAPH ENDS -->
 
             </section>
-
-        </section>
 
         </section>
         <!-- MAIN CONTENT STARTS -->
@@ -297,7 +232,7 @@
 
     <script src="eel.js"></script>
     <script type="module" src="./js/index.js"></script>
-    <script type="module" src="./js/spectrogram-target-noise.js"></script>
+    <script type="module" src="./js/avs-calculations.js"></script>
 </body>
 
 </html>

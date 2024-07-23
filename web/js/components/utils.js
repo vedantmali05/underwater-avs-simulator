@@ -371,8 +371,6 @@ export function setLoadingSpinner(elem, theme, size = UI_SIZE.l) {
 
     elem.disabled = true;
     elem.append(spinner);
-    console.log(elem);
-
 }
 
 // Remove Loaders
